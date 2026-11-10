@@ -1,1 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoostPro — Boosting App Demo v4</title>
 
+<!-- Firebase SDKs (Compat version for smooth standalone script integration) -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+:root{
+ --accent:#3730a3;--accent-hover:#2b2580;
+ --bg:#f4f5f8;--surface:#ffffff;--soft:#f4f5f8;
+ --line:#e3e5ec;--txt:#171a26;--mut:#6d7280;--danger:#b42318;
+ --r-surface:16px;--r-inner:8px;
+}
+body{background:var(--bg);color:var(--txt)}
+button{cursor:pointer;border:none;font-family:inherit;background:none;color:inherit;transition:background-color .18s ease-out,color .18s ease-out,border-color .18s ease-out,opacity .18s ease-out}
+input,select,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:var(--r-inner);font-size:15px;outline:none;background:#fff;color:var(--txt);transition:border-color .18s ease-out;font-family:inherit}
+textarea{resize:vertical;min-height:76px;line-height:1.55}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+.hidden{display:none!important}
+.icn{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;vertical-align:-4px}
+.icn.sm{width:16px;height:16px;vertical-align:-3px}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--accent);color:#fff;padding:12px 18px;border-radius:24px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s ease-out;z-index:999;max-width:92%;text-align:center}
+.toast.show{opacity:1}
+/* ---------- shared ---------- */
+.surface{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-surface)}
+.row-item{padding:12px 16px;border-bottom:1px solid var(--line)}
+.row-item:last-child{border-bottom:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border-radius:var(--r-inner);background:var(--accent);color:#fff;font-weight:700;font-size:14px}
+.btn:hover{background:var(--accent-hover)}
+.btn:disabled{background:#d8dae2;color:#8a8fa3;cursor:default}
+.btn.block{width:100%}
+.btn-sec{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:var(--r-inner);background:#fff;color:var(--txt);font-weight:600;font-size:13px;border:1px solid var(--line)}
+.btn-sec:hover{border-color:var(--accent)}
+.btn-sec:disabled{color:#9aa0b0;border-color:var(--line);cursor:default}
+.btn-danger{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:var(--r-inner);background:#fff;color:var(--danger);font-weight:600;font-size:13px;border:1px solid var(--line)}
+.btn-danger:hover{border-color:var(--danger)}
+.btn-sm{padding:8px 12px;font-size:13px}
+.field{margin-bottom:12px}
+.field label{font-size:13px;font-weight:600;display:block;margin-bottom:4px}
+.field .hint{font-size:12px;color:var(--mut);margin-top:3px}
+.section{padding:24px 16px 0}
+.section:first-child{padding-top:16px}
+.section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.section-head h3{font-size:16px;font-weight:700}
+.section-head button{font-size:13px;font-weight:600;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.sub{font-size:13px;color:var(--mut);line-height:1.6;margin-bottom:12px}
+.meta-line{display:flex;flex-wrap:wrap;gap:8px 12px;font-size:12px;color:var(--mut);margin-top:4px}
+.meta-line span{display:inline-flex;align-items:center;gap:4px}
+.status{font-size:12px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--soft);border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.status.on{color:#0e7a55;background:#e7f4ee;border-color:#cbe8db}
+.progress{height:6px;background:#eceef3;border-radius:3px;overflow:hidden;margin-top:10px}
+.progress i{display:block;height:100%;background:var(--accent);border-radius:3px;transition:width .2s ease-out}
+.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.actions .btn,.actions .btn-sec,.actions .btn-danger{flex:1}
+.icon-tile{width:38px;height:38px;flex:0 0 38px;border-radius:var(--r-inner);background:var(--soft);display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.item-top{display:flex;gap:12px;align-items:flex-start}
+.item-main{flex:1;min-width:0}
+.item-main h4{font-size:14px;font-weight:600;line-height:1.4}
+.item-main p{font-size:12px;color:var(--mut);margin-top:3px;line-height:1.55;word-break:break-all}
+.amount{font-weight:700;font-size:14px;white-space:nowrap}
+.amount small{display:block;font-weight:500;color:var(--mut);font-size:11px;margin-top:2px;text-align:right}
+/* ---------- AUTH ---------- */
+#authView{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.auth-card{background:#fff;width:100%;max-width:400px;border:1px solid var(--line);border-radius:var(--r-surface);padding:24px}
+.logo-mark{width:40px;height:40px;border-radius:var(--r-inner);background:#4f46e5;color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.logo{font-size:24px;font-weight:800;text-align:center}
+.tagline{text-align:center;color:var(--mut);font-size:13px;margin-top:4px;margin-bottom:24px}
+.auth-tabs{display:flex;background:var(--soft);border-radius:var(--r-inner);padding:4px;margin-bottom:16px;gap:4px}
+.auth-tabs button{flex:1;padding:9px;border-radius:4px;font-weight:600;color:var(--mut);font-size:14px}
+.auth-tabs button.active{background:#fff;color:var(--txt);border:1px solid var(--line)}
+.demo-zone{border-top:1px solid var(--line);margin-top:20px;padding-top:16px}
+.demo-zone>p{font-size:12px;color:var(--mut);text-align:center;margin-bottom:12px;line-height:1.7}
+.demo-row{display:flex;gap:8px}
+.demo-row button{flex:1}
+/* ---------- APP SHELL ---------- */
+#appView{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;padding-bottom:84px}
+.topbar{padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center}
+.user-chip{display:flex;gap:12px;align-items:center}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;flex:0 0 auto}
+.user-chip .who small{display:block;font-size:12px;color:var(--mut);margin-bottom:2px}
+.user-chip .who b{font-size:15px}
+.icon-btn{width:38px;height:38px;border-radius:var(--r-inner);background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+.icon-btn:hover{border-color:var(--accent)}
+.balance{background:#1d2b53;color:#fff;border-radius:var(--r-surface);padding:16px}
+.balance .lbl{font-size:11px;letter-spacing:1.2px;opacity:.7;font-weight:600;margin-bottom:3px}
+.balance .amt{font-size:32px;font-weight:800;line-height:1.1}
+.balance .amt small{font-size:14px;font-weight:600;opacity:.75}
+.balance .conv{font-size:12px;opacity:.7;margin-top:3px}
+.balance .bal-actions{display:flex;gap:8px;margin-top:16px}
+.balance .bal-actions .btn-sec{flex:1;background:transparent;color:#fff;border-color:rgba(255,255,255,.35)}
+.balance .bal-actions .btn-sec:hover{border-color:#fff}
+.balance .bal-actions .btn-light{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:var(--r-inner);background:#fff;color:var(--accent);font-weight:700;font-size:13px}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr}
+.stats .cell{padding:12px 8px;text-align:center;border-right:1px solid var(--line)}
+.stats .cell:last-child{border-right:none}
+.stats b{font-size:18px;display:block}
+.stats span{font-size:11px;color:var(--mut);display:block;margin-top:2px}
+.cta h3{font-size:16px;margin-bottom:4px}
+.cta p{font-size:13px;color:var(--mut);line-height:1.6;margin-bottom:12px}
+.page{display:none}.page.active{display:block}
+/* bottom nav */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;display:flex;border-top:1px solid var(--line);z-index:200;padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
+.bottom-nav.hidden{display:none}
+.bottom-nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;color:#9aa0b0;font-size:11px;font-weight:600;border-radius:var(--r-inner)}
+.bottom-nav button.active{color:var(--accent)}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(23,26,38,.5);display:flex;align-items:flex-end;justify-content:center;z-index:100}
+.modal-box{background:#fff;width:100%;max-width:480px;border-radius:16px 16px 0 0;padding:20px 16px 24px;max-height:90vh;overflow:auto;position:relative}
+.modal-box h3{font-size:17px;margin-bottom:4px;padding-right:48px}
+.modal-x{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:var(--r-inner);border:1px solid var(--line);background:#fff;color:var(--txt);display:flex;align-items:center;justify-content:center;z-index:5}
+.modal-x:hover{border-color:var(--accent);background:var(--soft)}
+.modal-box .sub{margin-bottom:16px}
+.cost-rows{border-top:1px solid var(--line);margin:16px 0}
+.cost-rows .cr{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.cost-rows .cr span{color:var(--mut)}
+.cost-rows .cr b{font-weight:700}
+.seg{display:flex;background:var(--soft);border:1px solid var(--line);border-radius:var(--r-inner);padding:4px;gap:4px;flex-wrap:wrap}
+.seg button{flex:1;padding:8px 4px;border-radius:4px;color:var(--mut);font-weight:600;font-size:13px;min-width:48px}
+.seg button.active{background:var(--accent);color:#fff;border:1px solid var(--accent)}
+/* timer */
+.timer-wrap{text-align:center;padding:12px 0 4px}
+.ring-box{position:relative;width:160px;height:160px;margin:0 auto 12px}
+.ring-box svg{transform:rotate(-90deg)}
+.ring-bg{stroke:#eceef3}.ring-fg{stroke:var(--accent)}
+.ring-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-num b{font-size:38px;line-height:1}
+.ring-num span{font-size:11px;color:var(--mut);font-weight:600;letter-spacing:1px;margin-top:4px}
+/* account */
+.profile-head{text-align:center;padding:24px 16px 0}
+.profile-head .avatar{width:72px;height:72px;font-size:28px;margin:0 auto 12px}
+.profile-head h3{font-size:18px}
+.profile-head p{color:var(--mut);font-size:13px;margin-top:3px}
+.profile-head .uid{font-size:12px;color:var(--mut);margin-top:4px}
+.menu-row{display:flex;justify-content:space-between;align-items:center;width:100%;padding:14px 16px;font-size:14px;font-weight:500;text-align:left;border-bottom:1px solid var(--line)}
+.menu-row:last-child{border-bottom:none}
+.menu-row .lft{display:inline-flex;align-items:center;gap:12px}
+.menu-row:hover{background:var(--soft)}
+.menu-row.danger{color:var(--danger)}
+.version{text-align:center;color:var(--mut);font-size:12px;margin-top:16px}
+/* ---------- DETAIL PAGE ---------- */
+#detailOverlay{max-width:480px;margin:0 auto;background:var(--bg);min-height:100vh}
+.detail-topbar{position:sticky;top:0;z-index:80;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:10px 16px}
+.detail-topbar .who b{font-size:15px;display:block;line-height:1.2}
+.detail-topbar .who span{font-size:12px;color:var(--mut);display:block;margin-top:2px}
+.desc-text{padding:14px 16px;font-size:14px;line-height:1.7;white-space:pre-line}
+.detail-hero{border-radius:var(--r-surface);padding:20px 16px;color:#fff}
+.detail-hero .icon-tile{background:rgba(255,255,255,.16);color:#fff}
+.detail-hero h2{font-size:19px;line-height:1.35;margin-top:12px}
+.detail-hero .by{font-size:13px;opacity:.85;margin-top:4px}
+.detail-stats{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid rgba(255,255,255,.28);margin-top:16px;padding-top:14px}
+.detail-stats .cell{text-align:center;border-right:1px solid rgba(255,255,255,.28)}
+.detail-stats .cell:last-child{border-right:none}
+.detail-stats b{font-size:17px;display:block}
+.detail-stats span{font-size:11px;opacity:.85;display:block;margin-top:2px}
+.step-row{display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);align-items:flex-start}
+.step-row:last-child{border-bottom:none}
+.step-num{width:26px;height:26px;flex:0 0 26px;border-radius:50%;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.step-row p{font-size:13px;line-height:1.6}
+.step-row p b{font-weight:700}
+.kv-row{display:flex;justify-content:space-between;gap:12px;padding:11px 16px;border-bottom:1px solid var(--line);font-size:13px}
+.kv-row:last-child{border-bottom:none}
+.kv-row span{color:var(--mut);flex:0 0 auto}
+.kv-row b{font-weight:600;text-align:right;word-break:break-all}
+.open-btn{width:100%;padding:15px;border-radius:var(--r-inner);color:#fff;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;transition:opacity .18s ease-out}
+.open-btn:hover{opacity:.92}
+.open-btn:disabled{background:#d8dae2;color:#8a8fa3}
+.claim-btn{width:100%;padding:15px;border-radius:var(--r-inner);background:#0e7a55;color:#fff;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px}
+.success-box{text-align:center;padding:24px 16px}
+.success-box .ok-ic{width:52px;height:52px;border-radius:50%;background:#e7f4ee;color:#0e7a55;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+/* ---------- ADMIN ---------- */
+#adminView{max-width:1020px;margin:0 auto;min-height:100vh;background:var(--bg);padding:16px 16px 40px}
+.admin-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px}
+.admin-head h2{font-size:20px;display:flex;align-items:center;gap:10px}
+.admin-head .acts{display:flex;gap:8px}
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);margin-bottom:24px}
+.admin-stats .cell{padding:16px;text-align:center;border-right:1px solid var(--line)}
+.admin-stats .cell:last-child{border-right:none}
+.admin-stats b{font-size:20px;display:block}
+.admin-stats span{font-size:11px;color:var(--mut);display:block;margin-top:2px}
+@media(max-width:560px){.admin-stats{grid-template-columns:1fr 1fr}.admin-stats .cell{border-bottom:1px solid var(--line)}}
+.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.admin-tabs button{padding:9px 14px;border-radius:20px;background:#fff;border:1px solid var(--line);font-weight:600;color:var(--mut);font-size:13px;display:inline-flex;gap:8px;align-items:center}
+.admin-tabs button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.admin-card{padding:16px;margin-bottom:16px}
+.admin-card>h3{font-size:15px;margin-bottom:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+th{color:var(--mut);font-size:12px;font-weight:600}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.form-row{grid-template-columns:1fr}}
+.empty{text-align:center;color:var(--mut);padding:20px 16px;font-size:13px;line-height:1.7}
+.tbl-actions{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<!-- ============ AUTH ============ -->
+<div id="authView">
+  <div class="auth-card">
+    <div class="logo-mark"><svg class="icn" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+    <div class="logo">BoostPro</div>
+    <p class="tagline">Boost your link. Watch tasks. Earn coins instantly.</p>
+    <div class="auth-tabs">
+      <button id="tabLogin" class="active" onclick="switchAuth('login')">Login</button>
+      <button id="tabRegister" onclick="switchAuth('register')">Register</button>
+    </div>
+    <div id="nameField" class="field hidden"><label>Full Name</label><input id="authName" placeholder="Your name"></div>
+    <div class="field"><label>Email</label><input id="authEmail" type="email" placeholder="you@email.com"></div>
+    <div class="field"><label>Password</label><input id="authPass" type="password" placeholder="Password"></div>
+    <button class="btn block" id="authBtn" onclick="doAuth()">Login</button>
+    <div class="demo-zone">
+      <p>One-tap demo login<br>Admin: admin@boostpro.com / admin123<br>User: user@demo.com / 123456</p>
+      <div class="demo-row">
+        <button class="btn-sec" onclick="quickLogin('user')"><svg class="icn sm" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Demo User</button>
+        <button class="btn" onclick="quickLogin('admin')"><svg class="icn sm" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg> Admin Panel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ USER APP ============ -->
+<div id="appView" class="hidden">
+  <div class="topbar" id="appTopbar">
+    <div class="user-chip">
+      <div class="avatar" id="topAvatar">W</div>
+      <div class="who"><small>Welcome back</small><b id="topName">User</b></div>
+    </div>
+    <button class="icon-btn" onclick="toast('No new notifications')" aria-label="Notifications"><svg class="icn" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+  </div>
+
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+    <div class="section">
+      <div class="balance">
+        <div class="lbl">TOTAL BALANCE</div>
+        <div class="amt"><span id="balAmt">0</span> <small>Coins</small></div>
+        <div class="conv">Approx. BDT <span id="balTk">0</span> · 100 Coins = BDT 10</div>
+        <div class="bal-actions">
+          <button class="btn-light" onclick="demoDeposit()"><svg class="icn sm" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg> Deposit (Demo +100)</button>
+          <button class="btn-sec" onclick="showPage('wallet')"><svg class="icn sm" viewBox="0 0 24 24"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg> Withdraw</button>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="surface cta" style="padding:16px">
+        <h3>Boost your own link</h3>
+        <p>Set your link, the reward points and the watch time. Other users view it and earn coins; you get the views.</p>
+        <button class="btn" onclick="openCreateBoost()"><svg class="icn sm" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg> Create Boost Campaign</button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3>Your stats</h3></div>
+      <div class="surface stats">
+        <div class="cell"><b id="stTasks">0</b><span>Tasks done</span></div>
+        <div class="cell"><b id="stViews">0</b><span>Boost views</span></div>
+        <div class="cell"><b id="stEarned">0</b><span>Coins earned</span></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3>Live boost links</h3><button onclick="showPage('tasks')">Earn now</button></div>
+      <div class="surface" id="homeCamps"></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3>Boosting services</h3></div>
+      <div class="surface" id="servicesGrid"></div>
+    </div>
+  </div>
+
+  <!-- TASKS -->
+  <div class="page" id="page-tasks">
+    <div class="section">
+      <div class="surface cta" style="padding:16px;text-align:left">
+        <div class="icon-tile" style="margin-bottom:12px;color:#4f46e5;background:#eeedfb"><svg class="icn" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <h3>Tasks Center</h3>
+        <p>To boost your own link, add a task with your link, reward points and watch time. Others complete it and you get views.</p>
+        <button class="btn block" onclick="openCreateBoost()"><svg class="icn sm" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg> Add Task — Boost Your Link</button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3>Boost links — visit and earn</h3></div>
+      <p class="sub">Tap <b>Details</b> on any link — first a page shows the full details and exactly what you need to do. Only the <b>Open</b> button on that page takes you to the actual link. Come back after the set time and Claim — coins land in your wallet instantly.</p>
+      <div class="surface" id="campList"></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3>Official tasks</h3></div>
+      <div class="surface" id="taskList"></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3>My tasks / campaigns</h3></div>
+      <div class="surface" id="myCampList"></div>
+    </div>
+  </div>
+
+  <!-- WALLET -->
+  <div class="page" id="page-wallet">
+    <div class="section">
+      <div class="balance">
+        <div class="lbl">WALLET BALANCE</div>
+        <div class="amt"><span id="walletBal">0</span> <small>Coins</small></div>
+        <div class="conv">Deposits and withdrawals happen only on this page.</div>
+        <div class="bal-actions">
+          <button class="btn-light" onclick="demoDeposit()"><svg class="icn sm" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg> Deposit (Demo +100)</button>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3>Withdraw money</h3></div>
+      <div class="surface" style="padding:16px">
+        <div class="field"><label>Method</label><select id="wdMethod"><option>Bkash</option><option>Nagad</option><option>Rocket</option></select></div>
+        <div class="field"><label>Number</label><input id="wdNumber" placeholder="01XXXXXXXXX"></div>
+        <div class="field"><label>Amount (Coins)</label><input id="wdAmount" type="number" placeholder="500"><div class="hint">Minimum 500 coins.</div></div>
+        <button class="btn block" onclick="doWithdraw()">Request Withdraw</button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3>Transactions</h3></div>
+      <div class="surface" id="txnList"></div>
+    </div>
+  </div>
+
+  <!-- ACCOUNT -->
+  <div class="page" id="page-account">
+    <div class="profile-head">
+      <div class="avatar" id="accAvatar">W</div>
+      <h3 id="accName">User</h3>
+      <p id="accEmail">user@email.com</p>
+      <p class="uid">User ID: <span id="accId"></span></p>
+    </div>
+    <div class="section">
+      <div class="surface">
+        <button class="menu-row" onclick="openCreateBoost()"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg> Create Boost Campaign</span><svg class="icn sm" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+        <button class="menu-row" onclick="showPage('tasks')"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> My Campaigns</span><svg class="icn sm" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+        <button class="menu-row" onclick="showPage('wallet')"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg> My Wallet</span><svg class="icn sm" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+        <button class="menu-row" onclick="showOrders()"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg> My Service Orders</span><svg class="icn sm" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+        <button class="menu-row hidden" id="adminEntry" onclick="openAdmin()"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg> Admin Panel</span><svg class="icn sm" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+        <button class="menu-row" onclick="toast('Support: demo@boostpro.com')"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg> Support</span><svg class="icn sm" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+        <button class="menu-row danger" onclick="logout()"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg> Logout</span></button>
+      </div>
+      <p class="version">BoostPro v4.6 · Connected to Firebase Cloud</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ ADMIN ============ -->
+<div id="adminView" class="hidden">
+  <div class="admin-head">
+    <h2><svg class="icn" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg> Admin Panel — BoostPro</h2>
+    <div class="acts">
+      <button class="btn-sec" onclick="closeAdmin()">Back to App</button>
+      <button class="btn-danger" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  <div class="surface admin-stats" id="adminStats"></div>
+  <div class="admin-tabs">
+    <button data-atab="campaigns" class="active" onclick="adminTab('campaigns')">Campaigns</button>
+    <button data-atab="tasks" onclick="adminTab('tasks')">Tasks</button>
+    <button data-atab="orders" onclick="adminTab('orders')">Orders</button>
+    <button data-atab="users" onclick="adminTab('users')">Users</button>
+    <button data-atab="settings" onclick="adminTab('settings')">Settings</button>
+  </div>
+
+  <div class="admin-page" id="atab-campaigns">
+    <div class="surface admin-card"><h3>All user boost campaigns</h3><div id="adminCampList"></div></div>
+  </div>
+
+  <div class="admin-page hidden" id="atab-tasks">
+    <div class="surface admin-card">
+      <h3>Add new task</h3>
+      <div class="form-row">
+        <input id="ntTitle" placeholder="Task title (e.g. Subscribe YouTube Channel)">
+        <input id="ntReward" type="number" placeholder="Reward coins (e.g. 10)">
+      </div>
+      <div class="form-row" style="margin-top:12px">
+        <input id="ntLink" placeholder="Task link (https://...)">
+        <select id="ntIcon"><option value="youtube">YouTube</option><option value="facebook">Facebook</option><option value="instagram">Instagram</option><option value="tiktok">TikTok</option><option value="telegram">Telegram</option><option value="website">Website</option></select>
+      </div>
+      <button class="btn" style="margin-top:12px" onclick="adminAddTask()">Add Task</button>
+    </div>
+    <div class="surface admin-card"><h3>All tasks</h3><div id="adminTaskList"></div></div>
+  </div>
+
+  <div class="admin-page hidden" id="atab-orders">
+    <div class="surface admin-card"><h3>All boosting orders</h3><div id="adminOrderList"></div></div>
+    <div class="surface admin-card"><h3>Withdraw requests</h3><div id="adminWdList"></div></div>
+  </div>
+
+  <div class="admin-page hidden" id="atab-users">
+    <div class="surface admin-card"><h3>All users</h3><div id="adminUserList"></div></div>
+  </div>
+
+  <div class="admin-page hidden" id="atab-settings">
+    <div class="surface admin-card">
+      <h3>Site settings</h3>
+      <div class="field"><label>App Name</label><input id="setAppName"></div>
+      <div class="field"><label>Welcome Bonus (Coins)</label><input id="setBonus" type="number"></div>
+      <div class="field"><label>Minimum Withdraw (Coins)</label><input id="setMinWd" type="number"></div>
+      <button class="btn" onclick="adminSaveSettings()">Save Settings</button>
+      <p class="sub" style="margin:16px 0 0">Data is synced directly to Cloud Firestore.</p>
+    </div>
+    <div class="surface admin-card"><h3>Reset demo</h3>
+      <p class="sub">Clears local cache and reloads state from Firebase.</p>
+      <button class="btn-danger" onclick="resetDemo()">Clear Local Session</button></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav hidden" id="bottomNav">
+  <button data-page="home" class="active" onclick="showPage('home')"><svg class="icn" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Home</button>
+  <button data-page="tasks" onclick="showPage('tasks')"><svg class="icn" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>Tasks</button>
+  <button data-page="wallet" onclick="showPage('wallet')"><svg class="icn" viewBox="0 0 24 24"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>Wallet</button>
+  <button data-page="account" onclick="showPage('account')"><svg class="icn" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Account</button>
+</nav>
+
+<!-- TASK DETAIL SCREEN -->
+<div id="detailOverlay" class="hidden">
+  <div class="detail-topbar">
+    <button class="icon-btn" onclick="goBackDetail()" aria-label="Back"><svg class="icn" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+    <div class="avatar" id="dUserAvatar" style="width:36px;height:36px;font-size:15px">W</div>
+    <div class="who"><b id="dUserName">User</b><span>Task Details</span></div>
+  </div>
+  <div id="detailContent"></div>
+</div>
+
+<!-- CREATE BOOST MODAL -->
+<div class="modal hidden" id="boostModal">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeBoost()" aria-label="Close"><svg class="icn" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    <h3>Create Boost Campaign</h3>
+    <p class="sub">Your link goes live for other users. They view it for the time you set and earn the reward you set.</p>
+    <div class="field"><label>Campaign Title</label><input id="cbTitle" placeholder="e.g. Watch my new YouTube video"></div>
+    <div class="field"><label>Task Details / Description</label><textarea id="cbDesc" placeholder="Viewer-কে ঠিক কি করতে হবে এখানে লিখে দাও — e.g. ভিডিওটা পুরো দেখো, একটা like দাও আর channel টা subscribe করো। এই লেখাটাই task খুললে সবার উপরে দেখাবে।"></textarea><div class="hint">This description appears at the top of the task page when a user opens your task.</div></div>
+    <div class="field"><label>Platform</label>
+      <select id="cbPlatform" onchange="calcBoost()">
+        <option value="youtube">YouTube</option><option value="facebook">Facebook</option>
+        <option value="instagram">Instagram</option><option value="tiktok">TikTok</option>
+        <option value="telegram">Telegram</option><option value="website">Website / Blog</option>
+      </select></div>
+    <div class="field"><label>Your Link</label><input id="cbLink" placeholder="https://youtube.com/watch?v=..."></div>
+    <div class="field"><label>Reward per view — how many coins does the viewer get?</label>
+      <div class="seg" id="cbRewardSeg">
+        <button onclick="setSeg('reward',2,this)">2</button><button class="active" onclick="setSeg('reward',5,this)">5</button>
+        <button onclick="setSeg('reward',10,this)">10</button><button onclick="setSeg('reward',20,this)">20</button><button onclick="setSeg('reward',50,this)">50</button>
+      </div></div>
+    <div class="field"><label>Watch time — how long must the viewer stay?</label>
+      <div class="seg" id="cbTimeSeg">
+        <button onclick="setSeg('time',10,this)">10s</button><button class="active" onclick="setSeg('time',30,this)">30s</button>
+        <button onclick="setSeg('time',60,this)">60s</button><button onclick="setSeg('time',120,this)">2m</button><button onclick="setSeg('time',180,this)">3m</button>
+      </div></div>
+    <div class="field"><label>Total views — how many people should view it?</label><input id="cbViews" type="number" value="20" min="5" oninput="calcBoost()"></div>
+    <div class="cost-rows" id="cbCost"></div>
+    <button class="btn block" onclick="createBoost()">Launch Campaign</button>
+    <button class="btn-sec block" style="width:100%;margin-top:8px" onclick="closeBoost()">Cancel</button>
+  </div>
+</div>
+
+<!-- SERVICE ORDER MODAL -->
+<div class="modal hidden" id="orderModal">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeModal()" aria-label="Close"><svg class="icn" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    <h3 id="omTitle">Order Boosting</h3>
+    <p class="sub">Admin will process this order after you place it.</p>
+    <div class="field"><label>Your Link / Username</label><input id="omLink" placeholder="https://... or @username"></div>
+    <div class="field"><label>Quantity</label><input id="omQty" type="number" value="100" min="10" step="10" oninput="calcOrder()"></div>
+    <div class="cost-rows"><div class="cr"><span>Total cost</span><b id="omCost">0 Coins</b></div></div>
+    <button class="btn block" onclick="placeOrder()">Place Order</button>
+    <button class="btn-sec" style="width:100%;margin-top:8px" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- MY ORDERS MODAL -->
+<div class="modal hidden" id="myOrdersModal">
+  <div class="modal-box">
+    <button class="modal-x" onclick="document.getElementById('myOrdersModal').classList.add('hidden')" aria-label="Close"><svg class="icn" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    <h3>My Service Orders</h3><div class="surface" id="myOrdersList" style="margin-top:12px"></div>
+  <button class="btn-sec" style="width:100%;margin-top:12px" onclick="document.getElementById('myOrdersModal').classList.add('hidden')">Close</button></div>
+</div>
+
+<script>
+/* ================= FIREBASE CONFIG & INITIALIZATION ================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyDar_j82KB-IDwygT5xLIq2muK2DR4ddtE",
+  authDomain: "boostpro-140f4.firebaseapp.com",
+  projectId: "boostpro-140f4",
+  storageBucket: "boostpro-140f4.firebasestorage.app",
+  messagingSenderId: "458348749667",
+  appId: "1:458348749667:web:5b8be19548d2b51356e956",
+  measurementId: "G-ZQJDQQME5J"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const auth = firebase.auth();
+const fs = firebase.firestore();
+
+/* ================= ICONS ================= */
+const P = {
+  youtube:'<path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/>',
+  facebook:'<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+  instagram:'<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/>',
+  tiktok:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+  telegram:'<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+  website:'<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+  eye:'<path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/>',
+  clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  coins:'<circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/>',
+  share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98"/><path d="m15.41 6.51-6.82 3.98"/>',
+  copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  pause:'<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>',
+  play:'<path d="m6 4 14 8-14 8V4z"/>',
+  trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+  external:'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+  down:'<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
+  up:'<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>',
+  link:'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+  zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+  pkg:'<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>'
+};
+function I(n, sm){ return '<svg class="icn'+(sm?' sm':'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">'+(P[n]||P.website)+'</svg>'; }
+function clean(s){ return String(s||'').replace(/[\u{1F000}-\u{1FAFF}\u{2000}-\u{2BFF}\u{FE0F}]/gu,'').replace(/\s+/g,' ').trim(); }
+function esc(s){ return clean(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function iconForTask(t){
+  if(t.icon && P[t.icon]) return t.icon;
+  const s=(t.title||'').toLowerCase();
+  if(s.includes('youtube')) return 'youtube'; if(s.includes('facebook')) return 'facebook';
+  if(s.includes('instagram')) return 'instagram'; if(s.includes('tiktok')) return 'tiktok';
+  if(s.includes('telegram')) return 'telegram'; return 'website';
+}
+
+/* ================= STATE & CACHE (Firebase Synced) ================= */
+const DB = {
+  get(k, d){ try{ const v = localStorage.getItem('bp_'+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ localStorage.setItem('bp_'+k, JSON.stringify(v)); }
+};
+const PLATFORMS = {
+  youtube:{icon:'youtube', name:'YouTube', color:'#e62117', bg:'#fdecea'},
+  facebook:{icon:'facebook', name:'Facebook', color:'#1877f2', bg:'#e8f1fe'},
+  instagram:{icon:'instagram', name:'Instagram', color:'#d62976', bg:'#fceaf3'},
+  tiktok:{icon:'tiktok', name:'TikTok', color:'#161823', bg:'#eceff1'},
+  telegram:{icon:'telegram', name:'Telegram', color:'#229ed9', bg:'#e6f4fb'},
+  website:{icon:'website', name:'Website', color:'#4f46e5', bg:'#eeedfb'}
+};
+const ICON_COLORS = { eye:{color:'#b45309', bg:'#fdf3e2'}, zap:{color:'#4f46e5', bg:'#eeedfb'}, pkg:{color:'#0e7a55', bg:'#e7f4ee'}, down:{color:'#0e7a55', bg:'#e7f4ee'}, up:{color:'#b42318', bg:'#fdecea'} };
+function tile(iconKey, plat){
+  if(plat) return '<div class="icon-tile" style="color:'+plat.color+';background:'+plat.bg+'">'+I(plat.icon)+'</div>';
+  const c = PLATFORMS[iconKey] || ICON_COLORS[iconKey] || {color:'#171a26', bg:'#eef0f4'};
+  return '<div class="icon-tile" style="color:'+c.color+';background:'+c.bg+'">'+I(iconKey)+'</div>';
+}
+
+let authMode='login', currentService=null;
+let boostSel={reward:5, time:30};
+let visit=null, visitTimer=null;
+let unsubscribers = [];
+
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
+function me(){ const id=DB.get('current'); if(!id) return null; return DB.get('users',[]).find(u=>u.id===id)||null; }
+
+/* Cloud Sync Helpers */
+async function saveUser(u){ 
+  const us=DB.get('users',[]); 
+  const i=us.findIndex(x=>x.id===u.id); 
+  if(i>=0) us[i]=u; 
+  DB.set('users',us); 
+  try { await fs.collection('users').doc(u.id).set(u, {merge:true}); } catch(e){ console.error(e); }
+}
+async function addTxn(userId,label,amount,type){ 
+  const txItem = {id:'TX'+Date.now(),userId,label,amount,type,date:new Date().toLocaleString()};
+  const tx=DB.get('txns',[]); 
+  tx.unshift(txItem); 
+  DB.set('txns',tx); 
+  try { await fs.collection('txns').doc(txItem.id).set(txItem); } catch(e){ console.error(e); }
+}
+async function saveCamp(c){ 
+  const cs=DB.get('campaigns',[]); 
+  const i=cs.findIndex(x=>x.id===c.id); 
+  if(i>=0) cs[i]=c; else cs.unshift(c); 
+  DB.set('campaigns',cs); 
+  try { await fs.collection('campaigns').doc(c.id).set(c, {merge:true}); } catch(e){ console.error(e); }
+}
+
+/* ================= SEED INITIAL FIREBASE DATA ================= */
+async function initFirebaseData(){
+  try {
+    const setSnap = await fs.collection('settings').doc('config').get();
+    if(!setSnap.exists){
+      await fs.collection('settings').doc('config').set({appName:'BoostPro', bonus:100, minWithdraw:500});
+      const initialServices = [
+        {id:'S1', icon:'instagram', name:'Instagram Followers', unit:'100 followers', price:50},
+        {id:'S2', icon:'youtube', name:'YouTube Subscribers', unit:'100 subscribers', price:80},
+        {id:'S3', icon:'tiktok', name:'TikTok Likes', unit:'1000 likes', price:60},
+        {id:'S4', icon:'facebook', name:'Facebook Followers', unit:'100 page followers', price:45},
+        {id:'S5', icon:'telegram', name:'Telegram Members', unit:'100 members', price:40},
+        {id:'S6', icon:'eye', name:'YouTube Views', unit:'1000 views', price:70}
+      ];
+      for(let s of initialServices){ await fs.collection('services').doc(s.id).set(s); }
+      const initialTasks = [
+        {id:'T1', icon:'youtube', title:'Subscribe YouTube Channel', desc:'Subscribe and take a screenshot', reward:10, link:'https://youtube.com'},
+        {id:'T2', icon:'facebook', title:'Follow Facebook Page', desc:'Follow our page', reward:8, link:'https://facebook.com'},
+        {id:'T3', icon:'tiktok', title:'Like TikTok Video', desc:'Like and comment on the video', reward:5, link:'https://tiktok.com'}
+      ];
+      for(let t of initialTasks){ await fs.collection('tasks').doc(t.id).set(t); }
+    }
+  } catch(e) { console.log('Init sync:', e); }
+}
+initFirebaseData();
+
+/* Realtime Sync Listeners */
+function startRealtimeSync(){
+  unsubscribers.forEach(u => u());
+  unsubscribers = [];
+
+  unsubscribers.push(fs.collection('users').onSnapshot(snap=>{
+    const list = snap.docs.map(d=>d.data());
+    DB.set('users', list);
+    renderApp();
+    if(!document.getElementById('adminView').classList.contains('hidden')) renderAdmin();
+  }));
+
+  unsubscribers.push(fs.collection('campaigns').onSnapshot(snap=>{
+    const list = snap.docs.map(d=>d.data());
+    DB.set('campaigns', list);
+    renderCampaigns();
+    if(!document.getElementById('adminView').classList.contains('hidden')) renderAdmin();
+  }));
+
+  unsubscribers.push(fs.collection('tasks').onSnapshot(snap=>{
+    const list = snap.docs.map(d=>d.data());
+    DB.set('tasks', list);
+    renderTasks();
+    if(!document.getElementById('adminView').classList.contains('hidden')) renderAdmin();
+  }));
+
+  unsubscribers.push(fs.collection('services').onSnapshot(snap=>{
+    const list = snap.docs.map(d=>d.data());
+    DB.set('services', list);
+    renderServices();
+  }));
+
+  unsubscribers.push(fs.collection('orders').onSnapshot(snap=>{
+    const list = snap.docs.map(d=>d.data());
+    DB.set('orders', list);
+    if(!document.getElementById('adminView').classList.contains('hidden')) renderAdmin();
+  }));
+
+  unsubscribers.push(fs.collection('txns').onSnapshot(snap=>{
+    const list = snap.docs.map(d=>d.data());
+    list.sort((a,b)=> (b.id>a.id?1:-1));
+    DB.set('txns', list);
+    renderTxns();
+    if(!document.getElementById('adminView').classList.contains('hidden')) renderAdmin();
+  }));
+
+  unsubscribers.push(fs.collection('settings').doc('config').onSnapshot(snap=>{
+    if(snap.exists) DB.set('settings', snap.data());
+  }));
+}
+
+/* ================= AUTH ================= */
+function switchAuth(m){ authMode=m;
+  document.getElementById('tabLogin').classList.toggle('active',m==='login');
+  document.getElementById('tabRegister').classList.toggle('active',m==='register');
+  document.getElementById('nameField').classList.toggle('hidden',m==='login');
+  document.getElementById('authBtn').textContent = m==='login'?'Login':'Create Account';
+}
+
+async function doAuth(){
+  const email=document.getElementById('authEmail').value.trim().toLowerCase();
+  const pass=document.getElementById('authPass').value;
+  const name=document.getElementById('authName').value.trim();
+  if(!email||!pass) return toast('Enter your email and password');
+
+  const btn = document.getElementById('authBtn');
+  btn.disabled = true;
+
+  if(authMode==='register'){
+    if(!name) { btn.disabled = false; return toast('Enter your name'); }
+    try {
+      const cred = await auth.createUserWithEmailAndPassword(email, pass);
+      const bonus = (DB.get('settings')||{bonus:100}).bonus;
+      const u = {
+        id: cred.user.uid,
+        name: name,
+        email: email,
+        pass: pass,
+        role: email.includes('admin')?'admin':'user',
+        balance: bonus,
+        earned: 0,
+        doneTasks: [],
+        viewsEarned: 0,
+        blocked: false
+      };
+      await fs.collection('users').doc(u.id).set(u);
+      await addTxn(u.id,'Welcome Bonus',bonus,'in');
+      DB.set('current', u.id);
+      toast('Account created. Welcome bonus: '+bonus+' coins');
+      enterApp();
+    } catch(err){
+      toast(err.message);
+    }
+  } else {
+    try {
+      const cred = await auth.signInWithEmailAndPassword(email, pass);
+      const snap = await fs.collection('users').doc(cred.user.uid).get();
+      if(!snap.exists){
+        btn.disabled = false;
+        return toast('User record not found.');
+      }
+      const u = snap.data();
+      if(u.blocked){
+        await auth.signOut();
+        btn.disabled = false;
+        return toast('This account has been blocked');
+      }
+      DB.set('current', u.id);
+      toast('Welcome back, '+u.name);
+      enterApp();
+    } catch(err){
+      toast(err.message);
+    }
+  }
+  btn.disabled = false;
+}
+
+async function quickLogin(kind){
+  const email = kind==='admin' ? 'admin@boostpro.com' : 'user@demo.com';
+  const pass = kind==='admin' ? 'admin123' : '123456';
+  try {
+    let cred;
+    try {
+      cred = await auth.signInWithEmailAndPassword(email, pass);
+    } catch(e) {
+      cred = await auth.createUserWithEmailAndPassword(email, pass);
+      const u = {
+        id: cred.user.uid,
+        name: kind==='admin'?'Admin':'Demo User',
+        email: email,
+        pass: pass,
+        role: kind==='admin'?'admin':'user',
+        balance: kind==='admin'?9999:250,
+        earned: 0,
+        doneTasks: [],
+        viewsEarned: 0,
+        blocked: false
+      };
+      await fs.collection('users').doc(u.id).set(u);
+    }
+    const snap = await fs.collection('users').doc(cred.user.uid).get();
+    DB.set('current', snap.data().id);
+    enterApp();
+    if(kind==='admin') openAdmin();
+  } catch(err){
+    toast(err.message);
+  }
+}
+
+function logout(){ 
+  auth.signOut();
+  localStorage.removeItem('bp_current'); 
+  location.reload(); 
+}
+
+function enterApp(){
+  const u=me(); if(!u) return;
+  startRealtimeSync();
+  document.getElementById('authView').classList.add('hidden');
+  document.getElementById('adminView').classList.add('hidden');
+  document.getElementById('appView').classList.remove('hidden');
+  document.getElementById('bottomNav').classList.remove('hidden');
+  document.getElementById('adminEntry').classList.toggle('hidden',u.role!=='admin');
+  renderApp();
+}
+
+/* ================= USER APP ================= */
+function showPage(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));
+  renderApp(); window.scrollTo({top:0});
+}
+
+function renderApp(){
+  const u=me(); if(!u) return;
+  document.getElementById('topName').textContent=u.name;
+  document.getElementById('topAvatar').textContent=u.name[0].toUpperCase();
+  document.getElementById('accAvatar').textContent=u.name[0].toUpperCase();
+  document.getElementById('accName').textContent=u.name;
+  document.getElementById('accEmail').textContent=u.email;
+  document.getElementById('accId').textContent=u.id;
+  document.getElementById('balAmt').textContent=u.balance;
+  document.getElementById('balTk').textContent=(u.balance/10).toFixed(0);
+  const wb=document.getElementById('walletBal'); if(wb) wb.textContent=u.balance;
+  document.getElementById('stTasks').textContent=(u.doneTasks||[]).length;
+  document.getElementById('stViews').textContent=u.viewsEarned||0;
+  document.getElementById('stEarned').textContent=u.earned;
+  renderServices(); renderTasks(); renderCampaigns(); renderTxns();
+}
+
+function renderServices(){
+  document.getElementById('servicesGrid').innerHTML = DB.get('services',[]).map(s=>`
+    <div class="row-item"><div class="item-top">
+      ${tile(s.icon&&P[s.icon]?s.icon:'zap')}
+      <div class="item-main"><h4>${esc(s.name)}</h4><p>${esc(s.unit)}</p></div>
+      <div class="amount">${s.price} Coins<small><button class="btn btn-sm" style="margin-top:6px" onclick="openOrder('${s.id}')">Order</button></small></div>
+    </div></div>`).join('') || '<div class="empty">No services yet</div>';
+}
+
+function taskHTML(t,u){
+  const done=(u.doneTasks||[]).includes(t.id);
+  return `<div class="row-item"><div class="item-top">
+    ${tile(iconForTask(t))}
+    <div class="item-main"><h4>${esc(t.title)}</h4><p>${esc(t.desc||'')}</p></div>
+    <div class="amount">+${t.reward}<small>Coins</small>
+      <small><button class="btn-sec btn-sm" style="margin-top:6px" ${done?'disabled':''} onclick="openTaskDetail('${t.id}')">${done?'Done':'Details'}</button></small></div>
+  </div></div>`;
+}
+
+function renderTasks(){
+  const u=me(); const tasks=DB.get('tasks',[]);
+  document.getElementById('taskList').innerHTML = tasks.length ? tasks.map(t=>taskHTML(t,u)).join('') : '<div class="empty">No official tasks yet</div>';
+}
+
+function demoDeposit(){
+  const u=me(); u.balance+=100; saveUser(u); addTxn(u.id,'Demo Deposit',100,'in');
+  toast('100 coins deposited (demo)'); renderApp();
+}
+
+function renderTxns(){
+  const u=me(); const tx=DB.get('txns',[]).filter(t=>t.userId===u.id);
+  document.getElementById('txnList').innerHTML = tx.length ? tx.slice(0,20).map(t=>`
+    <div class="row-item"><div class="item-top">
+      ${tile(t.type==='in'?'down':'up')}
+      <div class="item-main"><h4>${esc(t.label)}</h4><p>${t.date}</p></div>
+      <div class="amount">${t.type==='in'?'+':'-'}${t.amount}<small>Coins</small></div>
+    </div></div>`).join('')
+    : '<div class="empty">No transactions yet</div>';
+}
+
+function doWithdraw(){
+  const u=me(); const amt=parseInt(document.getElementById('wdAmount').value||'0');
+  const num=document.getElementById('wdNumber').value.trim();
+  const method=document.getElementById('wdMethod').value;
+  const min=(DB.get('settings')||{minWithdraw:500}).minWithdraw;
+  if(!num) return toast('Enter your '+method+' number');
+  if(amt<min) return toast('Minimum withdraw is '+min+' coins');
+  if(amt>u.balance) return toast('Insufficient balance');
+  u.balance-=amt; saveUser(u);
+  addTxn(u.id,'Withdraw - '+method+' '+num+' (Pending)',amt,'out');
+  toast('Withdraw request sent'); renderApp();
+}
+
+/* ================= CAMPAIGNS (Peer Boost) ================= */
+function metaHTML(c){
+  return `<div class="meta-line">
+    <span>${I('coins',1)} +${c.reward} Coins</span>
+    <span>${I('clock',1)} Watch ${c.watchTime}s</span>
+    <span>${I('eye',1)} ${c.doneViews}/${c.totalViews} views</span>
+    <span class="status ${c.status==='Active'?'on':''}">${c.status}</span></div>`;
+}
+
+function campHTML(c, u){
+  const p=PLATFORMS[c.platform]||PLATFORMS.website;
+  const pct=Math.min(100, Math.round(c.doneViews/c.totalViews*100));
+  const mine=c.ownerId===u.id;
+  const claimed=(c.claimedBy||[]).includes(u.id);
+  let action='';
+  if(mine) action='<button class="btn-sec" disabled>Your campaign</button>';
+  else if(claimed) action='<button class="btn-sec" disabled>Claimed</button>';
+  else if(c.status!=='Active') action='<button class="btn-sec" disabled>'+c.status+'</button>';
+  else action=`<button class="btn" onclick="openCampDetail('${c.id}')">${I('eye',1)} Details & Earn</button>`;
+  return `<div class="row-item" style="border-left:4px solid ${p.color}">
+    <div class="item-top">${tile(null,p)}
+      <div class="item-main"><h4>${esc(c.title)}</h4>
+      <p>by ${esc(c.ownerName)} · ${p.name}</p>
+      <p>${esc(c.link)}</p>
+      ${metaHTML(c)}
+      <div class="progress"><i style="width:${pct}%;background:${p.color}"></i></div>
+      </div></div>
+    <div class="actions">${action}<button class="btn-sec" onclick="shareCampaign('${c.id}')">${I('share',1)} Share</button></div></div>`;
+}
+
+function myCampHTML(c){
+  const p=PLATFORMS[c.platform]||PLATFORMS.website;
+  const pct=Math.min(100, Math.round(c.doneViews/c.totalViews*100));
+  const remaining=c.reward*(c.totalViews-c.doneViews);
+  return `<div class="row-item">
+    <div class="item-top">${tile(null,p)}
+      <div class="item-main"><h4>${esc(c.title)}</h4>
+      <p>${esc(c.link)}</p>
+      ${metaHTML(c)}
+      <div class="progress"><i style="width:${pct}%;background:${p.color}"></i></div>
+      </div></div>
+    <div class="actions">
+      <button class="btn-sec" onclick="shareCampaign('${c.id}')">${I('share',1)} Share</button>
+      <button class="btn-sec" onclick="copyLink('${c.id}')">${I('copy',1)} Copy</button>
+      ${c.status==='Active'?`<button class="btn-sec" onclick="campPause('${c.id}',true)">${I('pause',1)} Pause</button>`:''}
+      ${c.status==='Paused'?`<button class="btn-sec" onclick="campPause('${c.id}',false)">${I('play',1)} Resume</button>`:''}
+      ${c.status!=='Completed'?`<button class="btn-danger" onclick="campCancel('${c.id}')">${I('trash',1)} Cancel · Refund ${remaining}</button>`:''}
+    </div></div>`;
+}
+
+function renderCampaigns(){
+  const u=me(); if(!u) return;
+  const camps=DB.get('campaigns',[]);
+  const live=camps.filter(c=>c.status==='Active');
+  document.getElementById('campList').innerHTML = live.length ? live.map(c=>campHTML(c,u)).join('') : '<div class="empty">No live campaigns right now.<br>Add your own task above to start.</div>';
+  document.getElementById('homeCamps').innerHTML = live.length ? live.slice(0,3).map(c=>campHTML(c,u)).join('') : '<div class="empty">No live campaigns right now</div>';
+  const mine=camps.filter(c=>c.ownerId===u.id);
+  document.getElementById('myCampList').innerHTML = mine.length ? mine.map(myCampHTML).join('') : '<div class="empty">You have not added a task yet.<br><button class="btn" style="margin-top:12px" onclick="openCreateBoost()">Add Task</button></div>';
+}
+
+function setSeg(kind, val, btn){
+  boostSel[kind]=val;
+  btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); calcBoost();
+}
+
+function openCreateBoost(){ document.getElementById('boostModal').classList.remove('hidden'); calcBoost(); }
+function closeBoost(){ document.getElementById('boostModal').classList.add('hidden'); }
+
+function calcBoost(){
+  const views=parseInt(document.getElementById('cbViews').value||'0');
+  const total=boostSel.reward*views;
+  const u=me();
+  document.getElementById('cbCost').innerHTML=
+    '<div class="cr"><span>Reward per view</span><b>'+boostSel.reward+' Coins</b></div>'+
+    '<div class="cr"><span>Watch time</span><b>'+boostSel.time+'s</b></div>'+
+    '<div class="cr"><span>Total views</span><b>'+(views||0)+'</b></div>'+
+    '<div class="cr"><span>Total cost</span><b>'+total+' Coins</b></div>'+
+    '<div class="cr"><span>Your balance</span><b>'+(u?u.balance:0)+' Coins</b></div>'+
+    '<p class="sub" style="margin:12px 0 0">Unspent coins are refunded if you cancel before all views complete.</p>';
+}
+
+function createBoost(){
+  const u=me();
+  const title=document.getElementById('cbTitle').value.trim();
+  const link=document.getElementById('cbLink').value.trim();
+  const platform=document.getElementById('cbPlatform').value;
+  const views=parseInt(document.getElementById('cbViews').value||'0');
+  if(!title) return toast('Enter a campaign title');
+  if(!/^https?:\/\//i.test(link)) return toast('Enter a valid link starting with https://');
+  if(views<5) return toast('Minimum total views is 5');
+  const total=boostSel.reward*views;
+  if(total>u.balance) return toast('Insufficient balance. You need '+total+' coins');
+  u.balance-=total; saveUser(u);
+  const desc=document.getElementById('cbDesc').value.trim();
+  const c={id:'C'+Date.now(), ownerId:u.id, ownerName:u.name, title, desc, platform, link, reward:boostSel.reward, watchTime:boostSel.time, totalViews:views, doneViews:0, claimedBy:[], status:'Active', created:new Date().toLocaleString()};
+  saveCamp(c);
+  addTxn(u.id,'Boost Campaign: '+clean(title),total,'out');
+  closeBoost(); toast('Campaign is live. Other users can now view it.'); showPage('tasks');
+}
+
+function campPause(id, pause){
+  const c=DB.get('campaigns',[]).find(x=>x.id===id); if(!c) return;
+  c.status = pause?'Paused':'Active'; saveCamp(c); toast(pause?'Campaign paused':'Campaign is live again'); renderApp();
+}
+
+async function campCancel(id){
+  const u=me(); const camps=DB.get('campaigns',[]);
+  const c=camps.find(x=>x.id===id); if(!c) return;
+  const refund=c.reward*(c.totalViews-c.doneViews);
+  if(!confirm('Cancel this campaign and refund '+refund+' coins?')) return;
+  u.balance+=refund; saveUser(u);
+  DB.set('campaigns', camps.filter(x=>x.id!==id));
+  try { await fs.collection('campaigns').doc(id).delete(); } catch(e){}
+  if(refund>0) addTxn(u.id,'Campaign Refund: '+clean(c.title),refund,'in');
+  toast('Campaign cancelled. '+refund+' coins refunded.'); renderApp();
+}
+
+function copyText(txt, msg){
+  const done=()=>toast(msg||'Link copied. Share it anywhere.');
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done)); }
+  else fallbackCopy(txt, done);
+}
+function fallbackCopy(txt, done){
+  const ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); }catch(e){}
+  document.body.removeChild(ta); done();
+}
+function shareCampaign(cid){
+  const c=DB.get('campaigns',[]).find(x=>x.id===cid); if(!c) return;
+  const shareText=clean(c.title)+' — view it and earn +'+c.reward+' coins. Watch '+c.watchTime+'s';
+  if(navigator.share){ navigator.share({title:'BoostPro — '+clean(c.title), text:shareText, url:c.link}).catch(()=>{}); }
+  else copyText(c.link, 'Boost link copied. Share it with friends to get more views.');
+}
+function copyLink(cid){
+  const c=DB.get('campaigns',[]).find(x=>x.id===cid); if(!c) return;
+  copyText(c.link);
+}
+
+/* ================= DETAIL PAGE ================= */
+let detailCtx=null;
+let prevPage='tasks';
+let savedScrollY=0;
+
+function currentPageName(){
+  const p=document.querySelector('.page.active');
+  return p ? p.id.replace('page-','') : 'home';
+}
+function openCampDetail(cid){ prevPage=currentPageName(); detailCtx={type:'camp', id:cid}; showDetail(); }
+function openTaskDetail(tid){ prevPage=currentPageName(); detailCtx={type:'task', id:tid}; showDetail(); }
+
+function showDetail(){
+  const u=me(); if(!u) return;
+  document.getElementById('dUserName').textContent=u.name;
+  document.getElementById('dUserAvatar').textContent=u.name[0].toUpperCase();
+  savedScrollY=window.scrollY||0;
+  document.getElementById('appView').classList.add('hidden');
+  document.getElementById('bottomNav').classList.add('hidden');
+  document.getElementById('adminView').classList.add('hidden');
+  document.getElementById('authView').classList.add('hidden');
+  document.getElementById('detailOverlay').classList.remove('hidden');
+  renderDetail();
+  window.scrollTo(0,0);
+}
+function goBackDetail(){
+  clearInterval(visitTimer); visitTimer=null; visit=null;
+  document.getElementById('detailOverlay').classList.add('hidden');
+  document.getElementById('appView').classList.remove('hidden');
+  document.getElementById('bottomNav').classList.remove('hidden');
+  window.scrollTo(0,savedScrollY||0);
+}
+
+function stepsHTML(steps, color){
+  return steps.map((s,i)=>'<div class="step-row"><div class="step-num" style="background:'+color+'">'+(i+1)+'</div><p>'+s+'</p></div>').join('');
+}
+function descOf(item, platformName){
+  if(item.desc && clean(item.desc)) return esc(item.desc);
+  return 'Open the link and complete the task on '+platformName+'. Follow the steps below carefully, then come back to this page and claim your reward.';
+}
+function renderDetail(){
+  const u=me(); if(!detailCtx) return;
+  const box=document.getElementById('detailContent');
+  if(detailCtx.type==='camp') renderCampDetail(u, box); else renderTaskDetail(u, box);
+}
+
+function renderCampDetail(u, box){
+  const c=DB.get('campaigns',[]).find(x=>x.id===detailCtx.id);
+  if(!c){ box.innerHTML='<div class="section"><div class="surface"><div class="empty">This campaign no longer exists.</div></div></div>'; return; }
+  const p=PLATFORMS[c.platform]||PLATFORMS.website;
+  const pct=Math.min(100, Math.round(c.doneViews/c.totalViews*100));
+  const mine=c.ownerId===u.id, claimed=(c.claimedBy||[]).includes(u.id);
+  const timing = visit && visit.campId===c.id;
+  let action='';
+  if(mine){
+    action='<p class="sub">This is your own campaign — you cannot earn from it. Share the link to get more views.</p><div class="actions" style="margin-top:0"><button class="btn-sec" onclick="shareCampaign(\''+c.id+'\')">'+I('share',1)+' Share</button><button class="btn-sec" onclick="copyLink(\''+c.id+'\')">'+I('copy',1)+' Copy Link</button></div>';
+  } else if(claimed){
+    action='<div class="success-box surface" style="border:none"><div class="ok-ic">'+I('check')+'</div><h3 style="margin-bottom:4px">Already claimed</h3><p class="sub" style="margin:0">You earned +'+c.reward+' coins from this campaign.</p></div>';
+  } else if(c.status!=='Active'){
+    action='<p class="sub">This campaign is '+c.status.toLowerCase()+' and no longer accepting views.</p>';
+  } else if(timing){
+    action='<div class="timer-wrap"><div class="ring-box"><svg width="160" height="160"><circle class="ring-bg" cx="80" cy="80" r="70" fill="none" stroke-width="10"/><circle class="ring-fg" id="dRing" cx="80" cy="80" r="70" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="439.8" stroke-dashoffset="'+(439.8*(visit.left/visit.seconds))+'"/></svg><div class="ring-num"><b id="dSeconds">'+visit.left+'</b><span>SECONDS LEFT</span></div></div>'
+      +'<p class="sub">Stay on the opened page. When the timer finishes, your Claim button appears here.</p></div>'
+      +'<button class="claim-btn hidden" id="dClaimBtn" onclick="detailClaim()">'+I('check')+' Claim '+c.reward+' Coins</button>';
+  } else {
+    action='<button class="open-btn" style="background:'+p.color+'" onclick="detailOpenLink()">'+I('external')+' Open Link</button>'
+      +'<p class="sub" style="margin-top:12px;text-align:center">The link opens in a new tab. Come back here to claim.</p>';
+  }
+  box.innerHTML =
+   '<div class="section"><div class="detail-hero" style="background:'+p.color+'">'
+   + tile(null,p).replace('class="icon-tile"','class="icon-tile"')
+   + '<h2>'+esc(c.title)+'</h2><div class="by">by '+esc(c.ownerName)+' · '+p.name+'</div>'
+   + '<div class="detail-stats"><div class="cell"><b>+'+c.reward+'</b><span>Coins reward</span></div><div class="cell"><b>'+c.watchTime+'s</b><span>Watch time</span></div><div class="cell"><b>'+c.doneViews+'/'+c.totalViews+'</b><span>Views done</span></div></div>'
+   + '</div></div>'
+   + '<div class="section"><div class="section-head"><h3>Description</h3></div><div class="surface"><p class="desc-text">'+descOf(c,p.name)+'</p></div></div>'
+   + '<div class="section"><div class="section-head"><h3>What you need to do</h3></div><div class="surface">'
+   + stepsHTML([
+      'Tap the <b>Open</b> button below — the link will open in a new tab.',
+      'Stay on that page for at least <b>'+c.watchTime+' seconds</b> — watch or browse the content.',
+      'Come back to <b>this page</b> — your timer is running here.',
+      'When the timer finishes, tap <b>Claim</b> — <b>'+c.reward+' coins</b> are added to your wallet instantly.'
+     ], p.color)
+   + '</div></div>'
+   + '<div class="section"><div class="section-head"><h3>Task details</h3></div><div class="surface">'
+   + '<div class="kv-row"><span>Link</span><b>'+esc(c.link)+'</b></div>'
+   + '<div class="kv-row"><span>Platform</span><b>'+p.name+'</b></div>'
+   + '<div class="kv-row"><span>Posted by</span><b>'+esc(c.ownerName)+'</b></div>'
+   + '<div class="kv-row"><span>Status</span><b>'+c.status+'</b></div>'
+   + '<div class="kv-row"><span>Views progress</span><b>'+c.doneViews+' of '+c.totalViews+' ('+pct+'%)</b></div>'
+   + '<div style="padding:0 16px 14px"><div class="progress"><i style="width:'+pct+'%;background:'+p.color+'"></i></div></div>'
+   + '</div></div>'
+   + '<div class="section">'+action+'</div>';
+  const heroTile=box.querySelector('.detail-hero .icon-tile');
+  if(heroTile){ heroTile.style.background='rgba(255,255,255,.16)'; heroTile.style.color='#fff'; }
+}
+
+function renderTaskDetail(u, box){
+  const t=DB.get('tasks',[]).find(x=>x.id===detailCtx.id);
+  if(!t){ box.innerHTML='<div class="section"><div class="surface"><div class="empty">This task no longer exists.</div></div></div>'; return; }
+  const key=iconForTask(t);
+  const col=PLATFORMS[key]||ICON_COLORS[key]||{color:'#3730a3', bg:'#eeedfb'};
+  const done=(u.doneTasks||[]).includes(t.id);
+  const opened = visit && visit.taskId===t.id && visit.opened;
+  let action='';
+  if(done){
+    action='<div class="success-box surface" style="border:none"><div class="ok-ic">'+I('check')+'</div><h3 style="margin-bottom:4px">Task completed</h3><p class="sub" style="margin:0">You earned +'+t.reward+' coins from this task.</p></div>';
+  } else {
+    action='<button class="open-btn" style="background:'+col.color+'" onclick="detailOpenTaskLink()">'+I('external')+' Open Link</button>'
+      +'<button class="claim-btn" id="dTaskDoneBtn" style="margin-top:12px" '+(opened?'':'disabled style="margin-top:12px;background:#d8dae2;color:#8a8fa3"')+' onclick="detailCompleteTask()">'+I('check')+' Done — Claim '+t.reward+' Coins</button>'
+      +(opened?'':'<p class="sub" style="margin-top:12px;text-align:center">Open the link first — the Done button unlocks after that.</p>');
+  }
+  box.innerHTML =
+   '<div class="section"><div class="detail-hero" style="background:'+col.color+'">'
+   + '<div class="icon-tile" style="background:rgba(255,255,255,.16);color:#fff">'+I(key)+'</div>'
+   + '<h2>'+esc(t.title)+'</h2><div class="by">Official task · '+(PLATFORMS[key]?PLATFORMS[key].name:'BoostPro')+'</div>'
+   + '<div class="detail-stats"><div class="cell"><b>+'+t.reward+'</b><span>Coins reward</span></div><div class="cell"><b>Official</b><span>Task type</span></div><div class="cell"><b>'+(done?'Done':'Open')+'</b><span>Status</span></div></div>'
+   + '</div></div>'
+   + '<div class="section"><div class="section-head"><h3>Description</h3></div><div class="surface"><p class="desc-text">'+descOf(t, PLATFORMS[key]?PLATFORMS[key].name:'BoostPro')+'</p></div></div>'
+   + '<div class="section"><div class="section-head"><h3>What you need to do</h3></div><div class="surface">'
+   + stepsHTML([
+      'Tap the <b>Open</b> button below — the link will open in a new tab.',
+      'Complete the task there: <b>'+esc(t.desc||'follow the instructions on that page')+'</b>.',
+      'Come back to <b>this page</b> and tap <b>Done — Claim</b>.',
+      '<b>'+t.reward+' coins</b> are added to your wallet instantly.'
+     ], col.color)
+   + '</div></div>'
+   + '<div class="section"><div class="section-head"><h3>Task details</h3></div><div class="surface">'
+   + '<div class="kv-row"><span>Link</span><b>'+esc(t.link||'')+'</b></div>'
+   + '<div class="kv-row"><span>Reward</span><b>+'+t.reward+' Coins</b></div>'
+   + '<div class="kv-row"><span>Status</span><b>'+(done?'Completed':'Open')+'</b></div>'
+   + '</div></div>'
+   + '<div class="section">'+action+'</div>';
+}
+
+function detailOpenLink(){
+  const c=DB.get('campaigns',[]).find(x=>x.id===detailCtx.id); if(!c) return;
+  window.open(c.link,'_blank');
+  visit={campId:c.id, seconds:c.watchTime, left:c.watchTime, opened:true};
+  renderDetail();
+  const CIRC=439.8;
+  clearInterval(visitTimer);
+  visitTimer=setInterval(()=>{
+    if(!visit){ clearInterval(visitTimer); return; }
+    visit.left--;
+    const sec=document.getElementById('dSeconds'), ring=document.getElementById('dRing');
+    if(sec) sec.textContent=Math.max(0,visit.left);
+    if(ring) ring.style.strokeDashoffset = CIRC*(Math.max(0,visit.left)/visit.seconds);
+    if(visit.left<=0){
+      clearInterval(visitTimer);
+      const btn=document.getElementById('dClaimBtn');
+      if(btn) btn.classList.remove('hidden');
+      toast('Time complete. Tap Claim to collect your coins.');
+    }
+  },1000);
+}
+
+function detailClaim(){
+  if(!visit||visit.left>0) return;
+  const u=me(); const c=DB.get('campaigns',[]).find(x=>x.id===visit.campId);
+  clearInterval(visitTimer); visitTimer=null;
+  if(!c||c.status!=='Active'||(c.claimedBy||[]).includes(u.id)){ visit=null; renderDetail(); return toast('Sorry, this campaign is no longer available'); }
+  if(!c.claimedBy) c.claimedBy = [];
+  c.claimedBy.push(u.id); c.doneViews++;
+  if(c.doneViews>=c.totalViews) c.status='Completed';
+  saveCamp(c);
+  u.balance+=c.reward; u.earned+=c.reward; u.viewsEarned=(u.viewsEarned||0)+1; saveUser(u);
+  addTxn(u.id,'Boost View: '+clean(c.title),c.reward,'in');
+  visit=null;
+  toast('+'+c.reward+' coins added to your wallet');
+  renderApp(); renderDetail();
+}
+
+function detailOpenTaskLink(){
+  const t=DB.get('tasks',[]).find(x=>x.id===detailCtx.id); if(!t) return;
+  if(t.link) window.open(t.link,'_blank');
+  visit={taskId:t.id, opened:true};
+  renderDetail();
+}
+
+function detailCompleteTask(){
+  const u=me(); const t=DB.get('tasks',[]).find(x=>x.id===detailCtx.id);
+  if(!u.doneTasks) u.doneTasks = [];
+  if(!t||u.doneTasks.includes(t.id)) return;
+  if(!visit||visit.taskId!==t.id||!visit.opened) return toast('Open the link first');
+  u.doneTasks.push(t.id); u.balance+=t.reward; u.earned+=t.reward; saveUser(u);
+  addTxn(u.id,'Task: '+clean(t.title),t.reward,'in');
+  visit=null;
+  toast('+'+t.reward+' coins added to your wallet');
+  renderApp(); renderDetail();
+}
+
+/* ================= SERVICE ORDERS ================= */
+function openOrder(sid){ currentService=DB.get('services',[]).find(s=>s.id===sid);
+  document.getElementById('omTitle').textContent=clean(currentService.name);
+  document.getElementById('orderModal').classList.remove('hidden'); calcOrder(); }
+function calcOrder(){ if(!currentService) return; const q=parseInt(document.getElementById('omQty').value||'0');
+  const base=parseInt(currentService.unit)||100; const cost=Math.ceil(q/base)*currentService.price;
+  document.getElementById('omCost').textContent=cost+' Coins'; }
+function closeModal(){ document.getElementById('orderModal').classList.add('hidden'); }
+
+async function placeOrder(){
+  const u=me(); const link=document.getElementById('omLink').value.trim();
+  const q=parseInt(document.getElementById('omQty').value||'0');
+  if(!link) return toast('Enter your link or username');
+  if(q<10) return toast('Minimum quantity is 10');
+  const base=parseInt(currentService.unit)||100; const cost=Math.ceil(q/base)*currentService.price;
+  if(cost>u.balance) return toast('Insufficient balance');
+  u.balance-=cost; saveUser(u);
+  const ord = {id:'ORD'+Date.now(), userId:u.id, userName:u.name, service:currentService.name, link, qty:q, cost, status:'Pending', date:new Date().toLocaleString()};
+  const orders=DB.get('orders',[]); orders.unshift(ord);
+  DB.set('orders',orders); 
+  try { await fs.collection('orders').doc(ord.id).set(ord); } catch(e){}
+  addTxn(u.id,'Order: '+clean(currentService.name),cost,'out');
+  closeModal(); toast('Order placed. Admin will process it.'); renderApp();
+}
+
+function showOrders(){
+  const u=me(); const os=DB.get('orders',[]).filter(o=>o.userId===u.id);
+  document.getElementById('myOrdersList').innerHTML = os.length ? os.map(o=>`
+    <div class="row-item"><div class="item-top">
+      ${tile('pkg')}
+      <div class="item-main"><h4>${esc(o.service)} x ${o.qty}</h4><p>${o.date} · ${o.cost} coins</p></div>
+      <span class="status ${o.status==='Completed'?'on':''}">${o.status}</span>
+    </div></div>`).join('')
+    : '<div class="empty">No orders yet</div>';
+  document.getElementById('myOrdersModal').classList.remove('hidden');
+}
+
+/* ================= ADMIN ================= */
+function openAdmin(){
+  const u=me(); if(!u||u.role!=='admin') return toast('Admin access only');
+  document.getElementById('appView').classList.add('hidden');
+  document.getElementById('bottomNav').classList.add('hidden');
+  document.getElementById('adminView').classList.remove('hidden'); renderAdmin(); window.scrollTo({top:0});
+}
+function closeAdmin(){ document.getElementById('adminView').classList.add('hidden'); document.getElementById('appView').classList.remove('hidden'); document.getElementById('bottomNav').classList.remove('hidden'); renderApp(); }
+
+function adminTab(t){
+  document.querySelectorAll('.admin-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.atab===t));
+  document.querySelectorAll('.admin-page').forEach(p=>p.classList.add('hidden'));
+  document.getElementById('atab-'+t).classList.remove('hidden'); renderAdmin();
+}
+function statusSpan(s){ return '<span class="status '+(s==='Active'||s==='Completed'?'on':'')+'">'+s+'</span>'; }
+
+function renderAdmin(){
+  const users=DB.get('users',[]), orders=DB.get('orders',[]), tasks=DB.get('tasks',[]), tx=DB.get('txns',[]), camps=DB.get('campaigns',[]);
+  document.getElementById('adminStats').innerHTML=
+    '<div class="cell"><b>'+users.length+'</b><span>Total users</span></div>'+
+    '<div class="cell"><b>'+camps.filter(c=>c.status==='Active').length+'</b><span>Live campaigns</span></div>'+
+    '<div class="cell"><b>'+camps.reduce((a,c)=>a+(c.doneViews||0),0)+'</b><span>Boost views</span></div>'+
+    '<div class="cell"><b>'+orders.length+'</b><span>Service orders</span></div>';
+  document.getElementById('adminCampList').innerHTML = camps.length ? '<table><tr><th>Owner</th><th>Campaign</th><th>Reward / Time</th><th>Views</th><th>Status</th><th></th></tr>'+camps.map(c=>'<tr><td>'+esc(c.ownerName)+'</td><td><b>'+esc(c.title)+'</b><br><span style="color:var(--mut)">'+esc(c.link)+'</span></td><td>'+c.reward+' / '+c.watchTime+'s</td><td>'+c.doneViews+'/'+c.totalViews+'</td><td>'+statusSpan(c.status)+'</td><td><button class="btn-danger btn-sm" onclick="adminDelCamp(\''+c.id+'\')">Delete + Refund</button></td></tr>').join('')+'</table>' : '<div class="empty">No campaigns</div>';
+  document.getElementById('adminTaskList').innerHTML = tasks.length ? '<table><tr><th>Task</th><th>Reward</th><th></th></tr>'+tasks.map(t=>'<tr><td>'+esc(t.title)+'</td><td>'+t.reward+' Coins</td><td><button class="btn-danger btn-sm" onclick="adminDelTask(\''+t.id+'\')">Delete</button></td></tr>').join('')+'</table>' : '<div class="empty">No tasks</div>';
+  document.getElementById('adminOrderList').innerHTML = orders.length ? '<table><tr><th>User</th><th>Service</th><th>Link</th><th>Qty</th><th>Status</th><th></th></tr>'+orders.map(o=>'<tr><td>'+esc(o.userName)+'</td><td>'+esc(o.service)+'</td><td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">'+esc(o.link)+'</td><td>'+o.qty+'</td><td>'+statusSpan(o.status)+'</td><td>'+(o.status==='Pending'?'<div class="tbl-actions"><button class="btn-sec btn-sm" onclick="adminOrderStatus(\''+o.id+'\',\'Completed\')">Complete</button><button class="btn-danger btn-sm" onclick="adminOrderStatus(\''+o.id+'\',\'Cancelled\')">Cancel</button></div>':'')+'</td></tr>').join('')+'</table>' : '<div class="empty">No orders yet</div>';
+  const wds=tx.filter(t=>clean(t.label).includes('Withdraw'));
+  document.getElementById('adminWdList').innerHTML = wds.length ? '<table><tr><th>User</th><th>Details</th><th>Amount</th><th>Date</th></tr>'+wds.map(t=>{const usr=users.find(x=>x.id===t.userId);return '<tr><td>'+(usr?esc(usr.name):t.userId)+'</td><td>'+esc(t.label)+'</td><td>'+t.amount+' Coins</td><td>'+t.date+'</td></tr>'}).join('')+'</table>' : '<div class="empty">No withdraw requests</div>';
+  document.getElementById('adminUserList').innerHTML = '<table><tr><th>User</th><th>Email</th><th>Balance</th><th>Role</th><th></th></tr>'+users.map(x=>'<tr><td>'+esc(x.name)+(x.blocked?' <span class="status">Blocked</span>':'')+'</td><td>'+esc(x.email)+'</td><td>'+x.balance+' Coins</td><td>'+x.role+'</td><td>'+(x.role!=='admin'?'<div class="tbl-actions"><button class="btn-sec btn-sm" onclick="adminAddBal(\''+x.id+'\')">+50 Coins</button><button class="btn-danger btn-sm" onclick="adminBlock(\''+x.id+'\')">'+(x.blocked?'Unblock':'Block')+'</button></div>':'')+'</td></tr>').join('')+'</table>';
+  const s=DB.get('settings')||{appName:'BoostPro', bonus:100, minWithdraw:500};
+  document.getElementById('setAppName').value=s.appName;
+  document.getElementById('setBonus').value=s.bonus;
+  document.getElementById('setMinWd').value=s.minWithdraw;
+}
+
+async function adminDelCamp(id){
+  const camps=DB.get('campaigns',[]); const c=camps.find(x=>x.id===id); if(!c) return;
+  if(!confirm('Delete this campaign and refund the remaining coins to the owner?')) return;
+  const refund=c.reward*(c.totalViews-c.doneViews);
+  const us=DB.get('users',[]); const owner=us.find(u=>u.id===c.ownerId);
+  if(owner&&refund>0){ owner.balance+=refund; saveUser(owner); addTxn(owner.id,'Admin Refund: '+clean(c.title),refund,'in'); }
+  try { await fs.collection('campaigns').doc(id).delete(); } catch(e){}
+  DB.set('campaigns', camps.filter(x=>x.id!==id));
+  toast('Campaign deleted and refund sent'); renderAdmin();
+}
+
+async function adminAddTask(){
+  const title=document.getElementById('ntTitle').value.trim();
+  const reward=parseInt(document.getElementById('ntReward').value||'0');
+  const link=document.getElementById('ntLink').value.trim();
+  const icon=document.getElementById('ntIcon').value;
+  if(!title||!reward) return toast('Enter a title and reward');
+  const taskObj = {id:'T'+Date.now(), icon, title, desc:'Complete this task', reward, link};
+  try { await fs.collection('tasks').doc(taskObj.id).set(taskObj); } catch(e){}
+  const tasks=DB.get('tasks',[]); tasks.push(taskObj);
+  DB.set('tasks',tasks); toast('Task added'); renderAdmin();
+}
+
+async function adminDelTask(id){ 
+  try { await fs.collection('tasks').doc(id).delete(); } catch(e){}
+  DB.set('tasks', DB.get('tasks',[]).filter(t=>t.id!==id)); 
+  toast('Task deleted'); renderAdmin(); 
+}
+
+async function adminOrderStatus(id, st){ 
+  const os=DB.get('orders',[]); const o=os.find(x=>x.id===id); 
+  if(o){ 
+    o.status=st; 
+    try { await fs.collection('orders').doc(id).update({status:st}); } catch(e){}
+    DB.set('orders',os); 
+  } 
+  toast('Order '+st); renderAdmin(); 
+}
+
+function adminAddBal(id){ 
+  const us=DB.get('users',[]); const x=us.find(u=>u.id===id); 
+  if(x){ x.balance+=50; saveUser(x);} 
+  toast('50 coins added'); renderAdmin(); 
+}
+
+function adminBlock(id){ 
+  const us=DB.get('users',[]); const x=us.find(u=>u.id===id); 
+  if(x){ x.blocked=!x.blocked; saveUser(x);} 
+  toast(x.blocked?'Blocked':'Unblocked'); renderAdmin(); 
+}
+
+async function adminSaveSettings(){ 
+  const s={appName:document.getElementById('setAppName').value||'BoostPro', bonus:parseInt(document.getElementById('setBonus').value||'100'), minWithdraw:parseInt(document.getElementById('setMinWd').value||'500')}; 
+  try { await fs.collection('settings').doc('config').set(s, {merge:true}); } catch(e){}
+  DB.set('settings',s); 
+  toast('Settings saved'); 
+}
+
+function resetDemo(){ 
+  if(confirm('Clear local cache and reload data from Firebase?')){ 
+    ['users','tasks','services','orders','txns','settings','campaigns','current'].forEach(k=>localStorage.removeItem('bp_'+k)); 
+    location.reload(); 
+  } 
+}
+
+/* Modal events */
+document.querySelectorAll('.modal').forEach(m=>{
+  m.addEventListener('click', e=>{
+    if(e.target!==m) return;
+    m.classList.add('hidden');
+  });
+});
+if(document.addEventListener) document.addEventListener('keydown', e=>{
+  if(e.key!=='Escape') return;
+  document.querySelectorAll('.modal').forEach(m=>m.classList.add('hidden'));
+});
+
+/* Auto login observer */
+auth.onAuthStateChanged(async (firebaseUser) => {
+  if (firebaseUser) {
+    try {
+      const snap = await fs.collection('users').doc(firebaseUser.uid).get();
+      if (snap.exists) {
+        DB.set('current', firebaseUser.uid);
+        enterApp();
+      }
+    } catch(e){}
+  }
+});
+</script>
+</body>
+</html>
