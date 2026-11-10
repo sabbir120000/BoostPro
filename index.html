@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BoostPro — Boosting App Demo v4</title>
+<title>BoostPro — Boosting App</title>
 
-<!-- Firebase SDKs (Compat version for smooth standalone script integration) -->
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -75,10 +75,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .auth-tabs{display:flex;background:var(--soft);border-radius:var(--r-inner);padding:4px;margin-bottom:16px;gap:4px}
 .auth-tabs button{flex:1;padding:9px;border-radius:4px;font-weight:600;color:var(--mut);font-size:14px}
 .auth-tabs button.active{background:#fff;color:var(--txt);border:1px solid var(--line)}
-.demo-zone{border-top:1px solid var(--line);margin-top:20px;padding-top:16px}
-.demo-zone>p{font-size:12px;color:var(--mut);text-align:center;margin-bottom:12px;line-height:1.7}
-.demo-row{display:flex;gap:8px}
-.demo-row button{flex:1}
 /* ---------- APP SHELL ---------- */
 #appView{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;padding-bottom:84px}
 .topbar{padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center}
@@ -217,13 +213,6 @@ th{color:var(--mut);font-size:12px;font-weight:600}
     <div class="field"><label>Email</label><input id="authEmail" type="email" placeholder="you@email.com"></div>
     <div class="field"><label>Password</label><input id="authPass" type="password" placeholder="Password"></div>
     <button class="btn block" id="authBtn" onclick="doAuth()">Login</button>
-    <div class="demo-zone">
-      <p>One-tap demo login<br>Admin: admin@boostpro.com / admin123<br>User: user@demo.com / 123456</p>
-      <div class="demo-row">
-        <button class="btn-sec" onclick="quickLogin('user')"><svg class="icn sm" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Demo User</button>
-        <button class="btn" onclick="quickLogin('admin')"><svg class="icn sm" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg> Admin Panel</button>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -231,7 +220,7 @@ th{color:var(--mut);font-size:12px;font-weight:600}
 <div id="appView" class="hidden">
   <div class="topbar" id="appTopbar">
     <div class="user-chip">
-      <div class="avatar" id="topAvatar">W</div>
+      <div class="avatar" id="topAvatar">U</div>
       <div class="who"><small>Welcome back</small><b id="topName">User</b></div>
     </div>
     <button class="icon-btn" onclick="toast('No new notifications')" aria-label="Notifications"><svg class="icn" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
@@ -330,7 +319,7 @@ th{color:var(--mut);font-size:12px;font-weight:600}
   <!-- ACCOUNT -->
   <div class="page" id="page-account">
     <div class="profile-head">
-      <div class="avatar" id="accAvatar">W</div>
+      <div class="avatar" id="accAvatar">U</div>
       <h3 id="accName">User</h3>
       <p id="accEmail">user@email.com</p>
       <p class="uid">User ID: <span id="accId"></span></p>
@@ -345,7 +334,7 @@ th{color:var(--mut);font-size:12px;font-weight:600}
         <button class="menu-row" onclick="toast('Support: demo@boostpro.com')"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg> Support</span><svg class="icn sm" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
         <button class="menu-row danger" onclick="logout()"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg> Logout</span></button>
       </div>
-      <p class="version">BoostPro v4.6 · Connected to Firebase Cloud</p>
+      <p class="version">BoostPro — Cloud Connected</p>
     </div>
   </div>
 
@@ -405,11 +394,10 @@ th{color:var(--mut);font-size:12px;font-weight:600}
       <div class="field"><label>Welcome Bonus (Coins)</label><input id="setBonus" type="number"></div>
       <div class="field"><label>Minimum Withdraw (Coins)</label><input id="setMinWd" type="number"></div>
       <button class="btn" onclick="adminSaveSettings()">Save Settings</button>
-      <p class="sub" style="margin:16px 0 0">Data is synced directly to Cloud Firestore.</p>
     </div>
-    <div class="surface admin-card"><h3>Reset demo</h3>
-      <p class="sub">Clears local cache and reloads state from Firebase.</p>
-      <button class="btn-danger" onclick="resetDemo()">Clear Local Session</button></div>
+    <div class="surface admin-card"><h3>Clear Session</h3>
+      <p class="sub">Clears local state.</p>
+      <button class="btn-danger" onclick="resetDemo()">Clear Local Storage</button></div>
   </div>
 </div>
 
@@ -425,7 +413,7 @@ th{color:var(--mut);font-size:12px;font-weight:600}
 <div id="detailOverlay" class="hidden">
   <div class="detail-topbar">
     <button class="icon-btn" onclick="goBackDetail()" aria-label="Back"><svg class="icn" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
-    <div class="avatar" id="dUserAvatar" style="width:36px;height:36px;font-size:15px">W</div>
+    <div class="avatar" id="dUserAvatar" style="width:36px;height:36px;font-size:15px">U</div>
     <div class="who"><b id="dUserName">User</b><span>Task Details</span></div>
   </div>
   <div id="detailContent"></div>
@@ -438,7 +426,7 @@ th{color:var(--mut);font-size:12px;font-weight:600}
     <h3>Create Boost Campaign</h3>
     <p class="sub">Your link goes live for other users. They view it for the time you set and earn the reward you set.</p>
     <div class="field"><label>Campaign Title</label><input id="cbTitle" placeholder="e.g. Watch my new YouTube video"></div>
-    <div class="field"><label>Task Details / Description</label><textarea id="cbDesc" placeholder="Viewer-কে ঠিক কি করতে হবে এখানে লিখে দাও — e.g. ভিডিওটা পুরো দেখো, একটা like দাও আর channel টা subscribe করো। এই লেখাটাই task খুললে সবার উপরে দেখাবে।"></textarea><div class="hint">This description appears at the top of the task page when a user opens your task.</div></div>
+    <div class="field"><label>Task Details / Description</label><textarea id="cbDesc" placeholder="Viewer-কে ঠিক কি করতে হবে এখানে লিখে দাও"></textarea></div>
     <div class="field"><label>Platform</label>
       <select id="cbPlatform" onchange="calcBoost()">
         <option value="youtube">YouTube</option><option value="facebook">Facebook</option>
@@ -446,17 +434,17 @@ th{color:var(--mut);font-size:12px;font-weight:600}
         <option value="telegram">Telegram</option><option value="website">Website / Blog</option>
       </select></div>
     <div class="field"><label>Your Link</label><input id="cbLink" placeholder="https://youtube.com/watch?v=..."></div>
-    <div class="field"><label>Reward per view — how many coins does the viewer get?</label>
+    <div class="field"><label>Reward per view (Coins)</label>
       <div class="seg" id="cbRewardSeg">
         <button onclick="setSeg('reward',2,this)">2</button><button class="active" onclick="setSeg('reward',5,this)">5</button>
         <button onclick="setSeg('reward',10,this)">10</button><button onclick="setSeg('reward',20,this)">20</button><button onclick="setSeg('reward',50,this)">50</button>
       </div></div>
-    <div class="field"><label>Watch time — how long must the viewer stay?</label>
+    <div class="field"><label>Watch time</label>
       <div class="seg" id="cbTimeSeg">
         <button onclick="setSeg('time',10,this)">10s</button><button class="active" onclick="setSeg('time',30,this)">30s</button>
         <button onclick="setSeg('time',60,this)">60s</button><button onclick="setSeg('time',120,this)">2m</button><button onclick="setSeg('time',180,this)">3m</button>
       </div></div>
-    <div class="field"><label>Total views — how many people should view it?</label><input id="cbViews" type="number" value="20" min="5" oninput="calcBoost()"></div>
+    <div class="field"><label>Total views</label><input id="cbViews" type="number" value="20" min="5" oninput="calcBoost()"></div>
     <div class="cost-rows" id="cbCost"></div>
     <button class="btn block" onclick="createBoost()">Launch Campaign</button>
     <button class="btn-sec block" style="width:100%;margin-top:8px" onclick="closeBoost()">Cancel</button>
@@ -486,7 +474,7 @@ th{color:var(--mut);font-size:12px;font-weight:600}
 </div>
 
 <script>
-/* ================= FIREBASE CONFIG & INITIALIZATION ================= */
+/* ================= FIREBASE INIT ================= */
 const firebaseConfig = {
   apiKey: "AIzaSyDar_j82KB-IDwygT5xLIq2muK2DR4ddtE",
   authDomain: "boostpro-140f4.firebaseapp.com",
@@ -538,7 +526,7 @@ function iconForTask(t){
   if(s.includes('telegram')) return 'telegram'; return 'website';
 }
 
-/* ================= STATE & CACHE (Firebase Synced) ================= */
+/* ================= STATE & CACHE ================= */
 const DB = {
   get(k, d){ try{ const v = localStorage.getItem('bp_'+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
   set(k, v){ localStorage.setItem('bp_'+k, JSON.stringify(v)); }
@@ -566,7 +554,6 @@ let unsubscribers = [];
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
 function me(){ const id=DB.get('current'); if(!id) return null; return DB.get('users',[]).find(u=>u.id===id)||null; }
 
-/* Cloud Sync Helpers */
 async function saveUser(u){ 
   const us=DB.get('users',[]); 
   const i=us.findIndex(x=>x.id===u.id); 
@@ -588,32 +575,6 @@ async function saveCamp(c){
   DB.set('campaigns',cs); 
   try { await fs.collection('campaigns').doc(c.id).set(c, {merge:true}); } catch(e){ console.error(e); }
 }
-
-/* ================= SEED INITIAL FIREBASE DATA ================= */
-async function initFirebaseData(){
-  try {
-    const setSnap = await fs.collection('settings').doc('config').get();
-    if(!setSnap.exists){
-      await fs.collection('settings').doc('config').set({appName:'BoostPro', bonus:100, minWithdraw:500});
-      const initialServices = [
-        {id:'S1', icon:'instagram', name:'Instagram Followers', unit:'100 followers', price:50},
-        {id:'S2', icon:'youtube', name:'YouTube Subscribers', unit:'100 subscribers', price:80},
-        {id:'S3', icon:'tiktok', name:'TikTok Likes', unit:'1000 likes', price:60},
-        {id:'S4', icon:'facebook', name:'Facebook Followers', unit:'100 page followers', price:45},
-        {id:'S5', icon:'telegram', name:'Telegram Members', unit:'100 members', price:40},
-        {id:'S6', icon:'eye', name:'YouTube Views', unit:'1000 views', price:70}
-      ];
-      for(let s of initialServices){ await fs.collection('services').doc(s.id).set(s); }
-      const initialTasks = [
-        {id:'T1', icon:'youtube', title:'Subscribe YouTube Channel', desc:'Subscribe and take a screenshot', reward:10, link:'https://youtube.com'},
-        {id:'T2', icon:'facebook', title:'Follow Facebook Page', desc:'Follow our page', reward:8, link:'https://facebook.com'},
-        {id:'T3', icon:'tiktok', title:'Like TikTok Video', desc:'Like and comment on the video', reward:5, link:'https://tiktok.com'}
-      ];
-      for(let t of initialTasks){ await fs.collection('tasks').doc(t.id).set(t); }
-    }
-  } catch(e) { console.log('Init sync:', e); }
-}
-initFirebaseData();
 
 /* Realtime Sync Listeners */
 function startRealtimeSync(){
@@ -682,12 +643,17 @@ async function doAuth(){
 
   const btn = document.getElementById('authBtn');
   btn.disabled = true;
+  btn.textContent = 'Processing...';
 
   if(authMode==='register'){
-    if(!name) { btn.disabled = false; return toast('Enter your name'); }
+    if(!name) { 
+      btn.disabled = false; 
+      btn.textContent = 'Create Account';
+      return toast('Enter your name'); 
+    }
     try {
       const cred = await auth.createUserWithEmailAndPassword(email, pass);
-      const bonus = (DB.get('settings')||{bonus:100}).bonus;
+      const bonus = (DB.get('settings')||{bonus:100}).bonus || 100;
       const u = {
         id: cred.user.uid,
         name: name,
@@ -703,7 +669,7 @@ async function doAuth(){
       await fs.collection('users').doc(u.id).set(u);
       await addTxn(u.id,'Welcome Bonus',bonus,'in');
       DB.set('current', u.id);
-      toast('Account created. Welcome bonus: '+bonus+' coins');
+      toast('Account created successfully!');
       enterApp();
     } catch(err){
       toast(err.message);
@@ -713,55 +679,36 @@ async function doAuth(){
       const cred = await auth.signInWithEmailAndPassword(email, pass);
       const snap = await fs.collection('users').doc(cred.user.uid).get();
       if(!snap.exists){
-        btn.disabled = false;
-        return toast('User record not found.');
+        const u = {
+          id: cred.user.uid,
+          name: email.split('@')[0],
+          email: email,
+          pass: pass,
+          role: email.includes('admin')?'admin':'user',
+          balance: 100,
+          earned: 0,
+          doneTasks: [],
+          viewsEarned: 0,
+          blocked: false
+        };
+        await fs.collection('users').doc(u.id).set(u);
       }
-      const u = snap.data();
-      if(u.blocked){
+      const userData = (await fs.collection('users').doc(cred.user.uid).get()).data();
+      if(userData.blocked){
         await auth.signOut();
         btn.disabled = false;
+        btn.textContent = 'Login';
         return toast('This account has been blocked');
       }
-      DB.set('current', u.id);
-      toast('Welcome back, '+u.name);
+      DB.set('current', userData.id);
+      toast('Welcome back, '+userData.name);
       enterApp();
     } catch(err){
-      toast(err.message);
+      toast('Login Failed: ' + err.message);
     }
   }
   btn.disabled = false;
-}
-
-async function quickLogin(kind){
-  const email = kind==='admin' ? 'admin@boostpro.com' : 'user@demo.com';
-  const pass = kind==='admin' ? 'admin123' : '123456';
-  try {
-    let cred;
-    try {
-      cred = await auth.signInWithEmailAndPassword(email, pass);
-    } catch(e) {
-      cred = await auth.createUserWithEmailAndPassword(email, pass);
-      const u = {
-        id: cred.user.uid,
-        name: kind==='admin'?'Admin':'Demo User',
-        email: email,
-        pass: pass,
-        role: kind==='admin'?'admin':'user',
-        balance: kind==='admin'?9999:250,
-        earned: 0,
-        doneTasks: [],
-        viewsEarned: 0,
-        blocked: false
-      };
-      await fs.collection('users').doc(u.id).set(u);
-    }
-    const snap = await fs.collection('users').doc(cred.user.uid).get();
-    DB.set('current', snap.data().id);
-    enterApp();
-    if(kind==='admin') openAdmin();
-  } catch(err){
-    toast(err.message);
-  }
+  btn.textContent = authMode==='login'?'Login':'Create Account';
 }
 
 function logout(){ 
@@ -792,8 +739,8 @@ function showPage(p){
 function renderApp(){
   const u=me(); if(!u) return;
   document.getElementById('topName').textContent=u.name;
-  document.getElementById('topAvatar').textContent=u.name[0].toUpperCase();
-  document.getElementById('accAvatar').textContent=u.name[0].toUpperCase();
+  document.getElementById('topAvatar').textContent=(u.name[0]||'U').toUpperCase();
+  document.getElementById('accAvatar').textContent=(u.name[0]||'U').toUpperCase();
   document.getElementById('accName').textContent=u.name;
   document.getElementById('accEmail').textContent=u.email;
   document.getElementById('accId').textContent=u.id;
@@ -826,17 +773,19 @@ function taskHTML(t,u){
 }
 
 function renderTasks(){
-  const u=me(); const tasks=DB.get('tasks',[]);
+  const u=me(); if(!u) return;
+  const tasks=DB.get('tasks',[]);
   document.getElementById('taskList').innerHTML = tasks.length ? tasks.map(t=>taskHTML(t,u)).join('') : '<div class="empty">No official tasks yet</div>';
 }
 
 function demoDeposit(){
-  const u=me(); u.balance+=100; saveUser(u); addTxn(u.id,'Demo Deposit',100,'in');
-  toast('100 coins deposited (demo)'); renderApp();
+  const u=me(); u.balance+=100; saveUser(u); addTxn(u.id,'Deposit (Demo)',100,'in');
+  toast('100 coins deposited'); renderApp();
 }
 
 function renderTxns(){
-  const u=me(); const tx=DB.get('txns',[]).filter(t=>t.userId===u.id);
+  const u=me(); if(!u) return;
+  const tx=DB.get('txns',[]).filter(t=>t.userId===u.id);
   document.getElementById('txnList').innerHTML = tx.length ? tx.slice(0,20).map(t=>`
     <div class="row-item"><div class="item-top">
       ${tile(t.type==='in'?'down':'up')}
@@ -859,7 +808,7 @@ function doWithdraw(){
   toast('Withdraw request sent'); renderApp();
 }
 
-/* ================= CAMPAIGNS (Peer Boost) ================= */
+/* ================= CAMPAIGNS ================= */
 function metaHTML(c){
   return `<div class="meta-line">
     <span>${I('coins',1)} +${c.reward} Coins</span>
@@ -1014,7 +963,7 @@ function openTaskDetail(tid){ prevPage=currentPageName(); detailCtx={type:'task'
 function showDetail(){
   const u=me(); if(!u) return;
   document.getElementById('dUserName').textContent=u.name;
-  document.getElementById('dUserAvatar').textContent=u.name[0].toUpperCase();
+  document.getElementById('dUserAvatar').textContent=(u.name[0]||'U').toUpperCase();
   savedScrollY=window.scrollY||0;
   document.getElementById('appView').classList.add('hidden');
   document.getElementById('bottomNav').classList.add('hidden');
@@ -1091,8 +1040,6 @@ function renderCampDetail(u, box){
    + '<div style="padding:0 16px 14px"><div class="progress"><i style="width:'+pct+'%;background:'+p.color+'"></i></div></div>'
    + '</div></div>'
    + '<div class="section">'+action+'</div>';
-  const heroTile=box.querySelector('.detail-hero .icon-tile');
-  if(heroTile){ heroTile.style.background='rgba(255,255,255,.16)'; heroTile.style.color='#fff'; }
 }
 
 function renderTaskDetail(u, box){
@@ -1322,7 +1269,7 @@ async function adminSaveSettings(){
 
 function resetDemo(){ 
   if(confirm('Clear local cache and reload data from Firebase?')){ 
-    ['users','tasks','services','orders','txns','settings','campaigns','current'].forEach(k=>localStorage.removeItem('bp_'+k)); 
+    localStorage.clear();
     location.reload(); 
   } 
 }
