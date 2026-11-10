@@ -552,12 +552,20 @@ let visit=null, visitTimer=null;
 let unsubscribers = [];
 
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
-function me(){ const id=DB.get('current'); if(!id) return null; return DB.get('users',[]).find(u=>u.id===id)||null; }
+function me(){ 
+  const id = DB.get('current') || (auth.currentUser ? auth.currentUser.uid : null);
+  if(!id) return null; 
+  let u = DB.get('users',[]).find(x=>x.id===id);
+  if(!u && auth.currentUser) {
+    u = { id: auth.currentUser.uid, name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0], email: auth.currentUser.email, balance: 100, earned: 0, doneTasks: [], viewsEarned: 0, role: auth.currentUser.email.includes('admin')?'admin':'user' };
+  }
+  return u;
+}
 
 async function saveUser(u){ 
   const us=DB.get('users',[]); 
   const i=us.findIndex(x=>x.id===u.id); 
-  if(i>=0) us[i]=u; 
+  if(i>=0) us[i]=u; else us.push(u);
   DB.set('users',us); 
   try { await fs.collection('users').doc(u.id).set(u, {merge:true}); } catch(e){ console.error(e); }
 }
@@ -669,17 +677,19 @@ async function doAuth(){
       await fs.collection('users').doc(u.id).set(u);
       await addTxn(u.id,'Welcome Bonus',bonus,'in');
       DB.set('current', u.id);
+      saveUser(u);
       toast('Account created successfully!');
-      enterApp();
+      await enterApp();
     } catch(err){
       toast(err.message);
     }
   } else {
     try {
       const cred = await auth.signInWithEmailAndPassword(email, pass);
-      const snap = await fs.collection('users').doc(cred.user.uid).get();
+      let snap = await fs.collection('users').doc(cred.user.uid).get();
+      let userData;
       if(!snap.exists){
-        const u = {
+        userData = {
           id: cred.user.uid,
           name: email.split('@')[0],
           email: email,
@@ -691,9 +701,10 @@ async function doAuth(){
           viewsEarned: 0,
           blocked: false
         };
-        await fs.collection('users').doc(u.id).set(u);
+        await fs.collection('users').doc(cred.user.uid).set(userData);
+      } else {
+        userData = snap.data();
       }
-      const userData = (await fs.collection('users').doc(cred.user.uid).get()).data();
       if(userData.blocked){
         await auth.signOut();
         btn.disabled = false;
@@ -701,8 +712,9 @@ async function doAuth(){
         return toast('This account has been blocked');
       }
       DB.set('current', userData.id);
+      saveUser(userData);
       toast('Welcome back, '+userData.name);
-      enterApp();
+      await enterApp();
     } catch(err){
       toast('Login Failed: ' + err.message);
     }
@@ -717,40 +729,64 @@ function logout(){
   location.reload(); 
 }
 
-function enterApp(){
-  const u=me(); if(!u) return;
-  startRealtimeSync();
+async function enterApp(){
+  let u = me();
+  if(!u && auth.currentUser) {
+    try {
+      const snap = await fs.collection('users').doc(auth.currentUser.uid).get();
+      if(snap.exists) {
+        u = snap.data();
+        saveUser(u);
+      }
+    } catch(e){}
+  }
+  if(!u) return;
+
   document.getElementById('authView').classList.add('hidden');
   document.getElementById('adminView').classList.add('hidden');
   document.getElementById('appView').classList.remove('hidden');
   document.getElementById('bottomNav').classList.remove('hidden');
-  document.getElementById('adminEntry').classList.toggle('hidden',u.role!=='admin');
+  document.getElementById('adminEntry').classList.toggle('hidden', u.role !== 'admin');
+  
+  showPage('home');
   renderApp();
+  startRealtimeSync();
 }
 
 /* ================= USER APP ================= */
 function showPage(p){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  document.getElementById('page-'+p).classList.add('active');
+  const target = document.getElementById('page-'+p);
+  if(target) target.classList.add('active');
   document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));
-  renderApp(); window.scrollTo({top:0});
+  renderApp(); 
+  window.scrollTo({top:0});
 }
 
 function renderApp(){
-  const u=me(); if(!u) return;
-  document.getElementById('topName').textContent=u.name;
-  document.getElementById('topAvatar').textContent=(u.name[0]||'U').toUpperCase();
-  document.getElementById('accAvatar').textContent=(u.name[0]||'U').toUpperCase();
-  document.getElementById('accName').textContent=u.name;
-  document.getElementById('accEmail').textContent=u.email;
-  document.getElementById('accId').textContent=u.id;
-  document.getElementById('balAmt').textContent=u.balance;
-  document.getElementById('balTk').textContent=(u.balance/10).toFixed(0);
-  const wb=document.getElementById('walletBal'); if(wb) wb.textContent=u.balance;
-  document.getElementById('stTasks').textContent=(u.doneTasks||[]).length;
-  document.getElementById('stViews').textContent=u.viewsEarned||0;
-  document.getElementById('stEarned').textContent=u.earned;
-  renderServices(); renderTasks(); renderCampaigns(); renderTxns();
+  const u = me(); 
+  if(!u) return;
+  
+  document.getElementById('topName').textContent = u.name || 'User';
+  document.getElementById('topAvatar').textContent = (u.name ? u.name[0] : 'U').toUpperCase();
+  document.getElementById('accAvatar').textContent = (u.name ? u.name[0] : 'U').toUpperCase();
+  document.getElementById('accName').textContent = u.name || 'User';
+  document.getElementById('accEmail').textContent = u.email || '';
+  document.getElementById('accId').textContent = u.id || '';
+  document.getElementById('balAmt').textContent = u.balance || 0;
+  document.getElementById('balTk').textContent = ((u.balance || 0)/10).toFixed(0);
+  
+  const wb = document.getElementById('walletBal'); 
+  if(wb) wb.textContent = u.balance || 0;
+  
+  document.getElementById('stTasks').textContent = (u.doneTasks||[]).length;
+  document.getElementById('stViews').textContent = u.viewsEarned||0;
+  document.getElementById('stEarned').textContent = u.earned || 0;
+  
+  renderServices(); 
+  renderTasks(); 
+  renderCampaigns(); 
+  renderTxns();
 }
 
 function renderServices(){
@@ -779,7 +815,7 @@ function renderTasks(){
 }
 
 function demoDeposit(){
-  const u=me(); u.balance+=100; saveUser(u); addTxn(u.id,'Deposit (Demo)',100,'in');
+  const u=me(); u.balance = (u.balance||0) + 100; saveUser(u); addTxn(u.id,'Deposit (Demo)',100,'in');
   toast('100 coins deposited'); renderApp();
 }
 
@@ -1040,6 +1076,8 @@ function renderCampDetail(u, box){
    + '<div style="padding:0 16px 14px"><div class="progress"><i style="width:'+pct+'%;background:'+p.color+'"></i></div></div>'
    + '</div></div>'
    + '<div class="section">'+action+'</div>';
+  const heroTile=box.querySelector('.detail-hero .icon-tile');
+  if(heroTile){ heroTile.style.background='rgba(255,255,255,.16)'; heroTile.style.color='#fff'; }
 }
 
 function renderTaskDetail(u, box){
@@ -1289,13 +1327,14 @@ if(document.addEventListener) document.addEventListener('keydown', e=>{
 /* Auto login observer */
 auth.onAuthStateChanged(async (firebaseUser) => {
   if (firebaseUser) {
+    DB.set('current', firebaseUser.uid);
     try {
       const snap = await fs.collection('users').doc(firebaseUser.uid).get();
       if (snap.exists) {
-        DB.set('current', firebaseUser.uid);
-        enterApp();
+        saveUser(snap.data());
       }
     } catch(e){}
+    await enterApp();
   }
 });
 </script>
