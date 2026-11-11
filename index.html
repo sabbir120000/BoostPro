@@ -28,6 +28,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .icn.sm{width:16px;height:16px;vertical-align:-3px}
 .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--accent);color:#fff;padding:12px 18px;border-radius:24px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s ease-out;z-index:999;max-width:92%;text-align:center}
 .toast.show{opacity:1}
+
 /* ---------- shared ---------- */
 .surface{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-surface)}
 .row-item{padding:12px 16px;border-bottom:1px solid var(--line)}
@@ -45,7 +46,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .field{margin-bottom:12px}
 .field label{font-size:13px;font-weight:600;display:block;margin-bottom:4px}
 .field .hint{font-size:12px;color:var(--mut);margin-top:3px}
-.section{padding:24px 16px 0}
+.section{padding:20px 16px 0}
 .section:first-child{padding-top:16px}
 .section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
 .section-head h3{font-size:16px;font-weight:700}
@@ -66,6 +67,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .item-main p{font-size:12px;color:var(--mut);margin-top:3px;line-height:1.55;word-break:break-all}
 .amount{font-weight:700;font-size:14px;white-space:nowrap}
 .amount small{display:block;font-weight:500;color:var(--mut);font-size:11px;margin-top:2px;text-align:right}
+
 /* ---------- AUTH ---------- */
 #authView{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
 .auth-card{background:#fff;width:100%;max-width:400px;border:1px solid var(--line);border-radius:var(--r-surface);padding:24px}
@@ -75,6 +77,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .auth-tabs{display:flex;background:var(--soft);border-radius:var(--r-inner);padding:4px;margin-bottom:16px;gap:4px}
 .auth-tabs button{flex:1;padding:9px;border-radius:4px;font-weight:600;color:var(--mut);font-size:14px}
 .auth-tabs button.active{background:#fff;color:var(--txt);border:1px solid var(--line)}
+
 /* ---------- APP SHELL ---------- */
 #appView{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;padding-bottom:84px}
 .topbar{padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center}
@@ -100,17 +103,18 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .cta h3{font-size:16px;margin-bottom:4px}
 .cta p{font-size:13px;color:var(--mut);line-height:1.6;margin-bottom:12px}
 .page{display:none}.page.active{display:block}
+
 /* bottom nav */
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;display:flex;border-top:1px solid var(--line);z-index:200;padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
 .bottom-nav.hidden{display:none}
 .bottom-nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;color:#9aa0b0;font-size:11px;font-weight:600;border-radius:var(--r-inner)}
 .bottom-nav button.active{color:var(--accent)}
+
 /* modal */
 .modal{position:fixed;inset:0;background:rgba(23,26,38,.5);display:flex;align-items:flex-end;justify-content:center;z-index:100}
 .modal-box{background:#fff;width:100%;max-width:480px;border-radius:16px 16px 0 0;padding:20px 16px 24px;max-height:90vh;overflow:auto;position:relative}
 .modal-box h3{font-size:17px;margin-bottom:4px;padding-right:48px}
 .modal-x{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:var(--r-inner);border:1px solid var(--line);background:#fff;color:var(--txt);display:flex;align-items:center;justify-content:center;z-index:5}
-.modal-x:hover{border-color:var(--accent);background:var(--soft)}
 .cost-rows{border-top:1px solid var(--line);margin:16px 0}
 .cost-rows .cr{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
 .cost-rows .cr span{color:var(--mut)}
@@ -118,14 +122,16 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .seg{display:flex;background:var(--soft);border:1px solid var(--line);border-radius:var(--r-inner);padding:4px;gap:4px;flex-wrap:wrap}
 .seg button{flex:1;padding:8px 4px;border-radius:4px;color:var(--mut);font-weight:600;font-size:13px;min-width:48px}
 .seg button.active{background:var(--accent);color:#fff;border:1px solid var(--accent)}
+
 /* timer */
-.timer-wrap{text-align:center;padding:12px 0 4px}
-.ring-box{position:relative;width:140px;height:140px;margin:0 auto 10px}
+.timer-wrap{text-align:center;padding:10px 0 4px}
+.ring-box{position:relative;width:130px;height:130px;margin:0 auto 10px}
 .ring-box svg{transform:rotate(-90deg)}
 .ring-bg{stroke:#eceef3}.ring-fg{stroke:var(--accent)}
 .ring-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.ring-num b{font-size:32px;line-height:1}
+.ring-num b{font-size:30px;line-height:1}
 .ring-num span{font-size:10px;color:var(--mut);font-weight:600;letter-spacing:1px;margin-top:4px}
+
 /* account */
 .profile-head{text-align:center;padding:24px 16px 0}
 .profile-head .avatar{width:72px;height:72px;font-size:28px;margin:0 auto 12px}
@@ -138,12 +144,13 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .menu-row:hover{background:var(--soft)}
 .menu-row.danger{color:var(--danger)}
 .version{text-align:center;color:var(--mut);font-size:12px;margin-top:16px}
+
 /* ---------- DETAIL PAGE ---------- */
-#detailOverlay{max-width:480px;margin:0 auto;background:var(--bg);min-height:100vh}
+#detailOverlay{max-width:480px;margin:0 auto;background:var(--bg);min-height:100vh;padding-bottom:40px}
 .detail-topbar{position:sticky;top:0;z-index:80;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:10px 16px}
 .detail-topbar .who b{font-size:15px;display:block;line-height:1.2}
 .detail-topbar .who span{font-size:12px;color:var(--mut);display:block;margin-top:2px}
-.desc-text{padding:14px 16px;font-size:14px;line-height:1.7;white-space:pre-line}
+.desc-text{padding:14px 16px;font-size:13px;line-height:1.7;white-space:pre-line}
 .detail-hero{border-radius:var(--r-surface);padding:18px 16px;color:#fff}
 .detail-hero h2{font-size:18px;line-height:1.35;margin-top:10px}
 .detail-hero .by{font-size:13px;opacity:.85;margin-top:4px}
@@ -154,12 +161,17 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .detail-stats span{font-size:11px;opacity:.85;display:block;margin-top:2px}
 .step-row{display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);align-items:flex-start}
 .step-row:last-child{border-bottom:none}
-.step-num{width:26px;height:26px;flex:0 0 26px;border-radius:50%;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.step-num{width:24px;height:24px;flex:0 0 24px;border-radius:50%;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
 .step-row p{font-size:13px;line-height:1.6}
-.open-btn{width:100%;padding:14px;border-radius:var(--r-inner);color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px}
-.claim-btn{width:100%;padding:15px;border-radius:var(--r-inner);background:#0e7a55;color:#fff;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 14px rgba(14,122,85,.35);animation:pulse 1.6s infinite}
+.kv-row{display:flex;justify-content:space-between;gap:12px;padding:11px 16px;border-bottom:1px solid var(--line);font-size:13px}
+.kv-row:last-child{border-bottom:none}
+.kv-row span{color:var(--mut);flex:0 0 auto}
+.kv-row b{font-weight:600;text-align:right;word-break:break-all}
+.open-btn{width:100%;padding:15px;border-radius:var(--r-inner);color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px}
+.claim-btn{width:100%;padding:15px;border-radius:var(--r-inner);background:#0e7a55;color:#fff;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 14px rgba(14,122,85,.35);animation:pulse 1.5s infinite}
 @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
-.warning-box{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:10px 14px;border-radius:var(--r-inner);font-size:12px;line-height:1.5;margin-top:10px}
+.warning-box{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:10px 14px;border-radius:var(--r-inner);font-size:12px;line-height:1.5;margin-top:10px;text-align:left}
+
 /* ---------- ADMIN ---------- */
 #adminView{max-width:1020px;margin:0 auto;min-height:100vh;background:var(--bg);padding:16px 16px 40px}
 .admin-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px}
@@ -179,7 +191,6 @@ tr:last-child td{border-bottom:none}
 th{color:var(--mut);font-size:12px;font-weight:600}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .empty{text-align:center;color:var(--mut);padding:20px 16px;font-size:13px;line-height:1.7}
-.tbl-actions{display:flex;gap:8px;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -190,7 +201,7 @@ th{color:var(--mut);font-size:12px;font-weight:600}
   <div class="auth-card">
     <div class="logo-mark"><svg class="icn" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
     <div class="logo">BoostPro</div>
-    <p class="tagline">Exchange Links. View & Earn Coins. Promote Your Content.</p>
+    <p class="tagline">Exchange Links. Earn Coins. Promote Your Content.</p>
     <div class="auth-tabs">
       <button id="tabLogin" class="active" onclick="switchAuth('login')">Login</button>
       <button id="tabRegister" onclick="switchAuth('register')">Register</button>
@@ -258,7 +269,7 @@ th{color:var(--mut);font-size:12px;font-weight:600}
     </div>
     <div class="section">
       <div class="section-head"><h3>Available Links — Visit & Earn</h3></div>
-      <p class="sub">Open the link and stay on that page for the specified time. Returning early will reset the timer.</p>
+      <p class="sub">Open the link and stay on that page for the specified time. Returning early will reset the timer and cancel coins.</p>
       <div class="surface" id="campList"></div>
     </div>
     <div class="section">
@@ -271,7 +282,7 @@ th{color:var(--mut);font-size:12px;font-weight:600}
     </div>
   </div>
 
-  <!-- WALLET -->
+  <!-- WALLET / COINS -->
   <div class="page" id="page-wallet">
     <div class="section">
       <div class="balance">
@@ -284,7 +295,7 @@ th{color:var(--mut);font-size:12px;font-weight:600}
       <div class="surface" style="padding:20px;text-align:center">
         <div class="icon-tile" style="margin:0 auto 12px;color:#b45309;background:#fef3c7"><svg class="icn" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg></div>
         <h3 style="font-size:16px;margin-bottom:6px">Deposit & Withdrawal Notice</h3>
-        <p class="sub" style="margin-bottom:0">This platform is strictly for link promotion and peer-to-peer exchange. Direct deposits and cash withdrawals are currently closed.</p>
+        <p class="sub" style="margin-bottom:0">This platform is strictly for link promotion and exchange. Direct deposits and withdrawals are currently paused.</p>
       </div>
     </div>
     <div class="section">
@@ -380,7 +391,7 @@ th{color:var(--mut);font-size:12px;font-weight:600}
     <h3>Promote Your Link</h3>
     <p class="sub">Set up your promotion campaign for other members.</p>
     <div class="field"><label>Campaign Title</label><input id="cbTitle" placeholder="e.g. Watch my YouTube video"></div>
-    <div class="field"><label>Task Instructions</label><textarea id="cbDesc" placeholder="e.g. Watch for 30s and like the video"></textarea></div>
+    <div class="field"><label>Task Instructions / Description</label><textarea id="cbDesc" placeholder="e.g. Watch the video, leave a like and subscribe to the channel"></textarea></div>
     <div class="field"><label>Platform</label>
       <select id="cbPlatform" onchange="calcBoost()">
         <option value="youtube">YouTube</option><option value="facebook">Facebook</option>
@@ -435,7 +446,6 @@ const P = {
   eye:'<path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/>',
   clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
   coins:'<circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/>',
-  copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
   check:'<path d="M20 6 9 17l-5-5"/>',
   pause:'<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>',
   play:'<path d="m6 4 14 8-14 8V4z"/>',
@@ -471,13 +481,13 @@ let boostSel={reward:5, time:30};
 let visit=null, visitTimer=null;
 let unsubscribers = [];
 
-function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
 function me(){ 
   const id = DB.get('current') || (auth.currentUser ? auth.currentUser.uid : null);
   if(!id) return null; 
   let u = DB.get('users',[]).find(x=>x.id===id);
   if(!u && auth.currentUser) {
-    u = { id: auth.currentUser.uid, name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0], email: auth.currentUser.email, balance: 100, earned: 0, doneTasks: [], viewsEarned: 0, role: auth.currentUser.email.toLowerCase()===ADMIN_EMAIL?'admin':'user' };
+    u = { id: auth.currentUser.uid, name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0], email: auth.currentUser.email, balance: 50, earned: 0, doneTasks: [], viewsEarned: 0, role: auth.currentUser.email.toLowerCase()===ADMIN_EMAIL?'admin':'user' };
   }
   return u;
 }
@@ -504,21 +514,19 @@ async function saveCamp(c){
   try { await fs.collection('campaigns').doc(c.id).set(c, {merge:true}); } catch(e){}
 }
 
-/* ================= BACKGROUND SMART TIMER & ANTI-CHEAT ================= */
-// ইউজার অন্য ট্যাবে বা অ্যাপে গেলে ব্যাকগ্রাউন্ডে টাইমার কাউন্ট হতে থাকবে
-// কিন্তু যদি নির্ধারিত সময়ের আগে ফিরে আসে তবে সঙ্গে সঙ্গে টাইমার বাতিল হবে!
+/* ================= BACKGROUND SMART TIMER & STRICT ANTI-CHEAT ================= */
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden && visit && !visit.completed) {
     const elapsed = Math.floor((Date.now() - visit.startTime) / 1000);
     if (elapsed < visit.seconds) {
-      // সময়ের আগে ব্যাক এসেছে!
+      // নির্ধারিত সেকেন্ডের আগে চলে এসেছে -> টাইমার রিসেট ও নো কয়েন
       clearInterval(visitTimer);
       visitTimer = null;
       visit = null;
-      toast('Warning: You returned too early! Task cancelled.');
+      toast('Alert: You returned too early! Task cancelled. Watch full time to earn coins.');
       renderDetail();
     } else {
-      // নির্ধারিত সময় সম্পন্ন হয়েছে
+      // সময় সম্পন্ন হয়েছে
       visit.left = 0;
       visit.completed = true;
       clearInterval(visitTimer);
@@ -528,7 +536,7 @@ document.addEventListener('visibilitychange', () => {
       if (sec) sec.textContent = '0';
       if (ring) ring.style.strokeDashoffset = '0';
       if (claimBtn) claimBtn.classList.remove('hidden');
-      toast('Time completed! Tap Claim to receive your coins.');
+      toast('Time complete! Please tap Claim Coins to add reward.');
     }
   }
 });
@@ -585,7 +593,7 @@ async function doAuth(){
         email: email,
         pass: pass,
         role: email.toLowerCase()===ADMIN_EMAIL ? 'admin' : 'user',
-        balance: 50, // Welcome bonus
+        balance: 50,
         earned: 0,
         doneTasks: [],
         viewsEarned: 0,
@@ -654,7 +662,6 @@ async function enterApp(){
   document.getElementById('appView').classList.remove('hidden');
   document.getElementById('bottomNav').classList.remove('hidden');
   
-  // একমাত্র admin@gmail.com এই এডমিন বাটন দেখতে পারবে
   const isAdmin = (u.email.toLowerCase() === ADMIN_EMAIL);
   document.getElementById('adminEntry').classList.toggle('hidden', !isAdmin);
   
@@ -730,7 +737,7 @@ function renderTxns(){
 function metaHTML(c){
   return `<div class="meta-line">
     <span>${I('coins',1)} +${c.reward} Coins</span>
-    <span>${I('clock',1)} ${c.watchTime}s</span>
+    <span>${I('clock',1)} Watch ${c.watchTime}s</span>
     <span>${I('eye',1)} ${c.doneViews}/${c.totalViews} views</span>
     <span class="status ${c.status==='Active'?'on':''}">${c.status}</span></div>`;
 }
@@ -844,7 +851,7 @@ async function campCancel(id){
   toast('Cancelled & '+refund+' coins refunded'); renderApp();
 }
 
-/* ================= DETAIL PAGE ================= */
+/* ================= DETAIL PAGE (Step-by-step & Strict Timer) ================= */
 let detailCtx=null;
 
 function openCampDetail(cid){ detailCtx={type:'camp', id:cid}; showDetail(); }
@@ -875,6 +882,10 @@ function goBackDetail(){
   document.getElementById('bottomNav').classList.remove('hidden');
 }
 
+function stepsHTML(steps, color){
+  return steps.map((s,i)=>'<div class="step-row"><div class="step-num" style="background:'+color+'">'+(i+1)+'</div><p>'+s+'</p></div>').join('');
+}
+
 function renderDetail(){
   const u=me(); if(!detailCtx) return;
   const box=document.getElementById('detailContent');
@@ -886,13 +897,14 @@ function renderCampDetail(u, box){
   const c=DB.get('campaigns',[]).find(x=>x.id===detailCtx.id);
   if(!c){ box.innerHTML='<div class="empty">Promotion expired</div>'; return; }
   const p=PLATFORMS[c.platform]||PLATFORMS.website;
+  const pct=Math.min(100, Math.round(c.doneViews/c.totalViews*100));
   const mine=c.ownerId===u.id;
   const claimed=(c.claimedBy||[]).includes(u.id);
 
   let topActionSection = '';
 
   if(mine){
-    topActionSection = '<div class="surface" style="padding:14px;text-align:center"><p class="sub" style="margin:0">This is your own campaign.</p></div>';
+    topActionSection = '<div class="surface" style="padding:14px;text-align:center"><p class="sub" style="margin:0">This is your own campaign. You cannot earn coins from it.</p></div>';
   } else if(claimed){
     topActionSection = '<div class="surface" style="padding:16px;text-align:center"><div class="status on" style="display:inline-block;margin-bottom:6px">Completed</div><h4>Already Claimed</h4><p class="sub" style="margin:0">You earned +'+c.reward+' coins from this link.</p></div>';
   } else if(visit && visit.campId===c.id){
@@ -900,15 +912,17 @@ function renderCampDetail(u, box){
       <div class="surface" style="padding:16px">
         <div class="timer-wrap">
           <div class="ring-box">
-            <svg width="140" height="140">
-              <circle class="ring-bg" cx="70" cy="70" r="60" fill="none" stroke-width="8"/>
-              <circle class="ring-fg" id="dRing" cx="70" cy="70" r="60" fill="none" stroke-width="8" stroke-linecap="round" stroke-dasharray="376.9" stroke-dashoffset="${376.9*(visit.left/visit.seconds)}"/>
+            <svg width="130" height="130">
+              <circle class="ring-bg" cx="65" cy="65" r="56" fill="none" stroke-width="8"/>
+              <circle class="ring-fg" id="dRing" cx="65" cy="65" r="56" fill="none" stroke-width="8" stroke-linecap="round" stroke-dasharray="351.8" stroke-dashoffset="${351.8*(visit.left/visit.seconds)}"/>
             </svg>
             <div class="ring-num">
               <b id="dSeconds">${visit.left}</b><span>SECONDS</span>
             </div>
           </div>
-          <div class="warning-box">Keep the link open! If you return before ${c.watchTime} seconds, the timer will cancel.</div>
+          <div class="warning-box">
+            <b>Important Rule:</b> Remain on YouTube/Browser until the timer runs out! If you come back to this app before <b>${c.watchTime} seconds</b>, the timer will cancel immediately and no coins will be given.
+          </div>
         </div>
         <button class="claim-btn ${visit.completed?'':'hidden'}" id="dClaimBtn" style="margin-top:14px" onclick="detailClaim()">
           ${I('check')} CLAIM +${c.reward} COINS NOW
@@ -920,7 +934,9 @@ function renderCampDetail(u, box){
         <button class="open-btn" style="background:${p.color}" onclick="detailOpenLink()">
           ${I('external')} OPEN LINK & START TIMER (${c.watchTime}s)
         </button>
-        <div class="warning-box">You must stay on the link for at least <b>${c.watchTime} seconds</b>. Returning early will void the task.</div>
+        <div class="warning-box">
+          <b>Attention:</b> Once you tap Open Link, you must stay on that target page for at least <b>${c.watchTime} seconds</b>. Returning to this page early will cancel the session.
+        </div>
       </div>`;
   }
 
@@ -931,16 +947,47 @@ function renderCampDetail(u, box){
         <div class="by">Posted by ${esc(c.ownerName)} · ${p.name}</div>
         <div class="detail-stats">
           <div class="cell"><b>+${c.reward}</b><span>Coins</span></div>
-          <div class="cell"><b>${c.watchTime}s</b><span>Required Time</span></div>
+          <div class="cell"><b>${c.watchTime}s</b><span>Watch Time</span></div>
           <div class="cell"><b>${c.doneViews}/${c.totalViews}</b><span>Views</span></div>
         </div>
       </div>
     </div>
-    <!-- বাটন ও ক্লেম সেকশন একদম উপরে দেওয়া হয়েছে -->
+    
+    <!-- বাটন ও টাইমার সেকশন একদম উপরে -->
     <div class="section">${topActionSection}</div>
+
+    <!-- ধাপে ধাপে নির্দেশনা (পূর্বের মতো পরিষ্কারভাবে) -->
     <div class="section">
-      <div class="section-head"><h3>Instructions</h3></div>
-      <div class="surface"><p class="desc-text">${esc(c.desc||'Open the link, explore and wait until required seconds finish. Then return to claim your coins.')}</p></div>
+      <div class="section-head"><h3>What you need to do</h3></div>
+      <div class="surface">
+        ${stepsHTML([
+          'Tap the <b>Open Link</b> button above — the link will launch in a new window/app.',
+          'Stay on that page for at least <b>'+c.watchTime+' seconds</b> without closing or switching back.',
+          '<b>Do NOT return early!</b> If you return before '+c.watchTime+' seconds, your progress will reset to 0.',
+          'After the full time passes, return here and tap <b>Claim Coins</b> to receive +'+c.reward+' coins instantly.'
+        ], p.color)}
+      </div>
+    </div>
+
+    <!-- ডেসক্রিপশন / নির্দেশাবলী -->
+    <div class="section">
+      <div class="section-head"><h3>Task Description</h3></div>
+      <div class="surface">
+        <p class="desc-text">${esc(c.desc || 'Watch the video or view the content for the required duration. Follow instructions carefully.')}</p>
+      </div>
+    </div>
+
+    <!-- ক্যাম্পেইন বিবরণী -->
+    <div class="section">
+      <div class="section-head"><h3>Campaign Details</h3></div>
+      <div class="surface">
+        <div class="kv-row"><span>Target URL</span><b>${esc(c.link)}</b></div>
+        <div class="kv-row"><span>Platform</span><b>${p.name}</b></div>
+        <div class="kv-row"><span>Reward</span><b>+${c.reward} Coins</b></div>
+        <div class="kv-row"><span>Status</span><b>${c.status}</b></div>
+        <div class="kv-row"><span>Progress</span><b>${c.doneViews} of ${c.totalViews} views (${pct}%)</b></div>
+        <div style="padding:0 16px 14px"><div class="progress"><i style="width:${pct}%;background:${p.color}"></i></div></div>
+      </div>
     </div>`;
 }
 
@@ -969,6 +1016,12 @@ function renderTaskDetail(u, box){
           <button class="claim-btn" id="dTaskDoneBtn" style="margin-top:12px;${opened?'':'opacity:.4;pointer-events:none'}" onclick="detailCompleteTask()">${I('check')} Claim +${t.reward} Coins</button>
         `}
       </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3>Instructions</h3></div>
+      <div class="surface">
+        <p class="desc-text">${esc(t.desc||'Open the link, complete required action and return to claim your reward.')}</p>
+      </div>
     </div>`;
 }
 
@@ -976,7 +1029,7 @@ function detailOpenLink(){
   const c=DB.get('campaigns',[]).find(x=>x.id===detailCtx.id); 
   if(!c) return;
   
-  // ব্যাকগ্রাউন্ড ট্র্যাকিং শুরু
+  // ব্যাকগ্রাউন্ড ট্র্যাকিং ও অ্যান্টি-চিট টাইম স্ট্যাম্প
   visit = {
     campId: c.id, 
     seconds: c.watchTime, 
@@ -988,12 +1041,11 @@ function detailOpenLink(){
   window.open(c.link,'_blank');
   renderDetail();
 
-  const CIRC = 376.9;
+  const CIRC = 351.8;
   clearInterval(visitTimer);
   visitTimer = setInterval(() => {
     if(!visit) { clearInterval(visitTimer); return; }
     
-    // রিয়েলটাইম হিসাব
     const elapsed = Math.floor((Date.now() - visit.startTime)/1000);
     visit.left = Math.max(0, visit.seconds - elapsed);
 
@@ -1035,7 +1087,7 @@ function detailClaim(){
   
   addTxn(u.id,'Viewed: '+clean(c.title),c.reward,'in');
   visit=null;
-  toast('Success! +'+c.reward+' coins credited to your wallet');
+  toast('Success! +'+c.reward+' coins added to wallet');
   renderApp(); 
   renderDetail();
 }
@@ -1095,7 +1147,7 @@ function renderAdmin(){
   
   document.getElementById('adminCampList').innerHTML = camps.length ? '<table><tr><th>User</th><th>Title</th><th>Reward</th><th>Views</th><th>Action</th></tr>'+camps.map(c=>'<tr><td>'+esc(c.ownerName)+'</td><td>'+esc(c.title)+'</td><td>'+c.reward+'</td><td>'+c.doneViews+'/'+c.totalViews+'</td><td><button class="btn-danger btn-sm" onclick="adminDelCamp(\''+c.id+'\')">Delete</button></td></tr>').join('')+'</table>' : '<div class="empty">No campaigns</div>';
   document.getElementById('adminTaskList').innerHTML = tasks.length ? '<table><tr><th>Title</th><th>Reward</th><th>Action</th></tr>'+tasks.map(t=>'<tr><td>'+esc(t.title)+'</td><td>'+t.reward+'</td><td><button class="btn-danger btn-sm" onclick="adminDelTask(\''+t.id+'\')">Delete</button></td></tr>').join('')+'</table>' : '<div class="empty">No tasks</div>';
-  document.getElementById('adminUserList').innerHTML = '<table><tr><th>Name</th><th>Email</th><th>Balance</th><th>Coins</th></tr>'+users.map(x=>'<tr><td>'+esc(x.name)+'</td><td>'+esc(x.email)+'</td><td>'+x.balance+'</td><td><button class="btn-sec btn-sm" onclick="adminAddBal(\''+x.id+'\')">+100</button></td></tr>').join('')+'</table>';
+  document.getElementById('adminUserList').innerHTML = '<table><tr><th>Name</th><th>Email</th><th>Balance</th><th>Action</th></tr>'+users.map(x=>'<tr><td>'+esc(x.name)+'</td><td>'+esc(x.email)+'</td><td>'+x.balance+'</td><td><button class="btn-sec btn-sm" onclick="adminAddBal(\''+x.id+'\')">+100</button></td></tr>').join('')+'</table>';
 }
 
 async function adminDelCamp(id){
