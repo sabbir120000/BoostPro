@@ -115,8 +115,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .modal-box{background:#fff;width:100%;max-width:480px;border-radius:16px 16px 0 0;padding:20px 16px 24px;max-height:90vh;overflow:auto;position:relative}
 .modal-box h3{font-size:17px;margin-bottom:4px;padding-right:48px}
 .modal-x{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:var(--r-inner);border:1px solid var(--line);background:#fff;color:var(--txt);display:flex;align-items:center;justify-content:center;z-index:5}
-.cost-rows{border-top:1px solid var(--line);margin:16px 0}
-.cost-rows .cr{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.cost-rows{border-top:1px solid var(--line);margin:14px 0}
+.cost-rows .cr{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
 .cost-rows .cr span{color:var(--mut)}
 .cost-rows .cr b{font-weight:700}
 .seg{display:flex;background:var(--soft);border:1px solid var(--line);border-radius:var(--r-inner);padding:4px;gap:4px;flex-wrap:wrap}
@@ -170,7 +170,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .open-btn{width:100%;padding:15px;border-radius:var(--r-inner);color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px}
 .claim-btn{width:100%;padding:15px;border-radius:var(--r-inner);background:#0e7a55;color:#fff;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 14px rgba(14,122,85,.35);animation:pulse 1.5s infinite}
 @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
-.warning-box{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:10px 14px;border-radius:var(--r-inner);font-size:12px;line-height:1.5;margin-top:10px;text-align:left}
+.warning-box{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:12px 14px;border-radius:var(--r-inner);font-size:12px;line-height:1.5;margin-top:10px;text-align:left}
+.error-box{background:#fee2e2;border:2px solid #ef4444;color:#7f1d1d;padding:12px 14px;border-radius:var(--r-inner);font-size:13px;line-height:1.5;margin-bottom:12px;text-align:center;font-weight:600}
 
 /* ---------- ADMIN ---------- */
 #adminView{max-width:1020px;margin:0 auto;min-height:100vh;background:var(--bg);padding:16px 16px 40px}
@@ -269,7 +270,7 @@ th{color:var(--mut);font-size:12px;font-weight:600}
     </div>
     <div class="section">
       <div class="section-head"><h3>Available Links — Visit & Earn</h3></div>
-      <p class="sub">Open the link and stay on that page for the specified time. Returning early will reset the timer and cancel coins.</p>
+      <p class="sub">Open the link and stay on that page for the specified time. Returning early will cancel the timer.</p>
       <div class="surface" id="campList"></div>
     </div>
     <div class="section">
@@ -384,12 +385,13 @@ th{color:var(--mut);font-size:12px;font-weight:600}
   <div id="detailContent"></div>
 </div>
 
-<!-- CREATE BOOST MODAL -->
+<!-- CREATE BOOST MODAL (বাটন উপরে দেওয়া হয়েছে) -->
 <div class="modal hidden" id="boostModal">
   <div class="modal-box">
     <button class="modal-x" onclick="closeBoost()" aria-label="Close"><svg class="icn" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
     <h3>Promote Your Link</h3>
     <p class="sub">Set up your promotion campaign for other members.</p>
+    
     <div class="field"><label>Campaign Title</label><input id="cbTitle" placeholder="e.g. Watch my YouTube video"></div>
     <div class="field"><label>Task Instructions / Description</label><textarea id="cbDesc" placeholder="e.g. Watch the video, leave a like and subscribe to the channel"></textarea></div>
     <div class="field"><label>Platform</label>
@@ -410,8 +412,11 @@ th{color:var(--mut);font-size:12px;font-weight:600}
         <button onclick="setSeg('time',60,this)">60s</button><button onclick="setSeg('time',120,this)">2m</button>
       </div></div>
     <div class="field"><label>Total Views Target</label><input id="cbViews" type="number" value="10" min="5" oninput="calcBoost()"></div>
+
+    <!-- লঞ্চ ক্যাম্পেইন বাটন উপরে সেট করা হয়েছে -->
+    <button class="btn block" style="margin-top:10px" onclick="createBoost()">Launch Campaign</button>
+
     <div class="cost-rows" id="cbCost"></div>
-    <button class="btn block" onclick="createBoost()">Launch Campaign</button>
   </div>
 </div>
 
@@ -433,7 +438,7 @@ if (!firebase.apps.length) {
 const auth = firebase.auth();
 const fs = firebase.firestore();
 
-const ADMIN_EMAIL = "admin@gmail.com"; // একমাত্র এই ইমেইলই এডমিন এক্সেস পাবে
+const ADMIN_EMAIL = "admin@gmail.com"; 
 
 /* ================= ICONS ================= */
 const P = {
@@ -479,6 +484,7 @@ const PLATFORMS = {
 let authMode='login';
 let boostSel={reward:5, time:30};
 let visit=null, visitTimer=null;
+let lastFailReason = null;
 let unsubscribers = [];
 
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
@@ -514,19 +520,22 @@ async function saveCamp(c){
   try { await fs.collection('campaigns').doc(c.id).set(c, {merge:true}); } catch(e){}
 }
 
-/* ================= BACKGROUND SMART TIMER & STRICT ANTI-CHEAT ================= */
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden && visit && !visit.completed) {
+/* ================= 100% BULLETPROOF EARLY RETURN ANTI-CHEAT ================= */
+// ইউজার ব্রাউজার বা অন্য অ্যাপ থেকে এই পেজে ফোকাস করার সাথে সাথে চেক হবে
+function handleReturnCheck(){
+  if (visit && visit.started && !visit.completed) {
     const elapsed = Math.floor((Date.now() - visit.startTime) / 1000);
+    // ১ সেকেন্ডও আগে আসলে টাস্ক সম্পূর্ণ বাতিল হবে
     if (elapsed < visit.seconds) {
-      // নির্ধারিত সেকেন্ডের আগে চলে এসেছে -> টাইমার রিসেট ও নো কয়েন
       clearInterval(visitTimer);
       visitTimer = null;
-      visit = null;
-      toast('Alert: You returned too early! Task cancelled. Watch full time to earn coins.');
+      const leftTime = visit.seconds - elapsed;
+      visit = null; // সেশন শেষ ও বাতিল
+      lastFailReason = `You returned ${leftTime} seconds too early! Task cancelled. Complete full duration next time.`;
+      toast('Alert: Returned too early! Task cancelled.');
       renderDetail();
     } else {
-      // সময় সম্পন্ন হয়েছে
+      // নির্দিষ্ট সময় শেষ করে ব্যাক আসলে সাকসেস
       visit.left = 0;
       visit.completed = true;
       clearInterval(visitTimer);
@@ -536,10 +545,15 @@ document.addEventListener('visibilitychange', () => {
       if (sec) sec.textContent = '0';
       if (ring) ring.style.strokeDashoffset = '0';
       if (claimBtn) claimBtn.classList.remove('hidden');
-      toast('Time complete! Please tap Claim Coins to add reward.');
+      toast('Time completed! Tap Claim Coins now.');
     }
   }
-});
+}
+
+// মোবাইল ও ডেস্কটপ উভয়ের জন্য মাল্টিপল রিটার্ন ইভেন্ট লিসেনার
+window.addEventListener('focus', handleReturnCheck);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) handleReturnCheck(); });
+window.addEventListener('pageshow', handleReturnCheck);
 
 function startRealtimeSync(){
   unsubscribers.forEach(u => u());
@@ -851,11 +865,11 @@ async function campCancel(id){
   toast('Cancelled & '+refund+' coins refunded'); renderApp();
 }
 
-/* ================= DETAIL PAGE (Step-by-step & Strict Timer) ================= */
+/* ================= DETAIL PAGE ================= */
 let detailCtx=null;
 
-function openCampDetail(cid){ detailCtx={type:'camp', id:cid}; showDetail(); }
-function openTaskDetail(tid){ detailCtx={type:'task', id:tid}; showDetail(); }
+function openCampDetail(cid){ detailCtx={type:'camp', id:cid}; lastFailReason=null; showDetail(); }
+function openTaskDetail(tid){ detailCtx={type:'task', id:tid}; lastFailReason=null; showDetail(); }
 
 function showDetail(){
   const u=me(); if(!u) return;
@@ -921,7 +935,7 @@ function renderCampDetail(u, box){
             </div>
           </div>
           <div class="warning-box">
-            <b>Important Rule:</b> Remain on YouTube/Browser until the timer runs out! If you come back to this app before <b>${c.watchTime} seconds</b>, the timer will cancel immediately and no coins will be given.
+            <b>STRICT WARNING:</b> Do not switch back to this app! You must remain on YouTube / browser until the timer hits 0. Returning even 1 second early will void the reward!
           </div>
         </div>
         <button class="claim-btn ${visit.completed?'':'hidden'}" id="dClaimBtn" style="margin-top:14px" onclick="detailClaim()">
@@ -931,6 +945,7 @@ function renderCampDetail(u, box){
   } else {
     topActionSection = `
       <div class="surface" style="padding:16px;text-align:center">
+        ${lastFailReason ? `<div class="error-box">${lastFailReason}</div>` : ''}
         <button class="open-btn" style="background:${p.color}" onclick="detailOpenLink()">
           ${I('external')} OPEN LINK & START TIMER (${c.watchTime}s)
         </button>
@@ -953,23 +968,23 @@ function renderCampDetail(u, box){
       </div>
     </div>
     
-    <!-- বাটন ও টাইমার সেকশন একদম উপরে -->
+    <!-- বাটন ও ক্লেম সেকশন একদম উপরে -->
     <div class="section">${topActionSection}</div>
 
-    <!-- ধাপে ধাপে নির্দেশনা (পূর্বের মতো পরিষ্কারভাবে) -->
+    <!-- ধাপে ধাপে নির্দেশনা -->
     <div class="section">
       <div class="section-head"><h3>What you need to do</h3></div>
       <div class="surface">
         ${stepsHTML([
-          'Tap the <b>Open Link</b> button above — the link will launch in a new window/app.',
-          'Stay on that page for at least <b>'+c.watchTime+' seconds</b> without closing or switching back.',
-          '<b>Do NOT return early!</b> If you return before '+c.watchTime+' seconds, your progress will reset to 0.',
-          'After the full time passes, return here and tap <b>Claim Coins</b> to receive +'+c.reward+' coins instantly.'
+          'Tap the <b>Open Link</b> button above — the link will launch in a new tab/app.',
+          'Stay on that page for at least <b>'+c.watchTime+' seconds</b> without switching back.',
+          '<b>DO NOT RETURN EARLY:</b> If you return before '+c.watchTime+' seconds, your progress will cancel immediately!',
+          'After '+c.watchTime+' seconds are fully over, come back here and tap <b>Claim Coins</b> to receive +'+c.reward+' coins.'
         ], p.color)}
       </div>
     </div>
 
-    <!-- ডেসক্রিপশন / নির্দেশাবলী -->
+    <!-- ডেসক্রিপশন -->
     <div class="section">
       <div class="section-head"><h3>Task Description</h3></div>
       <div class="surface">
@@ -1029,12 +1044,14 @@ function detailOpenLink(){
   const c=DB.get('campaigns',[]).find(x=>x.id===detailCtx.id); 
   if(!c) return;
   
-  // ব্যাকগ্রাউন্ড ট্র্যাকিং ও অ্যান্টি-চিট টাইম স্ট্যাম্প
+  lastFailReason = null;
+  // অ্যান্টি-চিট টাইম স্ট্যাম্প এবং স্ট্যাটাস
   visit = {
     campId: c.id, 
     seconds: c.watchTime, 
     left: c.watchTime, 
     startTime: Date.now(), 
+    started: true,
     completed: false
   };
   
