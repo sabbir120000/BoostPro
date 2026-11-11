@@ -16,12 +16,11 @@
  --accent:#4f46e5;--accent-hover:#4338ca;
  --accent-grad:linear-gradient(135deg, #4f46e5 0%, #312e81 100%);
  --card-grad:linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
- --gold-grad:linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
  --bg:#f1f5f9;--surface:#ffffff;--soft:#f8fafc;
  --line:#e2e8f0;--txt:#0f172a;--mut:#64748b;--danger:#ef4444;--success:#10b981;
  --r-surface:20px;--r-inner:12px;
  --shadow-sm:0 2px 4px rgba(0,0,0,0.02),0 1px 2px rgba(0,0,0,0.03);
- --shadow-md:0 10px 25px -5px rgba(79, 70, 229, 0.12),0 8px 10px -6px rgba(79, 70, 229, 0.08);
+ --shadow-md:0 10px 25px -5px rgba(79, 70, 229, 0.12);
 }
 body{background:var(--bg);color:var(--txt);-webkit-tap-highlight-color:transparent}
 button{cursor:pointer;border:none;font-family:inherit;background:none;color:inherit;transition:all .2s ease}
@@ -31,30 +30,25 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .hidden{display:none!important}
 .icn{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;vertical-align:-4px}
 .icn.sm{width:16px;height:16px;vertical-align:-3px}
-.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:#1e1b4b;color:#fff;padding:12px 22px;border-radius:30px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s cubic-bezier(0.16, 1, 0.3, 1);z-index:9999;max-width:90%;text-align:center;box-shadow:0 12px 24px rgba(0,0,0,0.24);border:1px solid rgba(255,255,255,0.1)}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:#1e1b4b;color:#fff;padding:12px 22px;border-radius:30px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s ease;z-index:9999;max-width:90%;text-align:center;box-shadow:0 12px 24px rgba(0,0,0,0.24);border:1px solid rgba(255,255,255,0.1)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(-10px)}
 
 /* ---------- SHARED ---------- */
 .surface{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-surface);box-shadow:var(--shadow-sm)}
-.row-item{padding:14px 16px;border-bottom:1px solid var(--line);transition:background .15s}
+.row-item{padding:14px 16px;border-bottom:1px solid var(--line)}
 .row-item:last-child{border-bottom:none}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:var(--r-inner);background:var(--accent-grad);color:#fff;font-weight:700;font-size:14px;box-shadow:0 4px 14px rgba(79,70,229,0.3)}
-.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.btn:active{transform:translateY(0)}
-.btn:disabled{background:#cbd5e1;color:#94a3b8;cursor:not-allowed;box-shadow:none;transform:none}
+.btn:disabled{background:#cbd5e1;color:#94a3b8;cursor:not-allowed;box-shadow:none}
 .btn.block{width:100%}
-.btn-sec{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:var(--r-inner);background:#fff;color:var(--txt);font-weight:600;font-size:13px;border:1.5px solid var(--line)}
-.btn-sec:hover{border-color:var(--accent);color:var(--accent);background:#f8fafc}
-.btn-sec:disabled{color:#94a3b8;border-color:var(--line);cursor:default;background:#f8fafc}
-.btn-danger{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:var(--r-inner);background:#fff;color:var(--danger);font-weight:600;font-size:13px;border:1.5px solid #fecaca}
-.btn-danger:hover{background:#fef2f2;border-color:var(--danger)}
+.btn-sec{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 12px;border-radius:var(--r-inner);background:#fff;color:var(--txt);font-weight:600;font-size:12.5px;border:1.5px solid var(--line)}
+.btn-danger{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 12px;border-radius:var(--r-inner);background:#fff;color:var(--danger);font-weight:600;font-size:12.5px;border:1.5px solid #fecaca}
 .btn-sm{padding:6px 10px;font-size:12px;border-radius:8px}
 .field{margin-bottom:14px}
 .field label{font-size:13px;font-weight:700;display:block;margin-bottom:6px;color:#334155}
 .section{padding:20px 16px 0}
 .section:first-child{padding-top:16px}
 .section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
-.section-head h3{font-size:16px;font-weight:800;color:#0f172a;letter-spacing:-0.3px}
+.section-head h3{font-size:16px;font-weight:800;color:#0f172a}
 .section-head button{font-size:13px;font-weight:700;color:var(--accent)}
 .sub{font-size:13px;color:var(--mut);line-height:1.6;margin-bottom:12px}
 .meta-line{display:flex;flex-wrap:wrap;gap:8px 12px;font-size:12px;color:var(--mut);margin-top:6px}
@@ -63,7 +57,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .status.on{color:#065f46;background:#d1fae5}
 .status.paused{color:#b45309;background:#fef3c7}
 .progress{height:6px;background:#e2e8f0;border-radius:6px;overflow:hidden;margin-top:10px}
-.progress i{display:block;height:100%;background:var(--accent);border-radius:6px;transition:width .3s}
+.progress i{display:block;height:100%;background:var(--accent);border-radius:6px}
 .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .actions .btn,.actions .btn-sec,.actions .btn-danger{flex:1}
 .icon-tile{width:42px;height:42px;flex:0 0 42px;border-radius:var(--r-inner);background:var(--soft);display:flex;align-items:center;justify-content:center;color:var(--accent)}
@@ -84,24 +78,22 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .auth-tabs button{flex:1;padding:10px;border-radius:8px;font-weight:700;color:var(--mut);font-size:13.5px}
 .auth-tabs button.active{background:#fff;color:var(--txt);box-shadow:var(--shadow-sm)}
 
-/* ---------- APP SHELL (USER) ---------- */
+/* ---------- USER APP ---------- */
 #appView{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;padding-bottom:90px}
 .topbar{padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center}
 .user-chip{display:flex;gap:12px;align-items:center}
-.avatar{width:42px;height:42px;border-radius:50%;background:var(--accent-grad);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;flex:0 0 auto;box-shadow:0 4px 10px rgba(79,70,229,0.25)}
-.user-chip .who small{display:block;font-size:11.5px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--accent-grad);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;flex:0 0 auto}
+.user-chip .who small{display:block;font-size:11.5px;color:var(--mut);font-weight:600;text-transform:uppercase}
 .user-chip .who b{font-size:16px;color:#0f172a}
-.icon-btn{width:40px;height:40px;border-radius:var(--r-inner);background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm)}
+.icon-btn{width:40px;height:40px;border-radius:var(--r-inner);background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
 
 .balance{background:var(--card-grad);color:#fff;border-radius:24px;padding:22px;box-shadow:0 12px 30px rgba(15,23,42,0.18);position:relative;overflow:hidden}
-.balance::after{content:'';position:absolute;top:-40px;right:-40px;width:130px;height:130px;background:rgba(79,70,229,0.25);border-radius:50%;filter:blur(30px)}
 .balance .lbl{font-size:11px;letter-spacing:1.5px;color:#94a3b8;font-weight:700;margin-bottom:6px}
-.balance .amt{font-size:36px;font-weight:900;line-height:1.1;letter-spacing:-0.5px}
+.balance .amt{font-size:36px;font-weight:900;line-height:1.1}
 .balance .amt small{font-size:15px;font-weight:600;color:#cbd5e1;margin-left:4px}
 .balance .conv{font-size:12.5px;color:#94a3b8;margin-top:6px;font-weight:500}
 .balance .bal-actions{display:flex;gap:10px;margin-top:18px}
-.balance .bal-actions .btn-sec{flex:1;background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(10px)}
-.balance .bal-actions .btn-sec:hover{background:rgba(255,255,255,0.15)}
+.balance .bal-actions .btn-sec{flex:1;background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.18)}
 .balance .bal-actions .btn-light{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 14px;border-radius:var(--r-inner);background:rgba(255,255,255,0.15);color:#94a3b8;font-weight:700;font-size:12.5px;cursor:not-allowed}
 
 .stats{display:grid;grid-template-columns:1fr 1fr 1fr}
@@ -114,14 +106,14 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .page{display:none}.page.active{display:block}
 
 /* bottom nav */
-.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#ffffff;display:flex;border-top:1px solid #e2e8f0;z-index:200;padding:8px 10px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,0.03)}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#ffffff;display:flex;border-top:1px solid #e2e8f0;z-index:200;padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
 .bottom-nav.hidden{display:none}
 .bottom-nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0;color:#94a3b8;font-size:11px;font-weight:700}
 .bottom-nav button.active{color:var(--accent)}
 
 /* modal */
 .modal{position:fixed;inset:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:center;z-index:1000}
-.modal-box{background:#fff;width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:24px 18px 28px;max-height:92vh;overflow:auto;position:relative;box-shadow:0 -10px 40px rgba(0,0,0,0.15)}
+.modal-box{background:#fff;width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:24px 18px 28px;max-height:92vh;overflow:auto;position:relative}
 .modal-box h3{font-size:18px;font-weight:800;margin-bottom:4px;padding-right:48px}
 .modal-x{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#f8fafc;color:var(--txt);display:flex;align-items:center;justify-content:center}
 .cost-card{background:#f8fafc;border:1.5px solid var(--line);border-radius:var(--r-inner);padding:14px;margin-top:14px}
@@ -130,7 +122,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .cost-card .cr b{font-weight:800;color:#0f172a}
 .seg{display:flex;background:#f1f5f9;border-radius:var(--r-inner);padding:4px;gap:4px;flex-wrap:wrap}
 .seg button{flex:1;padding:10px 4px;border-radius:8px;color:#64748b;font-weight:700;font-size:13px;min-width:54px}
-.seg button.active{background:var(--accent-grad);color:#fff;box-shadow:0 2px 8px rgba(79,70,229,0.3)}
+.seg button.active{background:var(--accent-grad);color:#fff}
 
 /* timer */
 .timer-wrap{text-align:center;padding:12px 0 4px}
@@ -141,26 +133,25 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .ring-num b{font-size:34px;line-height:1;font-weight:900}
 .ring-num span{font-size:10px;color:var(--mut);font-weight:700;letter-spacing:1px;margin-top:4px}
 
-/* account */
+/* profile */
 .profile-head{text-align:center;padding:26px 16px 0}
-.profile-head .avatar{width:76px;height:76px;font-size:30px;margin:0 auto 12px;box-shadow:0 8px 20px rgba(79,70,229,0.3)}
+.profile-head .avatar{width:76px;height:76px;font-size:30px;margin:0 auto 12px}
 .profile-head h3{font-size:19px;font-weight:800}
 .profile-head p{color:var(--mut);font-size:13px;margin-top:3px}
 .profile-head .uid{font-size:12px;color:var(--mut);margin-top:4px;font-weight:600}
 .menu-row{display:flex;justify-content:space-between;align-items:center;width:100%;padding:15px 16px;font-size:14px;font-weight:600;text-align:left;border-bottom:1px solid var(--line)}
 .menu-row:last-child{border-bottom:none}
 .menu-row .lft{display:inline-flex;align-items:center;gap:12px}
-.menu-row:hover{background:#f8fafc}
 .menu-row.danger{color:var(--danger)}
-.version{text-align:center;color:var(--mut);font-size:12px;margin-top:18px;font-weight:500}
+.version{text-align:center;color:var(--mut);font-size:12px;margin-top:18px}
 
 /* ---------- DETAIL PAGE ---------- */
 #detailOverlay{max-width:480px;margin:0 auto;background:var(--bg);min-height:100vh;padding-bottom:50px}
-.detail-topbar{position:sticky;top:0;z-index:80;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:12px 16px;box-shadow:var(--shadow-sm)}
+.detail-topbar{position:sticky;top:0;z-index:80;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:12px 16px}
 .detail-topbar .who b{font-size:15px;display:block;line-height:1.2;font-weight:800}
 .detail-topbar .who span{font-size:12px;color:var(--mut);display:block;margin-top:2px}
 .desc-text{padding:14px 16px;font-size:13.5px;line-height:1.7;white-space:pre-line;color:#334155}
-.detail-hero{border-radius:24px;padding:22px 18px;color:#fff;box-shadow:var(--shadow-md)}
+.detail-hero{border-radius:24px;padding:22px 18px;color:#fff}
 .detail-hero h2{font-size:19px;line-height:1.35;margin-top:10px;font-weight:800}
 .detail-hero .by{font-size:13px;opacity:.9;margin-top:4px}
 .detail-stats{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid rgba(255,255,255,.2);margin-top:16px;padding-top:14px}
@@ -176,34 +167,43 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .kv-row:last-child{border-bottom:none}
 .kv-row span{color:var(--mut);font-weight:500}
 .kv-row b{font-weight:700;text-align:right;word-break:break-all;color:#0f172a}
-.open-btn{width:100%;padding:16px;border-radius:var(--r-inner);color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
-.claim-btn{width:100%;padding:16px;border-radius:var(--r-inner);background:#10b981;color:#fff;font-size:16px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 8px 24px rgba(16,185,129,.4);animation:pulse 1.5s infinite}
+.open-btn{width:100%;padding:16px;border-radius:var(--r-inner);color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px}
+.claim-btn{width:100%;padding:16px;border-radius:var(--r-inner);background:#10b981;color:#fff;font-size:16px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:10px;animation:pulse 1.5s infinite}
 @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
 .warning-box{background:#fff1f2;border:1.5px solid #fecdd3;color:#9f1239;padding:12px 14px;border-radius:var(--r-inner);font-size:12.5px;line-height:1.5;margin-top:12px;text-align:left}
 .error-box{background:#fef2f2;border:2px solid #ef4444;color:#991b1b;padding:13px 14px;border-radius:var(--r-inner);font-size:13px;line-height:1.5;margin-bottom:12px;text-align:center;font-weight:700}
 
-/* ---------- ADMIN (DEDICATED FULL SCREEN) ---------- */
-#adminView{max-width:1060px;margin:0 auto;min-height:100vh;background:#0b0f19;color:#e2e8f0;padding:24px 18px 50px}
-.admin-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid #1e293b}
-.admin-head h2{font-size:24px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px;letter-spacing:-0.5px}
-.admin-head .badge{font-size:12px;background:#4f46e5;color:#fff;padding:4px 10px;border-radius:20px;font-weight:700}
-.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
-.admin-stats .cell{background:#111827;border:1px solid #1f2937;padding:18px;border-radius:16px;text-align:center}
-.admin-stats b{font-size:26px;font-weight:900;color:#fff;display:block}
-.admin-stats span{font-size:12px;color:#9ca3af;display:block;margin-top:4px;font-weight:600;text-transform:uppercase}
-.admin-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-.admin-tabs button{padding:10px 18px;border-radius:12px;background:#111827;border:1px solid #1f2937;font-weight:700;color:#9ca3af;font-size:13.5px}
-.admin-tabs button.active{background:var(--accent-grad);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(79,70,229,0.4)}
-.admin-card{background:#111827;border:1px solid #1f2937;border-radius:20px;padding:20px;margin-bottom:20px}
-.admin-card h3{font-size:17px;font-weight:800;color:#fff;margin-bottom:16px}
-.admin-table-wrap{overflow-x:auto}
-.admin-table{width:100%;border-collapse:collapse;font-size:13.5px;color:#cbd5e1}
-.admin-table th,.admin-table td{padding:14px 12px;text-align:left;border-bottom:1px solid #1f2937;vertical-align:middle}
-.admin-table th{color:#9ca3af;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
-.admin-table tr:hover td{background:rgba(255,255,255,0.02)}
-.admin-actions{display:flex;gap:6px;flex-wrap:wrap}
-.admin-input{background:#1e293b;border:1px solid #334155;color:#fff}
-.admin-input:focus{border-color:#6366f1}
+/* ---------- MOBILE-FIRST DEDICATED ADMIN PANEL ---------- */
+#adminView{max-width:500px;margin:0 auto;min-height:100vh;background:#0f172a;color:#e2e8f0;padding:16px 14px 70px;position:relative}
+.admin-mobile-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 0 16px;border-bottom:1px solid #1e293b}
+.admin-mobile-bar h2{font-size:18px;font-weight:900;color:#fff;display:flex;align-items:center;gap:8px}
+.admin-menu-btn{width:38px;height:38px;border-radius:10px;background:#1e293b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px}
+
+/* ড্রয়ার মেনু */
+.admin-drawer{position:fixed;top:0;right:0;width:280px;height:100%;background:#090d16;border-left:1px solid #1e293b;z-index:9999;padding:24px 18px;box-shadow:-10px 0 30px rgba(0,0,0,0.5);transform:translateX(100%);transition:transform .25s ease}
+.admin-drawer.open{transform:translateX(0)}
+.admin-drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid #1e293b}
+.admin-drawer-head h4{color:#fff;font-size:16px}
+.drawer-nav-item{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border-radius:12px;color:#94a3b8;font-size:14px;font-weight:700;margin-bottom:8px}
+.drawer-nav-item.active{background:var(--accent-grad);color:#fff}
+.drawer-nav-item:hover{background:#1e293b;color:#fff}
+
+/* মোবাইলে স্ট্যাটাস গ্রিড */
+.admin-stats-mobile{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.admin-stat-card{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:14px 12px;text-align:center}
+.admin-stat-card b{font-size:22px;color:#fff;display:block;font-weight:900}
+.admin-stat-card span{font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;margin-top:2px;display:block}
+
+/* মোবাইল কার্ড স্টাইল */
+.m-card{background:#1e293b;border:1px solid #334155;border-radius:18px;padding:14px;margin-bottom:12px;position:relative}
+.m-card-top{display:flex;justify-content:space-between;align-items:flex-start}
+.m-card-name{font-size:15px;font-weight:800;color:#fff}
+.m-card-sub{font-size:12px;color:#94a3b8;margin-top:2px}
+.m-card-meta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;font-size:12px}
+.m-card-badge{padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700}
+.m-card-actions{display:flex;gap:8px;margin-top:10px;border-top:1px solid #334155;padding-top:10px}
+.m-three-dot{width:32px;height:32px;border-radius:8px;background:#0f172a;color:#cbd5e1;display:flex;align-items:center;justify-content:center;font-size:18px}
+.admin-input{background:#0f172a;border:1px solid #334155;color:#fff;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -226,7 +226,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
   </div>
 </div>
 
-<!-- ============ USER APP (Only for regular users) ============ -->
+<!-- ============ USER APP (Only Regular Users) ============ -->
 <div id="appView" class="hidden">
   <div class="topbar" id="appTopbar">
     <div class="user-chip">
@@ -299,7 +299,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
     </div>
   </div>
 
-  <!-- WALLET / COINS -->
+  <!-- WALLET -->
   <div class="page" id="page-wallet">
     <div class="section">
       <div class="balance">
@@ -335,11 +335,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
         <button class="menu-row" onclick="showPage('tasks')"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> My Campaigns</span><svg class="icn sm" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
         <button class="menu-row danger" onclick="logout()"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg> Logout</span></button>
       </div>
-      <p class="version">BoostPro v4.9 — Peer Promotion Engine</p>
+      <p class="version">BoostPro v5.0 — Peer Promotion Engine</p>
     </div>
   </div>
 
-  <!-- BOTTOM NAV (Users only) -->
+  <!-- BOTTOM NAV (User) -->
   <nav class="bottom-nav hidden" id="bottomNav">
     <button data-page="home" class="active" onclick="showPage('home')"><svg class="icn" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Home</button>
     <button data-page="tasks" onclick="showPage('tasks')"><svg class="icn" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>Tasks</button>
@@ -348,75 +348,64 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
   </nav>
 </div>
 
-<!-- ============ DEDICATED ADMIN PANEL (Only admin@gmail.com) ============ -->
+<!-- ============ MOBILE-FIRST DEDICATED ADMIN PANEL ============ -->
 <div id="adminView" class="hidden">
-  <div class="admin-head">
+  <div class="admin-mobile-bar">
     <h2>
-      <svg class="icn" viewBox="0 0 24 24" style="color:#6366f1;width:24px;height:24px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 
-      BoostPro Admin Console 
-      <span class="badge">Master</span>
+      <svg class="icn" viewBox="0 0 24 24" style="color:#6366f1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Admin Control
     </h2>
-    <div>
-      <button class="btn-danger btn-sm" onclick="logout()">Logout Admin</button>
-    </div>
+    <button class="admin-menu-btn" onclick="toggleAdminDrawer()">⋮</button>
   </div>
 
-  <div class="admin-stats" id="adminStats"></div>
+  <div class="admin-stats-mobile" id="adminStats"></div>
 
-  <div class="admin-tabs">
-    <button data-atab="users" class="active" onclick="adminTab('users')">User Management</button>
-    <button data-atab="campaigns" onclick="adminTab('campaigns')">User Boost Campaigns</button>
-    <button data-atab="tasks" onclick="adminTab('tasks')">Official Tasks</button>
+  <!-- ADMIN USERS SECTION -->
+  <div class="admin-section" id="admin-sec-users">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h3 style="font-size:16px;color:#fff;font-weight:800">Users Directory</h3>
+      <span id="userCountBadge" style="font-size:12px;color:#94a3b8">0 users</span>
+    </div>
+    <div id="adminUserList"></div>
   </div>
 
-  <!-- ADMIN USERS TAB -->
-  <div class="admin-page" id="atab-users">
-    <div class="admin-card">
-      <h3>All Registered Users</h3>
-      <div class="admin-table-wrap">
-        <table class="admin-table" id="adminUserList"></table>
-      </div>
-    </div>
+  <!-- ADMIN CAMPAIGNS SECTION -->
+  <div class="admin-section hidden" id="admin-sec-campaigns">
+    <h3 style="font-size:16px;color:#fff;font-weight:800;margin-bottom:12px">Boost Campaigns</h3>
+    <div id="adminCampList"></div>
   </div>
 
-  <!-- ADMIN CAMPAIGNS TAB (Pause, Resume, Delete) -->
-  <div class="admin-page hidden" id="atab-campaigns">
-    <div class="admin-card">
-      <h3>Active & Stopped Boost Campaigns</h3>
-      <div class="admin-table-wrap">
-        <table class="admin-table" id="adminCampList"></table>
-      </div>
+  <!-- ADMIN TASKS SECTION -->
+  <div class="admin-section hidden" id="admin-sec-tasks">
+    <div class="m-card">
+      <h3 style="font-size:15px;color:#fff;margin-bottom:12px">Add Official Task</h3>
+      <input class="admin-input" id="ntTitle" placeholder="Title (e.g. Subscribe Channel)">
+      <input class="admin-input" id="ntReward" type="number" placeholder="Reward coins">
+      <input class="admin-input" id="ntLink" placeholder="Task link (https://...)">
+      <select class="admin-input" id="ntIcon">
+        <option value="youtube">YouTube</option>
+        <option value="facebook">Facebook</option>
+        <option value="website">Website</option>
+        <option value="blogger">Blogger</option>
+        <option value="direct">Direct Link</option>
+      </select>
+      <button class="btn block" onclick="adminAddTask()">Add Task</button>
     </div>
+    <div id="adminTaskList"></div>
   </div>
+</div>
 
-  <!-- ADMIN OFFICIAL TASKS TAB -->
-  <div class="admin-page hidden" id="atab-tasks">
-    <div class="admin-card">
-      <h3>Add New Official Task</h3>
-      <div class="form-row">
-        <input class="admin-input" id="ntTitle" placeholder="Title (e.g. Subscribe Channel)">
-        <input class="admin-input" id="ntReward" type="number" placeholder="Reward coins">
-      </div>
-      <div class="form-row" style="margin-top:12px">
-        <input class="admin-input" id="ntLink" placeholder="Task link (https://...)">
-        <select class="admin-input" id="ntIcon">
-          <option value="youtube">YouTube</option>
-          <option value="facebook">Facebook</option>
-          <option value="website">Website</option>
-          <option value="blogger">Blogger</option>
-          <option value="direct">Direct Link</option>
-        </select>
-      </div>
-      <button class="btn" style="margin-top:14px" onclick="adminAddTask()">Add Task</button>
-    </div>
-
-    <div class="admin-card">
-      <h3>Official Task List</h3>
-      <div class="admin-table-wrap">
-        <table class="admin-table" id="adminTaskList"></table>
-      </div>
-    </div>
+<!-- মোবাইল অ্যাডমিন ড্রয়ার মেনু (3-Dot Slide-in) -->
+<div class="admin-drawer" id="adminDrawer">
+  <div class="admin-drawer-head">
+    <h4>Admin Menu</h4>
+    <button style="color:#94a3b8;font-size:18px" onclick="toggleAdminDrawer()">✕</button>
   </div>
+  <button class="drawer-nav-item active" onclick="switchAdminCategory('users')">👥 Users Management</button>
+  <button class="drawer-nav-item" onclick="switchAdminCategory('campaigns')">🚀 Boost Campaigns</button>
+  <button class="drawer-nav-item" onclick="switchAdminCategory('tasks')">📋 Official Tasks</button>
+  <div style="border-top:1px solid #1e293b;margin:18px 0"></div>
+  <button class="drawer-nav-item" style="color:#ef4444" onclick="logout()">🚪 Logout Admin</button>
 </div>
 
 <!-- TASK DETAIL SCREEN (USER) -->
@@ -432,7 +421,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 <!-- CREATE BOOST MODAL (USER) -->
 <div class="modal hidden" id="boostModal">
   <div class="modal-box">
-    <button class="modal-x" onclick="closeBoost()" aria-label="Close"><svg class="icn" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    <button class="modal-x" onclick="closeBoost()" aria-label="Close">✕</button>
     <h3>Create Boost Campaign</h3>
     <p class="sub">Set up your promotion campaign for other members.</p>
     
@@ -483,10 +472,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 
 <!-- ADMIN BALANCE ADJUST MODAL -->
 <div class="modal hidden" id="adminBalModal">
-  <div class="modal-box" style="background:#111827;color:#fff;border:1px solid #1f2937">
-    <button class="modal-x" style="background:#1e293b;color:#fff;border:none" onclick="document.getElementById('adminBalModal').classList.add('hidden')" aria-label="Close">✕</button>
+  <div class="modal-box" style="background:#1e293b;color:#fff">
+    <button class="modal-x" style="background:#0f172a;color:#fff;border:none" onclick="document.getElementById('adminBalModal').classList.add('hidden')">✕</button>
     <h3 id="abModalTitle" style="color:#fff">Adjust Balance</h3>
-    <p class="sub" style="color:#94a3b8" id="abModalSub">User: Rahim</p>
+    <p class="sub" style="color:#94a3b8" id="abModalSub">User</p>
     
     <div class="field">
       <label style="color:#cbd5e1">Amount of Coins</label>
@@ -494,9 +483,25 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
     </div>
 
     <div style="display:flex;gap:10px;margin-top:16px">
-      <button class="btn" style="flex:1;background:#10b981;box-shadow:none" onclick="executeAdminBal('add')">[+] Add Coins</button>
-      <button class="btn" style="flex:1;background:#ef4444;box-shadow:none" onclick="executeAdminBal('deduct')">[-] Deduct Coins</button>
+      <button class="btn" style="flex:1;background:#10b981;box-shadow:none" onclick="executeAdminBal('add')">[+] Add</button>
+      <button class="btn" style="flex:1;background:#ef4444;box-shadow:none" onclick="executeAdminBal('deduct')">[-] Deduct</button>
     </div>
+  </div>
+</div>
+
+<!-- ADMIN USER EDIT NAME MODAL -->
+<div class="modal hidden" id="adminEditNameModal">
+  <div class="modal-box" style="background:#1e293b;color:#fff">
+    <button class="modal-x" style="background:#0f172a;color:#fff;border:none" onclick="document.getElementById('adminEditNameModal').classList.add('hidden')">✕</button>
+    <h3 style="color:#fff">Edit User Name</h3>
+    <p class="sub" style="color:#94a3b8" id="editNameSub">User</p>
+    
+    <div class="field">
+      <label style="color:#cbd5e1">New Full Name</label>
+      <input class="admin-input" type="text" id="editUserNameInput" placeholder="Enter new name">
+    </div>
+
+    <button class="btn block" style="margin-top:14px" onclick="executeAdminEditName()">Update Name</button>
   </div>
 </div>
 
@@ -571,7 +576,7 @@ let boostSel={reward:100, time:30};
 let visit=null, visitTimer=null;
 let lastFailReason = null;
 let unsubscribers = [];
-let targetUserIdForBal = null;
+let targetUserIdForAction = null;
 
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3200); }
 function me(){ 
@@ -777,7 +782,7 @@ async function enterApp(){
 
   document.getElementById('authView').classList.add('hidden');
   
-  // অ্যাডমিন ডিটেকশন — admin@gmail.com হলে ইউজারের কোন স্ক্রিন আসবে না
+  // অ্যাডমিন হলে ইউজারের কোন স্ক্রিন বা বটম বার আসবে না
   if(u.email.toLowerCase() === ADMIN_EMAIL){
     document.getElementById('appView').classList.add('hidden');
     document.getElementById('bottomNav').classList.add('hidden');
@@ -840,9 +845,9 @@ function taskHTML(t,u){
 
 function renderTasks(){
   const u=me(); if(!u) return;
-  // শুধুমাত্র Active টাস্ক ইউজার দেখতে পারবে
   const tasks=DB.get('tasks',[]).filter(t => t.status !== 'Paused');
-  document.getElementById('taskList').innerHTML = tasks.length ? tasks.map(t=>taskHTML(t,u)).join('') : '<div class="empty">No tasks available</div>';
+  // "No tasks available" এর মতো লেখা বাদ দেওয়া হয়েছে
+  document.getElementById('taskList').innerHTML = tasks.length ? tasks.map(t=>taskHTML(t,u)).join('') : '';
 }
 
 function renderTxns(){
@@ -853,8 +858,7 @@ function renderTxns(){
       <div class="icon-tile" style="background:#eef2ff;color:var(--accent)">${I('coins')}</div>
       <div class="item-main"><h4>${esc(t.label)}</h4><p>${t.date}</p></div>
       <div class="amount">${t.type==='in'?'+':'-'}${t.amount}<small>Coins</small></div>
-    </div></div>`).join('')
-    : '<div class="empty">No coin history yet</div>';
+    </div></div>`).join('') : '';
 }
 
 function metaHTML(c){
@@ -906,12 +910,11 @@ function myCampHTML(c){
 function renderCampaigns(){
   const u=me(); if(!u) return;
   const camps=DB.get('campaigns',[]);
-  // সাধারণ ইউজার শুধুমাত্র এডমিন বা ওনার দ্বারা অ্যাক্টিভ রাখা ক্যাম্পেইন পাবে
   const live=camps.filter(c=>c.status==='Active');
-  document.getElementById('campList').innerHTML = live.length ? live.map(c=>campHTML(c,u)).join('') : '<div class="empty">No active promotions. Add yours above!</div>';
-  document.getElementById('homeCamps').innerHTML = live.length ? live.slice(0,3).map(c=>campHTML(c,u)).join('') : '<div class="empty">No live promotions right now</div>';
+  document.getElementById('campList').innerHTML = live.length ? live.map(c=>campHTML(c,u)).join('') : '';
+  document.getElementById('homeCamps').innerHTML = live.length ? live.slice(0,3).map(c=>campHTML(c,u)).join('') : '';
   const mine=camps.filter(c=>c.ownerId===u.id);
-  document.getElementById('myCampList').innerHTML = mine.length ? mine.map(myCampHTML).join('') : '<div class="empty">You have not launched any boost campaign yet.</div>';
+  document.getElementById('myCampList').innerHTML = mine.length ? mine.map(myCampHTML).join('') : '';
 }
 
 function setSeg(kind, val, btn){
@@ -992,7 +995,7 @@ async function campCancel(id){
   toast('Cancelled & '+refund+' coins refunded'); renderApp();
 }
 
-/* ================= DETAIL PAGE (USER) ================= */
+/* ================= DETAIL PAGE ================= */
 let detailCtx=null;
 
 function openCampDetail(cid){ detailCtx={type:'camp', id:cid}; lastFailReason=null; showDetail(); }
@@ -1034,7 +1037,7 @@ function renderDetail(){
 
 function renderCampDetail(u, box){
   const c=DB.get('campaigns',[]).find(x=>x.id===detailCtx.id);
-  if(!c){ box.innerHTML='<div class="empty">Promotion expired</div>'; return; }
+  if(!c){ box.innerHTML=''; return; }
   const p=PLATFORMS[c.platform]||PLATFORMS.website;
   const pct=Math.min(100, Math.round(c.doneViews/c.totalViews*100));
   const mine=c.ownerId===u.id;
@@ -1060,7 +1063,7 @@ function renderCampDetail(u, box){
             </div>
           </div>
           <div class="warning-box">
-            <b>ANTI-CHEAT RULE:</b> Do not switch back! You must remain on the external target until the timer hits 0. Returning early will void the task and coins!
+            <b>ANTI-CHEAT RULE:</b> Do not switch back! You must remain on the destination until the timer hits 0. Returning early will void the task and coins!
           </div>
         </div>
         <button class="claim-btn ${visit.completed?'':'hidden'}" id="dClaimBtn" style="margin-top:16px" onclick="detailClaim()">
@@ -1129,7 +1132,7 @@ function renderCampDetail(u, box){
 
 function renderTaskDetail(u, box){
   const t=DB.get('tasks',[]).find(x=>x.id===detailCtx.id);
-  if(!t){ box.innerHTML='<div class="empty">Task expired</div>'; return; }
+  if(!t){ box.innerHTML=''; return; }
   const done=(u.doneTasks||[]).includes(t.id);
   const opened = visit && visit.taskId===t.id;
 
@@ -1251,89 +1254,140 @@ function detailCompleteTask(){
   renderDetail();
 }
 
-/* ================= EXCLUSIVE ADMIN FUNCTIONS ================= */
-function adminTab(t){
-  document.querySelectorAll('.admin-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.atab===t));
-  document.querySelectorAll('.admin-page').forEach(p=>p.classList.add('hidden'));
-  document.getElementById('atab-'+t).classList.remove('hidden'); 
-  renderAdmin();
+/* ================= MOBILE-FIRST ADMIN CONTROLS ================= */
+function toggleAdminDrawer(){
+  document.getElementById('adminDrawer').classList.toggle('open');
+}
+
+function switchAdminCategory(cat){
+  toggleAdminDrawer();
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
+  document.querySelectorAll('.drawer-nav-item').forEach(b => b.classList.remove('active'));
+  
+  const target = document.getElementById('admin-sec-'+cat);
+  if(target) target.classList.remove('hidden');
+
+  event.target.classList.add('active');
 }
 
 function renderAdmin(){
   const u = me();
   if(!u || u.email.toLowerCase() !== ADMIN_EMAIL) return;
 
-  const users=DB.get('users',[]);
-  const tasks=DB.get('tasks',[]);
-  const camps=DB.get('campaigns',[]);
+  const users = DB.get('users',[]);
+  const tasks = DB.get('tasks',[]);
+  const camps = DB.get('campaigns',[]);
 
-  document.getElementById('adminStats').innerHTML=
-    '<div class="cell"><b>'+users.length+'</b><span>Total Users</span></div>'+
-    '<div class="cell"><b>'+camps.filter(c=>c.status==='Active').length+'</b><span>Live Boosts</span></div>'+
-    '<div class="cell"><b>'+camps.filter(c=>c.status==='Paused').length+'</b><span>Paused Boosts</span></div>'+
-    '<div class="cell"><b>'+camps.reduce((a,c)=>a+(c.doneViews||0),0)+'</b><span>Total Delivered Views</span></div>';
+  // মোবাইল স্ট্যাটাস গ্রিড
+  document.getElementById('adminStats').innerHTML = `
+    <div class="admin-stat-card"><b>${users.length}</b><span>Total Users</span></div>
+    <div class="admin-stat-card"><b>${camps.filter(c=>c.status==='Active').length}</b><span>Live Boosts</span></div>
+    <div class="admin-stat-card"><b>${camps.filter(c=>c.status==='Paused').length}</b><span>Stopped Boosts</span></div>
+    <div class="admin-stat-card"><b>${camps.reduce((a,c)=>a+(c.doneViews||0),0)}</b><span>Views Delivered</span></div>
+  `;
 
-  // 1. ইউজার টেবিল
-  document.getElementById('adminUserList').innerHTML = '<thead><tr><th>Name</th><th>Email</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead><tbody>'+users.map(x=>`
-    <tr>
-      <td><b>${esc(x.name)}</b></td>
-      <td>${esc(x.email)}</td>
-      <td><span style="color:#10b981;font-weight:700">${x.balance || 0} Coins</span></td>
-      <td>${x.blocked ? '<span class="status" style="background:#fee2e2;color:#991b1b">Blocked</span>' : '<span class="status on">Active</span>'}</td>
-      <td>
-        <div class="admin-actions">
-          <button class="btn btn-sm" style="background:#10b981" onclick="openAdminBalModal('${x.id}')">+/- Coins</button>
-          <button class="btn btn-sm ${x.blocked?'btn-sec':'btn-danger'}" onclick="adminToggleBlockUser('${x.id}')">${x.blocked?'Unblock':'Block'}</button>
+  document.getElementById('userCountBadge').textContent = `${users.length} Users`;
+
+  // ১. ইউজার কার্ড লিস্ট (মোবাইল ফ্রেন্ডলি)
+  document.getElementById('adminUserList').innerHTML = users.map(x => `
+    <div class="m-card">
+      <div class="m-card-top">
+        <div>
+          <div class="m-card-name">${esc(x.name)}</div>
+          <div class="m-card-sub">${esc(x.email)}</div>
         </div>
-      </td>
-    </tr>`).join('') + '</tbody>';
-
-  // 2. ইউজার ক্যাম্পেইন টেবিল (Start / Stop / Delete)
-  document.getElementById('adminCampList').innerHTML = '<thead><tr><th>Creator</th><th>Title</th><th>Platform</th><th>Reward / Time</th><th>Progress</th><th>Status</th><th>Control</th></tr></thead><tbody>'+camps.map(c=>`
-    <tr>
-      <td><b>${esc(c.ownerName)}</b></td>
-      <td><a href="${esc(c.link)}" target="_blank" style="color:#818cf8;text-decoration:none">${esc(c.title)}</a></td>
-      <td><span class="status">${c.platform}</span></td>
-      <td>${c.reward}c / ${c.watchTime}s</td>
-      <td>${c.doneViews}/${c.totalViews}</td>
-      <td><span class="status ${c.status==='Active'?'on':'paused'}">${c.status}</span></td>
-      <td>
-        <div class="admin-actions">
-          ${c.status === 'Active' ? 
-            `<button class="btn-sec btn-sm" style="border-color:#f59e0b;color:#f59e0b" onclick="adminToggleCampStatus('${c.id}', 'Paused')">Stop</button>` : 
-            `<button class="btn-sec btn-sm" style="border-color:#10b981;color:#10b981" onclick="adminToggleCampStatus('${c.id}', 'Active')">Start</button>`
-          }
-          <button class="btn-danger btn-sm" onclick="adminForceDeleteCamp('${c.id}')">Delete</button>
+        <div style="text-align:right">
+          <div style="color:#10b981;font-weight:900;font-size:14px">${x.balance||0} Coins</div>
+          <span class="m-card-badge" style="background:${x.blocked?'#fee2e2':'#d1fae5'};color:${x.blocked?'#991b1b':'#065f46'}">${x.blocked?'Blocked':'Active'}</span>
         </div>
-      </td>
-    </tr>`).join('') + '</tbody>';
+      </div>
+      
+      <div class="m-card-actions">
+        <button class="btn-sec btn-sm" style="flex:1" onclick="openAdminEditNameModal('${x.id}')">✏️ Edit Name</button>
+        <button class="btn-sec btn-sm" style="flex:1" onclick="openAdminBalModal('${x.id}')">💰 +/- Coins</button>
+        <button class="${x.blocked?'btn-sec':'btn-danger'} btn-sm" style="flex:1" onclick="adminToggleBlockUser('${x.id}')">${x.blocked?'Unblock':'Block'}</button>
+      </div>
+    </div>
+  `).join('');
 
-  // 3. অফিসিয়াল টাস্ক টেবিল
-  document.getElementById('adminTaskList').innerHTML = '<thead><tr><th>Title</th><th>Platform</th><th>Reward</th><th>Status</th><th>Control</th></tr></thead><tbody>'+tasks.map(t=>`
-    <tr>
-      <td><b>${esc(t.title)}</b></td>
-      <td><span class="status">${t.icon || 'Official'}</span></td>
-      <td><span style="color:#10b981;font-weight:700">+${t.reward}</span></td>
-      <td><span class="status ${t.status==='Paused'?'paused':'on'}">${t.status||'Active'}</span></td>
-      <td>
-        <div class="admin-actions">
-          ${t.status === 'Paused' ? 
-            `<button class="btn-sec btn-sm" style="border-color:#10b981;color:#10b981" onclick="adminToggleTaskStatus('${t.id}', 'Active')">Start</button>` : 
-            `<button class="btn-sec btn-sm" style="border-color:#f59e0b;color:#f59e0b" onclick="adminToggleTaskStatus('${t.id}', 'Paused')">Stop</button>`
-          }
-          <button class="btn-danger btn-sm" onclick="adminDelTask('${t.id}')">Delete</button>
+  // ২. বুস্ট ক্যাম্পেইন কার্ড লিস্ট
+  document.getElementById('adminCampList').innerHTML = camps.map(c => `
+    <div class="m-card">
+      <div class="m-card-top">
+        <div>
+          <div class="m-card-name">${esc(c.title)}</div>
+          <div class="m-card-sub">By: ${esc(c.ownerName)} · ${c.platform}</div>
         </div>
-      </td>
-    </tr>`).join('') + '</tbody>';
+        <span class="m-card-badge" style="background:${c.status==='Active'?'#d1fae5':'#fef3c7'};color:${c.status==='Active'?'#065f46':'#b45309'}">${c.status}</span>
+      </div>
+      <div class="m-card-meta">
+        <span>💰 +${c.reward} Coins</span>
+        <span>⏱️ ${c.watchTime}s</span>
+        <span>👁️ ${c.doneViews}/${c.totalViews} views</span>
+      </div>
+      <div class="m-card-actions">
+        ${c.status === 'Active' ? 
+          `<button class="btn-sec btn-sm" style="flex:1;border-color:#f59e0b;color:#f59e0b" onclick="adminToggleCampStatus('${c.id}','Paused')">⏸️ Stop</button>` : 
+          `<button class="btn-sec btn-sm" style="flex:1;border-color:#10b981;color:#10b981" onclick="adminToggleCampStatus('${c.id}','Active')">▶️ Start</button>`
+        }
+        <button class="btn-danger btn-sm" style="flex:1" onclick="adminForceDeleteCamp('${c.id}')">🗑️ Delete</button>
+      </div>
+    </div>
+  `).join('');
+
+  // ৩. অফিসিয়াল টাস্ক কার্ড লিস্ট
+  document.getElementById('adminTaskList').innerHTML = tasks.map(t => `
+    <div class="m-card">
+      <div class="m-card-top">
+        <div>
+          <div class="m-card-name">${esc(t.title)}</div>
+          <div class="m-card-sub">${t.icon||'Official'}</div>
+        </div>
+        <div style="color:#10b981;font-weight:900">+${t.reward} Coins</div>
+      </div>
+      <div class="m-card-actions">
+        ${t.status === 'Paused' ? 
+          `<button class="btn-sec btn-sm" style="flex:1;border-color:#10b981;color:#10b981" onclick="adminToggleTaskStatus('${t.id}','Active')">▶️ Start</button>` : 
+          `<button class="btn-sec btn-sm" style="flex:1;border-color:#f59e0b;color:#f59e0b" onclick="adminToggleTaskStatus('${t.id}','Paused')">⏸️ Stop</button>`
+        }
+        <button class="btn-danger btn-sm" style="flex:1" onclick="adminDelTask('${t.id}')">🗑️ Delete</button>
+      </div>
+    </div>
+  `).join('');
 }
 
-/* অ্যাডমিন ব্যালেন্স বাড়ানো ও কমানোর কন্ট্রোল */
-function openAdminBalModal(userId){
-  targetUserIdForBal = userId;
-  const u = DB.get('users',[]).find(x=>x.id===userId);
+/* অ্যাডমিন ইউজার নাম এডিট */
+function openAdminEditNameModal(userId){
+  targetUserIdForAction = userId;
+  const u = DB.get('users',[]).find(x => x.id === userId);
   if(!u) return;
-  document.getElementById('abModalTitle').textContent = `Adjust Balance (Current: ${u.balance||0} Coins)`;
-  document.getElementById('abModalSub').textContent = `User: ${u.name} (${u.email})`;
+  document.getElementById('editNameSub').textContent = `User: ${u.email}`;
+  document.getElementById('editUserNameInput').value = u.name || '';
+  document.getElementById('adminEditNameModal').classList.remove('hidden');
+}
+
+async function executeAdminEditName(){
+  const newName = document.getElementById('editUserNameInput').value.trim();
+  if(!newName) return toast('Please enter a valid name');
+
+  const users = DB.get('users',[]);
+  const u = users.find(x => x.id === targetUserIdForAction);
+  if(!u) return;
+
+  u.name = newName;
+  await saveUser(u);
+  document.getElementById('adminEditNameModal').classList.add('hidden');
+  toast('User name updated successfully!');
+  renderAdmin();
+}
+
+/* অ্যাডমিন ব্যালেন্স কন্ট্রোল */
+function openAdminBalModal(userId){
+  targetUserIdForAction = userId;
+  const u = DB.get('users',[]).find(x => x.id === userId);
+  if(!u) return;
+  document.getElementById('abModalTitle').textContent = `Adjust Balance`;
+  document.getElementById('abModalSub').textContent = `${u.name} (Current: ${u.balance||0} Coins)`;
   document.getElementById('abAmount').value = '';
   document.getElementById('adminBalModal').classList.remove('hidden');
 }
@@ -1343,18 +1397,15 @@ async function executeAdminBal(type){
   if(!amt || amt <= 0) return toast('Please enter a valid coin amount');
   
   const users = DB.get('users',[]);
-  const u = users.find(x=>x.id===targetUserIdForBal);
+  const u = users.find(x => x.id === targetUserIdForAction);
   if(!u) return;
 
   if(type === 'add'){
     u.balance = (u.balance || 0) + amt;
     await addTxn(u.id, 'Admin Coin Credit', amt, 'in');
-    toast(`Successfully added ${amt} coins to ${u.name}`);
+    toast(`Added ${amt} coins to ${u.name}`);
   } else {
-    if((u.balance || 0) < amt){
-      if(!confirm(`User has only ${u.balance||0} coins. Deduct anyway into negative?`)) return;
-    }
-    u.balance = (u.balance || 0) - amt;
+    u.balance = Math.max(0, (u.balance || 0) - amt);
     await addTxn(u.id, 'Admin Coin Deduction', amt, 'out');
     toast(`Deducted ${amt} coins from ${u.name}`);
   }
@@ -1364,10 +1415,10 @@ async function executeAdminBal(type){
   renderAdmin();
 }
 
-/* অ্যাডমিন ক্যাম্পেইন স্টপ / স্টার্ট */
+/* অ্যাডমিন ক্যাম্পেইন কন্ট্রোল */
 async function adminToggleCampStatus(id, newStatus){
   const camps = DB.get('campaigns',[]);
-  const c = camps.find(x=>x.id===id);
+  const c = camps.find(x => x.id === id);
   if(!c) return;
   c.status = newStatus;
   await saveCamp(c);
@@ -1375,51 +1426,36 @@ async function adminToggleCampStatus(id, newStatus){
   renderAdmin();
 }
 
-/* অ্যাডমিন ক্যাম্পেইন ডিলিট ও রিফান্ড */
 async function adminForceDeleteCamp(id){
   const camps = DB.get('campaigns',[]);
-  const c = camps.find(x=>x.id===id);
+  const c = camps.find(x => x.id === id);
   if(!c) return;
-
-  if(!confirm(`Delete this campaign by ${c.ownerName}? Remaining coins will be refunded.`)) return;
+  if(!confirm(`Delete campaign "${c.title}"? Unused coins will be refunded.`)) return;
 
   const refund = c.reward * (c.totalViews - c.doneViews);
   const users = DB.get('users',[]);
-  const owner = users.find(x=>x.id===c.ownerId);
+  const owner = users.find(x => x.id === c.ownerId);
   if(owner && refund > 0){
     owner.balance = (owner.balance || 0) + refund;
     await saveUser(owner);
-    await addTxn(owner.id, 'Admin Campaign Refund: '+clean(c.title), refund, 'in');
+    await addTxn(owner.id, 'Admin Refund: '+clean(c.title), refund, 'in');
   }
 
   try { await fs.collection('campaigns').doc(id).delete(); } catch(e){}
-  DB.set('campaigns', camps.filter(x=>x.id!==id));
-  toast('Campaign permanently deleted');
+  DB.set('campaigns', camps.filter(x => x.id !== id));
+  toast('Campaign deleted successfully');
   renderAdmin();
 }
 
-/* অ্যাডমিন অফিসিয়াল টাস্ক স্টপ / স্টার্ট */
+/* অ্যাডমিন অফিসিয়াল টাস্ক কন্ট্রোল */
 async function adminToggleTaskStatus(id, newStatus){
   const tasks = DB.get('tasks',[]);
-  const t = tasks.find(x=>x.id===id);
+  const t = tasks.find(x => x.id === id);
   if(!t) return;
   t.status = newStatus;
   try { await fs.collection('tasks').doc(id).update({status: newStatus}); } catch(e){}
   DB.set('tasks', tasks);
   toast(`Task ${newStatus === 'Paused' ? 'Stopped' : 'Started'}`);
-  renderAdmin();
-}
-
-/* অ্যাডমিন ইউজার ব্লক / আনব্লক */
-async function adminToggleBlockUser(id){
-  const users = DB.get('users',[]);
-  const u = users.find(x=>x.id===id);
-  if(!u) return;
-  if(u.email.toLowerCase() === ADMIN_EMAIL) return toast('Cannot block master admin!');
-
-  u.blocked = !u.blocked;
-  await saveUser(u);
-  toast(`User ${u.blocked ? 'Blocked' : 'Unblocked'} successfully`);
   renderAdmin();
 }
 
@@ -1432,7 +1468,7 @@ async function adminAddTask(){
   const taskObj = {id:'T'+Date.now(), icon, title, reward, link, status:'Active'};
   try { await fs.collection('tasks').doc(taskObj.id).set(taskObj); } catch(e){}
   const tasks=DB.get('tasks',[]); tasks.push(taskObj);
-  DB.set('tasks',tasks); toast('Task added'); renderAdmin();
+  DB.set('tasks',tasks); toast('Task added successfully'); renderAdmin();
   document.getElementById('ntTitle').value = '';
   document.getElementById('ntReward').value = '';
   document.getElementById('ntLink').value = '';
@@ -1443,6 +1479,18 @@ async function adminDelTask(id){
   try { await fs.collection('tasks').doc(id).delete(); } catch(e){}
   DB.set('tasks', DB.get('tasks',[]).filter(t=>t.id!==id)); 
   toast('Task deleted'); renderAdmin(); 
+}
+
+/* অ্যাডমিন ইউজার ব্লক কন্ট্রোল */
+async function adminToggleBlockUser(id){
+  const users = DB.get('users',[]);
+  const u = users.find(x => x.id === id);
+  if(!u) return;
+  if(u.email.toLowerCase() === ADMIN_EMAIL) return toast('Cannot block master admin!');
+  u.blocked = !u.blocked;
+  await saveUser(u);
+  toast(`User ${u.blocked ? 'Blocked' : 'Unblocked'}`);
+  renderAdmin();
 }
 
 /* Modal events */
