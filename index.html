@@ -31,7 +31,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .hidden{display:none!important}
 .icn{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;vertical-align:-4px}
 .icn.sm{width:16px;height:16px;vertical-align:-3px}
-.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:#1e1b4b;color:#fff;padding:12px 22px;border-radius:30px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s cubic-bezier(0.16, 1, 0.3, 1);z-index:999;max-width:90%;text-align:center;box-shadow:0 12px 24px rgba(0,0,0,0.24);border:1px solid rgba(255,255,255,0.1)}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:#1e1b4b;color:#fff;padding:12px 22px;border-radius:30px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s cubic-bezier(0.16, 1, 0.3, 1);z-index:9999;max-width:90%;text-align:center;box-shadow:0 12px 24px rgba(0,0,0,0.24);border:1px solid rgba(255,255,255,0.1)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(-10px)}
 
 /* ---------- SHARED ---------- */
@@ -48,7 +48,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .btn-sec:disabled{color:#94a3b8;border-color:var(--line);cursor:default;background:#f8fafc}
 .btn-danger{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:var(--r-inner);background:#fff;color:var(--danger);font-weight:600;font-size:13px;border:1.5px solid #fecaca}
 .btn-danger:hover{background:#fef2f2;border-color:var(--danger)}
-.btn-sm{padding:7px 12px;font-size:12px;border-radius:8px}
+.btn-sm{padding:6px 10px;font-size:12px;border-radius:8px}
 .field{margin-bottom:14px}
 .field label{font-size:13px;font-weight:700;display:block;margin-bottom:6px;color:#334155}
 .section{padding:20px 16px 0}
@@ -61,6 +61,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .meta-line span{display:inline-flex;align-items:center;gap:4px;font-weight:500}
 .status{font-size:11px;font-weight:700;padding:3px 9px;border-radius:30px;background:#f1f5f9;color:var(--mut);white-space:nowrap}
 .status.on{color:#065f46;background:#d1fae5}
+.status.paused{color:#b45309;background:#fef3c7}
 .progress{height:6px;background:#e2e8f0;border-radius:6px;overflow:hidden;margin-top:10px}
 .progress i{display:block;height:100%;background:var(--accent);border-radius:6px;transition:width .3s}
 .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
@@ -83,7 +84,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .auth-tabs button{flex:1;padding:10px;border-radius:8px;font-weight:700;color:var(--mut);font-size:13.5px}
 .auth-tabs button.active{background:#fff;color:var(--txt);box-shadow:var(--shadow-sm)}
 
-/* ---------- APP SHELL ---------- */
+/* ---------- APP SHELL (USER) ---------- */
 #appView{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;padding-bottom:90px}
 .topbar{padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center}
 .user-chip{display:flex;gap:12px;align-items:center}
@@ -119,7 +120,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .bottom-nav button.active{color:var(--accent)}
 
 /* modal */
-.modal{position:fixed;inset:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:center;z-index:100}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:center;z-index:1000}
 .modal-box{background:#fff;width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:24px 18px 28px;max-height:92vh;overflow:auto;position:relative;box-shadow:0 -10px 40px rgba(0,0,0,0.15)}
 .modal-box h3{font-size:18px;font-weight:800;margin-bottom:4px;padding-right:48px}
 .modal-x{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#f8fafc;color:var(--txt);display:flex;align-items:center;justify-content:center}
@@ -181,25 +182,28 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 
 .warning-box{background:#fff1f2;border:1.5px solid #fecdd3;color:#9f1239;padding:12px 14px;border-radius:var(--r-inner);font-size:12.5px;line-height:1.5;margin-top:12px;text-align:left}
 .error-box{background:#fef2f2;border:2px solid #ef4444;color:#991b1b;padding:13px 14px;border-radius:var(--r-inner);font-size:13px;line-height:1.5;margin-bottom:12px;text-align:center;font-weight:700}
 
-/* ---------- ADMIN ---------- */
-#adminView{max-width:1020px;margin:0 auto;min-height:100vh;background:var(--bg);padding:18px 16px 40px}
-.admin-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px}
-.admin-head h2{font-size:22px;font-weight:800;display:flex;align-items:center;gap:10px}
-.admin-stats{display:grid;grid-template-columns:repeat(3,1fr);margin-bottom:24px}
-.admin-stats .cell{padding:18px;text-align:center;border-right:1px solid var(--line)}
-.admin-stats .cell:last-child{border-right:none}
-.admin-stats b{font-size:24px;font-weight:900;display:block}
-.admin-stats span{font-size:12px;color:var(--mut);display:block;margin-top:3px;font-weight:600}
-.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.admin-tabs button{padding:10px 16px;border-radius:30px;background:#fff;border:1.5px solid var(--line);font-weight:700;color:var(--mut);font-size:13px}
-.admin-tabs button.active{background:var(--accent-grad);color:#fff;border-color:transparent}
-.admin-card{padding:18px;margin-bottom:16px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:12px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
-tr:last-child td{border-bottom:none}
-th{color:var(--mut);font-size:12px;font-weight:700;text-transform:uppercase}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.empty{text-align:center;color:var(--mut);padding:24px 16px;font-size:13px;line-height:1.7}
+/* ---------- ADMIN (DEDICATED FULL SCREEN) ---------- */
+#adminView{max-width:1060px;margin:0 auto;min-height:100vh;background:#0b0f19;color:#e2e8f0;padding:24px 18px 50px}
+.admin-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid #1e293b}
+.admin-head h2{font-size:24px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px;letter-spacing:-0.5px}
+.admin-head .badge{font-size:12px;background:#4f46e5;color:#fff;padding:4px 10px;border-radius:20px;font-weight:700}
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.admin-stats .cell{background:#111827;border:1px solid #1f2937;padding:18px;border-radius:16px;text-align:center}
+.admin-stats b{font-size:26px;font-weight:900;color:#fff;display:block}
+.admin-stats span{font-size:12px;color:#9ca3af;display:block;margin-top:4px;font-weight:600;text-transform:uppercase}
+.admin-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.admin-tabs button{padding:10px 18px;border-radius:12px;background:#111827;border:1px solid #1f2937;font-weight:700;color:#9ca3af;font-size:13.5px}
+.admin-tabs button.active{background:var(--accent-grad);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(79,70,229,0.4)}
+.admin-card{background:#111827;border:1px solid #1f2937;border-radius:20px;padding:20px;margin-bottom:20px}
+.admin-card h3{font-size:17px;font-weight:800;color:#fff;margin-bottom:16px}
+.admin-table-wrap{overflow-x:auto}
+.admin-table{width:100%;border-collapse:collapse;font-size:13.5px;color:#cbd5e1}
+.admin-table th,.admin-table td{padding:14px 12px;text-align:left;border-bottom:1px solid #1f2937;vertical-align:middle}
+.admin-table th{color:#9ca3af;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.admin-table tr:hover td{background:rgba(255,255,255,0.02)}
+.admin-actions{display:flex;gap:6px;flex-wrap:wrap}
+.admin-input{background:#1e293b;border:1px solid #334155;color:#fff}
+.admin-input:focus{border-color:#6366f1}
 </style>
 </head>
 <body>
@@ -222,7 +226,7 @@ th{color:var(--mut);font-size:12px;font-weight:700;text-transform:uppercase}
   </div>
 </div>
 
-<!-- ============ USER APP ============ -->
+<!-- ============ USER APP (Only for regular users) ============ -->
 <div id="appView" class="hidden">
   <div class="topbar" id="appTopbar">
     <div class="user-chip">
@@ -329,65 +333,93 @@ th{color:var(--mut);font-size:12px;font-weight:700;text-transform:uppercase}
       <div class="surface">
         <button class="menu-row" onclick="openCreateBoost()"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg> Boost a Link</span><svg class="icn sm" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
         <button class="menu-row" onclick="showPage('tasks')"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> My Campaigns</span><svg class="icn sm" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
-        <button class="menu-row hidden" id="adminEntry" onclick="openAdmin()"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg> Admin Control</span><svg class="icn sm" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
         <button class="menu-row danger" onclick="logout()"><span class="lft"><svg class="icn" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg> Logout</span></button>
       </div>
-      <p class="version">BoostPro v4.8 — Peer Promotion Engine</p>
+      <p class="version">BoostPro v4.9 — Peer Promotion Engine</p>
     </div>
   </div>
 
+  <!-- BOTTOM NAV (Users only) -->
+  <nav class="bottom-nav hidden" id="bottomNav">
+    <button data-page="home" class="active" onclick="showPage('home')"><svg class="icn" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Home</button>
+    <button data-page="tasks" onclick="showPage('tasks')"><svg class="icn" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>Tasks</button>
+    <button data-page="wallet" onclick="showPage('wallet')"><svg class="icn" viewBox="0 0 24 24"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>Coins</button>
+    <button data-page="account" onclick="showPage('account')"><svg class="icn" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Account</button>
+  </nav>
 </div>
 
-<!-- ============ ADMIN ============ -->
+<!-- ============ DEDICATED ADMIN PANEL (Only admin@gmail.com) ============ -->
 <div id="adminView" class="hidden">
   <div class="admin-head">
-    <h2><svg class="icn" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg> Admin Control Panel</h2>
+    <h2>
+      <svg class="icn" viewBox="0 0 24 24" style="color:#6366f1;width:24px;height:24px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 
+      BoostPro Admin Console 
+      <span class="badge">Master</span>
+    </h2>
     <div>
-      <button class="btn-sec" onclick="closeAdmin()">App View</button>
-      <button class="btn-danger" onclick="logout()">Logout</button>
+      <button class="btn-danger btn-sm" onclick="logout()">Logout Admin</button>
     </div>
   </div>
-  <div class="surface admin-stats" id="adminStats"></div>
+
+  <div class="admin-stats" id="adminStats"></div>
+
   <div class="admin-tabs">
-    <button data-atab="campaigns" class="active" onclick="adminTab('campaigns')">Campaigns</button>
+    <button data-atab="users" class="active" onclick="adminTab('users')">User Management</button>
+    <button data-atab="campaigns" onclick="adminTab('campaigns')">User Boost Campaigns</button>
     <button data-atab="tasks" onclick="adminTab('tasks')">Official Tasks</button>
-    <button data-atab="users" onclick="adminTab('users')">Users</button>
   </div>
 
-  <div class="admin-page" id="atab-campaigns">
-    <div class="surface admin-card"><h3>All Boost Campaigns</h3><div id="adminCampList"></div></div>
+  <!-- ADMIN USERS TAB -->
+  <div class="admin-page" id="atab-users">
+    <div class="admin-card">
+      <h3>All Registered Users</h3>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="adminUserList"></table>
+      </div>
+    </div>
   </div>
 
+  <!-- ADMIN CAMPAIGNS TAB (Pause, Resume, Delete) -->
+  <div class="admin-page hidden" id="atab-campaigns">
+    <div class="admin-card">
+      <h3>Active & Stopped Boost Campaigns</h3>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="adminCampList"></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN OFFICIAL TASKS TAB -->
   <div class="admin-page hidden" id="atab-tasks">
-    <div class="surface admin-card">
-      <h3>Add Official Task</h3>
+    <div class="admin-card">
+      <h3>Add New Official Task</h3>
       <div class="form-row">
-        <input id="ntTitle" placeholder="Title (e.g. Subscribe Channel)">
-        <input id="ntReward" type="number" placeholder="Reward coins (Min 100)">
+        <input class="admin-input" id="ntTitle" placeholder="Title (e.g. Subscribe Channel)">
+        <input class="admin-input" id="ntReward" type="number" placeholder="Reward coins">
       </div>
       <div class="form-row" style="margin-top:12px">
-        <input id="ntLink" placeholder="Task link (https://...)">
-        <select id="ntIcon"><option value="youtube">YouTube</option><option value="facebook">Facebook</option><option value="website">Website</option><option value="blogger">Blogger</option><option value="direct">Direct Link</option></select>
+        <input class="admin-input" id="ntLink" placeholder="Task link (https://...)">
+        <select class="admin-input" id="ntIcon">
+          <option value="youtube">YouTube</option>
+          <option value="facebook">Facebook</option>
+          <option value="website">Website</option>
+          <option value="blogger">Blogger</option>
+          <option value="direct">Direct Link</option>
+        </select>
       </div>
       <button class="btn" style="margin-top:14px" onclick="adminAddTask()">Add Task</button>
     </div>
-    <div class="surface admin-card"><h3>Active Tasks</h3><div id="adminTaskList"></div></div>
-  </div>
 
-  <div class="admin-page hidden" id="atab-users">
-    <div class="surface admin-card"><h3>Users Directory</h3><div id="adminUserList"></div></div>
+    <div class="admin-card">
+      <h3>Official Task List</h3>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="adminTaskList"></table>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav hidden" id="bottomNav">
-  <button data-page="home" class="active" onclick="showPage('home')"><svg class="icn" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Home</button>
-  <button data-page="tasks" onclick="showPage('tasks')"><svg class="icn" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>Tasks</button>
-  <button data-page="wallet" onclick="showPage('wallet')"><svg class="icn" viewBox="0 0 24 24"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>Coins</button>
-  <button data-page="account" onclick="showPage('account')"><svg class="icn" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Account</button>
-</nav>
-
-<!-- TASK DETAIL SCREEN -->
+<!-- TASK DETAIL SCREEN (USER) -->
 <div id="detailOverlay" class="hidden">
   <div class="detail-topbar">
     <button class="icon-btn" onclick="goBackDetail()" aria-label="Back"><svg class="icn" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
@@ -397,7 +429,7 @@ th{color:var(--mut);font-size:12px;font-weight:700;text-transform:uppercase}
   <div id="detailContent"></div>
 </div>
 
-<!-- CREATE BOOST MODAL -->
+<!-- CREATE BOOST MODAL (USER) -->
 <div class="modal hidden" id="boostModal">
   <div class="modal-box">
     <button class="modal-x" onclick="closeBoost()" aria-label="Close"><svg class="icn" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
@@ -407,7 +439,6 @@ th{color:var(--mut);font-size:12px;font-weight:700;text-transform:uppercase}
     <div class="field"><label>Campaign Title</label><input id="cbTitle" placeholder="e.g. Watch my YouTube video"></div>
     <div class="field"><label>Task Instructions / Description</label><textarea id="cbDesc" placeholder="e.g. Watch for 30s, leave a like and subscribe"></textarea></div>
     
-    <!-- প্ল্যাটফর্ম সিলেক্টর: Website এর নিচে Blogger ও Direct Link যুক্ত -->
     <div class="field"><label>Platform</label>
       <select id="cbPlatform" onchange="calcBoost()">
         <option value="youtube">YouTube</option>
@@ -423,7 +454,6 @@ th{color:var(--mut);font-size:12px;font-weight:700;text-transform:uppercase}
 
     <div class="field"><label>Your URL / Direct Link</label><input id="cbLink" placeholder="https://..."></div>
     
-    <!-- Reward Per View -->
     <div class="field"><label>Reward Per View (Coins)</label>
       <div class="seg" id="cbRewardSeg">
         <button class="active" onclick="setSeg('reward',100,this)">100</button>
@@ -445,10 +475,28 @@ th{color:var(--mut);font-size:12px;font-weight:700;text-transform:uppercase}
     
     <div class="field"><label>Total Views Target</label><input id="cbViews" type="number" value="10" min="10" step="1" oninput="calcBoost()"></div>
 
-    <!-- লঞ্চ বাটন উপরে রাখা হয়েছে -->
     <button class="btn block" style="margin-top:10px" id="launchBoostBtn" onclick="createBoost()">Launch Campaign</button>
 
     <div class="cost-card" id="cbCost"></div>
+  </div>
+</div>
+
+<!-- ADMIN BALANCE ADJUST MODAL -->
+<div class="modal hidden" id="adminBalModal">
+  <div class="modal-box" style="background:#111827;color:#fff;border:1px solid #1f2937">
+    <button class="modal-x" style="background:#1e293b;color:#fff;border:none" onclick="document.getElementById('adminBalModal').classList.add('hidden')" aria-label="Close">✕</button>
+    <h3 id="abModalTitle" style="color:#fff">Adjust Balance</h3>
+    <p class="sub" style="color:#94a3b8" id="abModalSub">User: Rahim</p>
+    
+    <div class="field">
+      <label style="color:#cbd5e1">Amount of Coins</label>
+      <input class="admin-input" type="number" id="abAmount" placeholder="e.g. 500">
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button class="btn" style="flex:1;background:#10b981;box-shadow:none" onclick="executeAdminBal('add')">[+] Add Coins</button>
+      <button class="btn" style="flex:1;background:#ef4444;box-shadow:none" onclick="executeAdminBal('deduct')">[-] Deduct Coins</button>
+    </div>
   </div>
 </div>
 
@@ -523,6 +571,7 @@ let boostSel={reward:100, time:30};
 let visit=null, visitTimer=null;
 let lastFailReason = null;
 let unsubscribers = [];
+let targetUserIdForBal = null;
 
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3200); }
 function me(){ 
@@ -557,7 +606,7 @@ async function saveCamp(c){
   try { await fs.collection('campaigns').doc(c.id).set(c, {merge:true}); } catch(e){}
 }
 
-/* ================= BULLETPROOF ANTI-CHEAT ================= */
+/* ================= ANTI-CHEAT RETURN CHECK ================= */
 function handleReturnCheck(){
   if (visit && visit.started && !visit.completed) {
     const elapsed = Math.floor((Date.now() - visit.startTime) / 1000);
@@ -594,15 +643,30 @@ function startRealtimeSync(){
 
   unsubscribers.push(fs.collection('users').onSnapshot(snap=>{
     DB.set('users', snap.docs.map(d=>d.data()));
-    renderApp();
+    const currentUser = me();
+    if(currentUser && currentUser.email.toLowerCase() === ADMIN_EMAIL){
+      renderAdmin();
+    } else {
+      renderApp();
+    }
   }));
   unsubscribers.push(fs.collection('campaigns').onSnapshot(snap=>{
     DB.set('campaigns', snap.docs.map(d=>d.data()));
-    renderCampaigns();
+    const currentUser = me();
+    if(currentUser && currentUser.email.toLowerCase() === ADMIN_EMAIL){
+      renderAdmin();
+    } else {
+      renderCampaigns();
+    }
   }));
   unsubscribers.push(fs.collection('tasks').onSnapshot(snap=>{
     DB.set('tasks', snap.docs.map(d=>d.data()));
-    renderTasks();
+    const currentUser = me();
+    if(currentUser && currentUser.email.toLowerCase() === ADMIN_EMAIL){
+      renderAdmin();
+    } else {
+      renderTasks();
+    }
   }));
   unsubscribers.push(fs.collection('txns').onSnapshot(snap=>{
     const list = snap.docs.map(d=>d.data());
@@ -640,7 +704,7 @@ async function doAuth(){
         email: email,
         pass: pass,
         role: email.toLowerCase()===ADMIN_EMAIL ? 'admin' : 'user',
-        balance: 100, // অটো ১০০ কয়েন জমা
+        balance: 100, // অটো ১০০ কয়েন
         earned: 0,
         doneTasks: [],
         viewsEarned: 0,
@@ -677,6 +741,13 @@ async function doAuth(){
       } else {
         userData = snap.data();
       }
+
+      if(userData.blocked){
+        await auth.signOut();
+        btn.disabled = false;
+        return toast('This account is blocked by Admin!');
+      }
+
       DB.set('current', userData.id);
       saveUser(userData);
       toast('Welcome back, ' + userData.name);
@@ -705,19 +776,24 @@ async function enterApp(){
   if(!u) return;
 
   document.getElementById('authView').classList.add('hidden');
-  document.getElementById('adminView').classList.add('hidden');
-  document.getElementById('appView').classList.remove('hidden');
-  document.getElementById('bottomNav').classList.remove('hidden');
   
-  const isAdmin = (u.email.toLowerCase() === ADMIN_EMAIL);
-  document.getElementById('adminEntry').classList.toggle('hidden', !isAdmin);
-  
-  showPage('home');
-  renderApp();
+  // অ্যাডমিন ডিটেকশন — admin@gmail.com হলে ইউজারের কোন স্ক্রিন আসবে না
+  if(u.email.toLowerCase() === ADMIN_EMAIL){
+    document.getElementById('appView').classList.add('hidden');
+    document.getElementById('bottomNav').classList.add('hidden');
+    document.getElementById('adminView').classList.remove('hidden');
+    renderAdmin();
+  } else {
+    document.getElementById('adminView').classList.add('hidden');
+    document.getElementById('appView').classList.remove('hidden');
+    document.getElementById('bottomNav').classList.remove('hidden');
+    showPage('home');
+    renderApp();
+  }
   startRealtimeSync();
 }
 
-/* ================= USER APP ================= */
+/* ================= USER APP FUNCTIONS ================= */
 function showPage(p){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
   const target = document.getElementById('page-'+p);
@@ -729,7 +805,7 @@ function showPage(p){
 
 function renderApp(){
   const u = me(); 
-  if(!u) return;
+  if(!u || u.email.toLowerCase() === ADMIN_EMAIL) return;
   
   document.getElementById('topName').textContent = u.name || 'User';
   document.getElementById('topAvatar').textContent = (u.name ? u.name[0] : 'U').toUpperCase();
@@ -764,7 +840,8 @@ function taskHTML(t,u){
 
 function renderTasks(){
   const u=me(); if(!u) return;
-  const tasks=DB.get('tasks',[]);
+  // শুধুমাত্র Active টাস্ক ইউজার দেখতে পারবে
+  const tasks=DB.get('tasks',[]).filter(t => t.status !== 'Paused');
   document.getElementById('taskList').innerHTML = tasks.length ? tasks.map(t=>taskHTML(t,u)).join('') : '<div class="empty">No tasks available</div>';
 }
 
@@ -780,13 +857,12 @@ function renderTxns(){
     : '<div class="empty">No coin history yet</div>';
 }
 
-/* ================= CAMPAIGNS ================= */
 function metaHTML(c){
   return `<div class="meta-line">
     <span>${I('coins',1)} +${c.reward} Coins</span>
     <span>${I('clock',1)} Watch ${c.watchTime}s</span>
     <span>${I('eye',1)} ${c.doneViews}/${c.totalViews} views</span>
-    <span class="status ${c.status==='Active'?'on':''}">${c.status}</span></div>`;
+    <span class="status ${c.status==='Active'?'on':'paused'}">${c.status}</span></div>`;
 }
 
 function campHTML(c, u){
@@ -797,7 +873,7 @@ function campHTML(c, u){
   let action='';
   if(mine) action='<button class="btn-sec" disabled>Your Campaign</button>';
   else if(claimed) action='<button class="btn-sec" disabled>Claimed</button>';
-  else if(c.status!=='Active') action='<button class="btn-sec" disabled>'+c.status+'</button>';
+  else if(c.status!=='Active') action='<button class="btn-sec" disabled>Stopped</button>';
   else action=`<button class="btn" onclick="openCampDetail('${c.id}')">${I('eye',1)} Details & Earn +${c.reward}</button>`;
   return `<div class="row-item" style="border-left:4px solid ${p.color}">
     <div class="item-top"><div class="icon-tile" style="color:${p.color};background:${p.bg}">${I(p.icon)}</div>
@@ -830,6 +906,7 @@ function myCampHTML(c){
 function renderCampaigns(){
   const u=me(); if(!u) return;
   const camps=DB.get('campaigns',[]);
+  // সাধারণ ইউজার শুধুমাত্র এডমিন বা ওনার দ্বারা অ্যাক্টিভ রাখা ক্যাম্পেইন পাবে
   const live=camps.filter(c=>c.status==='Active');
   document.getElementById('campList').innerHTML = live.length ? live.map(c=>campHTML(c,u)).join('') : '<div class="empty">No active promotions. Add yours above!</div>';
   document.getElementById('homeCamps').innerHTML = live.length ? live.slice(0,3).map(c=>campHTML(c,u)).join('') : '<div class="empty">No live promotions right now</div>';
@@ -915,7 +992,7 @@ async function campCancel(id){
   toast('Cancelled & '+refund+' coins refunded'); renderApp();
 }
 
-/* ================= DETAIL PAGE ================= */
+/* ================= DETAIL PAGE (USER) ================= */
 let detailCtx=null;
 
 function openCampDetail(cid){ detailCtx={type:'camp', id:cid}; lastFailReason=null; showDetail(); }
@@ -927,8 +1004,6 @@ function showDetail(){
   document.getElementById('dUserAvatar').textContent=(u.name[0]||'U').toUpperCase();
   document.getElementById('appView').classList.add('hidden');
   document.getElementById('bottomNav').classList.add('hidden');
-  document.getElementById('adminView').classList.add('hidden');
-  document.getElementById('authView').classList.add('hidden');
   document.getElementById('detailOverlay').classList.remove('hidden');
   renderDetail();
   window.scrollTo(0,0);
@@ -1018,10 +1093,8 @@ function renderCampDetail(u, box){
       </div>
     </div>
     
-    <!-- বাটন ও ক্লেম সেকশন উপরে -->
     <div class="section">${topActionSection}</div>
 
-    <!-- ধাপে ধাপে নির্দেশনা -->
     <div class="section">
       <div class="section-head"><h3>Instructions</h3></div>
       <div class="surface">
@@ -1034,7 +1107,6 @@ function renderCampDetail(u, box){
       </div>
     </div>
 
-    <!-- ডেসক্রিপশন -->
     <div class="section">
       <div class="section-head"><h3>Task Description</h3></div>
       <div class="surface">
@@ -1042,7 +1114,6 @@ function renderCampDetail(u, box){
       </div>
     </div>
 
-    <!-- ক্যাম্পেইন বিবরণী -->
     <div class="section">
       <div class="section-head"><h3>Campaign Details</h3></div>
       <div class="surface">
@@ -1180,23 +1251,7 @@ function detailCompleteTask(){
   renderDetail();
 }
 
-/* ================= ADMIN ================= */
-function openAdmin(){
-  const u=me(); 
-  if(!u || u.email.toLowerCase() !== ADMIN_EMAIL) return toast('Admin access denied!');
-  document.getElementById('appView').classList.add('hidden');
-  document.getElementById('bottomNav').classList.add('hidden');
-  document.getElementById('adminView').classList.remove('hidden'); 
-  renderAdmin(); 
-  window.scrollTo({top:0});
-}
-function closeAdmin(){ 
-  document.getElementById('adminView').classList.add('hidden'); 
-  document.getElementById('appView').classList.remove('hidden'); 
-  document.getElementById('bottomNav').classList.remove('hidden'); 
-  renderApp(); 
-}
-
+/* ================= EXCLUSIVE ADMIN FUNCTIONS ================= */
 function adminTab(t){
   document.querySelectorAll('.admin-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.atab===t));
   document.querySelectorAll('.admin-page').forEach(p=>p.classList.add('hidden'));
@@ -1205,43 +1260,189 @@ function adminTab(t){
 }
 
 function renderAdmin(){
-  const users=DB.get('users',[]), tasks=DB.get('tasks',[]), camps=DB.get('campaigns',[]);
+  const u = me();
+  if(!u || u.email.toLowerCase() !== ADMIN_EMAIL) return;
+
+  const users=DB.get('users',[]);
+  const tasks=DB.get('tasks',[]);
+  const camps=DB.get('campaigns',[]);
+
   document.getElementById('adminStats').innerHTML=
-    '<div class="cell"><b>'+users.length+'</b><span>Users</span></div>'+
+    '<div class="cell"><b>'+users.length+'</b><span>Total Users</span></div>'+
     '<div class="cell"><b>'+camps.filter(c=>c.status==='Active').length+'</b><span>Live Boosts</span></div>'+
-    '<div class="cell"><b>'+camps.reduce((a,c)=>a+(c.doneViews||0),0)+'</b><span>Views Count</span></div>';
-  
-  document.getElementById('adminCampList').innerHTML = camps.length ? '<table><tr><th>User</th><th>Title</th><th>Reward</th><th>Views</th><th>Action</th></tr>'+camps.map(c=>'<tr><td>'+esc(c.ownerName)+'</td><td>'+esc(c.title)+'</td><td>'+c.reward+'</td><td>'+c.doneViews+'/'+c.totalViews+'</td><td><button class="btn-danger btn-sm" onclick="adminDelCamp(\''+c.id+'\')">Delete</button></td></tr>').join('')+'</table>' : '<div class="empty">No campaigns</div>';
-  document.getElementById('adminTaskList').innerHTML = tasks.length ? '<table><tr><th>Title</th><th>Reward</th><th>Action</th></tr>'+tasks.map(t=>'<tr><td>'+esc(t.title)+'</td><td>'+t.reward+'</td><td><button class="btn-danger btn-sm" onclick="adminDelTask(\''+t.id+'\')">Delete</button></td></tr>').join('')+'</table>' : '<div class="empty">No tasks</div>';
-  document.getElementById('adminUserList').innerHTML = '<table><tr><th>Name</th><th>Email</th><th>Balance</th><th>Action</th></tr>'+users.map(x=>'<tr><td>'+esc(x.name)+'</td><td>'+esc(x.email)+'</td><td>'+x.balance+'</td><td><button class="btn-sec btn-sm" onclick="adminAddBal(\''+x.id+'\')">+500</button></td></tr>').join('')+'</table>';
+    '<div class="cell"><b>'+camps.filter(c=>c.status==='Paused').length+'</b><span>Paused Boosts</span></div>'+
+    '<div class="cell"><b>'+camps.reduce((a,c)=>a+(c.doneViews||0),0)+'</b><span>Total Delivered Views</span></div>';
+
+  // 1. ইউজার টেবিল
+  document.getElementById('adminUserList').innerHTML = '<thead><tr><th>Name</th><th>Email</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead><tbody>'+users.map(x=>`
+    <tr>
+      <td><b>${esc(x.name)}</b></td>
+      <td>${esc(x.email)}</td>
+      <td><span style="color:#10b981;font-weight:700">${x.balance || 0} Coins</span></td>
+      <td>${x.blocked ? '<span class="status" style="background:#fee2e2;color:#991b1b">Blocked</span>' : '<span class="status on">Active</span>'}</td>
+      <td>
+        <div class="admin-actions">
+          <button class="btn btn-sm" style="background:#10b981" onclick="openAdminBalModal('${x.id}')">+/- Coins</button>
+          <button class="btn btn-sm ${x.blocked?'btn-sec':'btn-danger'}" onclick="adminToggleBlockUser('${x.id}')">${x.blocked?'Unblock':'Block'}</button>
+        </div>
+      </td>
+    </tr>`).join('') + '</tbody>';
+
+  // 2. ইউজার ক্যাম্পেইন টেবিল (Start / Stop / Delete)
+  document.getElementById('adminCampList').innerHTML = '<thead><tr><th>Creator</th><th>Title</th><th>Platform</th><th>Reward / Time</th><th>Progress</th><th>Status</th><th>Control</th></tr></thead><tbody>'+camps.map(c=>`
+    <tr>
+      <td><b>${esc(c.ownerName)}</b></td>
+      <td><a href="${esc(c.link)}" target="_blank" style="color:#818cf8;text-decoration:none">${esc(c.title)}</a></td>
+      <td><span class="status">${c.platform}</span></td>
+      <td>${c.reward}c / ${c.watchTime}s</td>
+      <td>${c.doneViews}/${c.totalViews}</td>
+      <td><span class="status ${c.status==='Active'?'on':'paused'}">${c.status}</span></td>
+      <td>
+        <div class="admin-actions">
+          ${c.status === 'Active' ? 
+            `<button class="btn-sec btn-sm" style="border-color:#f59e0b;color:#f59e0b" onclick="adminToggleCampStatus('${c.id}', 'Paused')">Stop</button>` : 
+            `<button class="btn-sec btn-sm" style="border-color:#10b981;color:#10b981" onclick="adminToggleCampStatus('${c.id}', 'Active')">Start</button>`
+          }
+          <button class="btn-danger btn-sm" onclick="adminForceDeleteCamp('${c.id}')">Delete</button>
+        </div>
+      </td>
+    </tr>`).join('') + '</tbody>';
+
+  // 3. অফিসিয়াল টাস্ক টেবিল
+  document.getElementById('adminTaskList').innerHTML = '<thead><tr><th>Title</th><th>Platform</th><th>Reward</th><th>Status</th><th>Control</th></tr></thead><tbody>'+tasks.map(t=>`
+    <tr>
+      <td><b>${esc(t.title)}</b></td>
+      <td><span class="status">${t.icon || 'Official'}</span></td>
+      <td><span style="color:#10b981;font-weight:700">+${t.reward}</span></td>
+      <td><span class="status ${t.status==='Paused'?'paused':'on'}">${t.status||'Active'}</span></td>
+      <td>
+        <div class="admin-actions">
+          ${t.status === 'Paused' ? 
+            `<button class="btn-sec btn-sm" style="border-color:#10b981;color:#10b981" onclick="adminToggleTaskStatus('${t.id}', 'Active')">Start</button>` : 
+            `<button class="btn-sec btn-sm" style="border-color:#f59e0b;color:#f59e0b" onclick="adminToggleTaskStatus('${t.id}', 'Paused')">Stop</button>`
+          }
+          <button class="btn-danger btn-sm" onclick="adminDelTask('${t.id}')">Delete</button>
+        </div>
+      </td>
+    </tr>`).join('') + '</tbody>';
 }
 
-async function adminDelCamp(id){
-  if(!confirm('Delete this promotion?')) return;
-  try { await fs.collection('campaigns').doc(id).delete(); } catch(e){}
-  DB.set('campaigns', DB.get('campaigns',[]).filter(x=>x.id!==id));
-  toast('Deleted'); renderAdmin();
+/* অ্যাডমিন ব্যালেন্স বাড়ানো ও কমানোর কন্ট্রোল */
+function openAdminBalModal(userId){
+  targetUserIdForBal = userId;
+  const u = DB.get('users',[]).find(x=>x.id===userId);
+  if(!u) return;
+  document.getElementById('abModalTitle').textContent = `Adjust Balance (Current: ${u.balance||0} Coins)`;
+  document.getElementById('abModalSub').textContent = `User: ${u.name} (${u.email})`;
+  document.getElementById('abAmount').value = '';
+  document.getElementById('adminBalModal').classList.remove('hidden');
 }
+
+async function executeAdminBal(type){
+  const amt = parseInt(document.getElementById('abAmount').value||'0');
+  if(!amt || amt <= 0) return toast('Please enter a valid coin amount');
+  
+  const users = DB.get('users',[]);
+  const u = users.find(x=>x.id===targetUserIdForBal);
+  if(!u) return;
+
+  if(type === 'add'){
+    u.balance = (u.balance || 0) + amt;
+    await addTxn(u.id, 'Admin Coin Credit', amt, 'in');
+    toast(`Successfully added ${amt} coins to ${u.name}`);
+  } else {
+    if((u.balance || 0) < amt){
+      if(!confirm(`User has only ${u.balance||0} coins. Deduct anyway into negative?`)) return;
+    }
+    u.balance = (u.balance || 0) - amt;
+    await addTxn(u.id, 'Admin Coin Deduction', amt, 'out');
+    toast(`Deducted ${amt} coins from ${u.name}`);
+  }
+
+  await saveUser(u);
+  document.getElementById('adminBalModal').classList.add('hidden');
+  renderAdmin();
+}
+
+/* অ্যাডমিন ক্যাম্পেইন স্টপ / স্টার্ট */
+async function adminToggleCampStatus(id, newStatus){
+  const camps = DB.get('campaigns',[]);
+  const c = camps.find(x=>x.id===id);
+  if(!c) return;
+  c.status = newStatus;
+  await saveCamp(c);
+  toast(`Campaign ${newStatus === 'Paused' ? 'Stopped' : 'Started'}`);
+  renderAdmin();
+}
+
+/* অ্যাডমিন ক্যাম্পেইন ডিলিট ও রিফান্ড */
+async function adminForceDeleteCamp(id){
+  const camps = DB.get('campaigns',[]);
+  const c = camps.find(x=>x.id===id);
+  if(!c) return;
+
+  if(!confirm(`Delete this campaign by ${c.ownerName}? Remaining coins will be refunded.`)) return;
+
+  const refund = c.reward * (c.totalViews - c.doneViews);
+  const users = DB.get('users',[]);
+  const owner = users.find(x=>x.id===c.ownerId);
+  if(owner && refund > 0){
+    owner.balance = (owner.balance || 0) + refund;
+    await saveUser(owner);
+    await addTxn(owner.id, 'Admin Campaign Refund: '+clean(c.title), refund, 'in');
+  }
+
+  try { await fs.collection('campaigns').doc(id).delete(); } catch(e){}
+  DB.set('campaigns', camps.filter(x=>x.id!==id));
+  toast('Campaign permanently deleted');
+  renderAdmin();
+}
+
+/* অ্যাডমিন অফিসিয়াল টাস্ক স্টপ / স্টার্ট */
+async function adminToggleTaskStatus(id, newStatus){
+  const tasks = DB.get('tasks',[]);
+  const t = tasks.find(x=>x.id===id);
+  if(!t) return;
+  t.status = newStatus;
+  try { await fs.collection('tasks').doc(id).update({status: newStatus}); } catch(e){}
+  DB.set('tasks', tasks);
+  toast(`Task ${newStatus === 'Paused' ? 'Stopped' : 'Started'}`);
+  renderAdmin();
+}
+
+/* অ্যাডমিন ইউজার ব্লক / আনব্লক */
+async function adminToggleBlockUser(id){
+  const users = DB.get('users',[]);
+  const u = users.find(x=>x.id===id);
+  if(!u) return;
+  if(u.email.toLowerCase() === ADMIN_EMAIL) return toast('Cannot block master admin!');
+
+  u.blocked = !u.blocked;
+  await saveUser(u);
+  toast(`User ${u.blocked ? 'Blocked' : 'Unblocked'} successfully`);
+  renderAdmin();
+}
+
 async function adminAddTask(){
   const title=document.getElementById('ntTitle').value.trim();
   const reward=parseInt(document.getElementById('ntReward').value||'0');
   const link=document.getElementById('ntLink').value.trim();
   const icon=document.getElementById('ntIcon').value;
   if(!title||!reward) return toast('Fill all fields');
-  const taskObj = {id:'T'+Date.now(), icon, title, reward, link};
+  const taskObj = {id:'T'+Date.now(), icon, title, reward, link, status:'Active'};
   try { await fs.collection('tasks').doc(taskObj.id).set(taskObj); } catch(e){}
   const tasks=DB.get('tasks',[]); tasks.push(taskObj);
   DB.set('tasks',tasks); toast('Task added'); renderAdmin();
+  document.getElementById('ntTitle').value = '';
+  document.getElementById('ntReward').value = '';
+  document.getElementById('ntLink').value = '';
 }
+
 async function adminDelTask(id){ 
+  if(!confirm('Permanently delete this task?')) return;
   try { await fs.collection('tasks').doc(id).delete(); } catch(e){}
   DB.set('tasks', DB.get('tasks',[]).filter(t=>t.id!==id)); 
   toast('Task deleted'); renderAdmin(); 
-}
-function adminAddBal(id){ 
-  const us=DB.get('users',[]); const x=us.find(u=>u.id===id); 
-  if(x){ x.balance = (x.balance||0) + 500; saveUser(x);} 
-  toast('500 coins added'); renderAdmin(); 
 }
 
 /* Modal events */
